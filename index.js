@@ -68,6 +68,7 @@ function getStyle(feature) {
     };
 }
 
+// Helpers
 function formatPercent(val) {
     return (val * 100).toFixed(1) + '%';
 }
@@ -133,7 +134,6 @@ function onEachFeature(feature, layer) {
     });
 }
 
-// Helper to determine active layer configuration
 function getActiveLayerKey() {
     if (activeMode === 'enacted') return 'enacted';
     return `optimized_${activeCriteria}`;
@@ -259,7 +259,7 @@ function updateSummaryDashboard() {
     const prefixLabel = activeView === 'national' ? 'USA Summary: ' : '';
     if (activeMode === 'enacted') {
         statusPill.innerText = `${prefixLabel}Enacted Reality`;
-        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2';
+        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-550/10 text-indigo-650 dark:bg-indigo-500/10 dark:text-indigo-400 border border-indigo-500/20 mb-2';
     } else {
         const criteriaLabel = {
             'headcount': 'Headcount Balanced',
@@ -269,7 +269,7 @@ function updateSummaryDashboard() {
             'all': 'Multi-Objective Combined'
         }[activeCriteria];
         statusPill.innerText = `${prefixLabel}Optimized (${criteriaLabel})`;
-        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-2';
+        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-550/10 text-emerald-650 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-500/20 mb-2';
     }
     
     // 1. Efficiency Gap
@@ -278,7 +278,7 @@ function updateSummaryDashboard() {
     const egText = eg === 0 ? '0.0%' : `${egPct}% ${eg > 0 ? 'Dem Lean' : 'Rep Lean'}`;
     const egEl = document.getElementById('metric-eg');
     egEl.innerText = egText;
-    egEl.className = Math.abs(eg) < 0.08 ? 'text-sm font-bold text-emerald-400' : 'text-sm font-bold text-rose-400';
+    egEl.className = Math.abs(eg) < 0.08 ? 'text-sm font-bold text-emerald-600 dark:text-emerald-400' : 'text-sm font-bold text-rose-600 dark:text-rose-400';
     
     // Double-sided slider
     const bar = document.getElementById('metric-eg-bar');
@@ -341,16 +341,16 @@ function updateSummaryDashboard() {
             if (id === 'metric-eg-diff' || id === 'metric-mmd-diff') {
                 const improvement = Math.abs(parseFloat(id === 'metric-eg-diff' ? eg : mmd)) < Math.abs(parseFloat(id === 'metric-eg-diff' ? enactedData.efficiency_gap : enactedData.mean_median_diff));
                 el.innerText = `Δ: ${prefix}${diff} ${improvement ? 'Fairer' : 'Unfairer'}`;
-                el.className = improvement ? "text-[8px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20" : "text-[8px] font-bold px-1 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20";
+                el.className = improvement ? "text-[8px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[8px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else if (id === 'metric-compac-diff' || id === 'metric-comp-diff') {
                 el.innerText = `Δ: ${prefix}${diff}`;
-                el.className = numericVal >= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20";
+                el.className = numericVal >= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else if (id === 'metric-splits-diff') {
                 el.innerText = `Δ: ${prefix}${diff}`;
-                el.className = numericVal <= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-400 border border-rose-500/20";
+                el.className = numericVal <= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else {
                 el.innerText = `${prefix}${diff}`;
-                el.className = numericVal >= 0 ? "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20" : "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700/50";
+                el.className = numericVal >= 0 ? "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border border-slate-350 dark:border-slate-700/50";
             }
         }
     });
@@ -384,11 +384,11 @@ function switchMode(mode) {
     if (mode === 'enacted') {
         criteriaPanel.classList.add('hidden');
         enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
+        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     } else {
         criteriaPanel.classList.remove('hidden');
         optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
+        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     }
     
     updateSummaryDashboard();
@@ -422,9 +422,9 @@ function switchCriteria(criteria) {
     
     Object.keys(buttons).forEach(k => {
         if (k === criteria) {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-600 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
         } else {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-400 font-semibold hover:border-slate-700 hover:text-slate-200 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
         }
     });
     
@@ -530,7 +530,7 @@ function switchViewMode(view) {
     
     if (view === 'national') {
         natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
+        stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
         
         if (layers[prevKey]) map.removeLayer(layers[prevKey]);
         
@@ -543,7 +543,7 @@ function switchViewMode(view) {
         document.getElementById('state-select-dropdown').value = "";
     } else {
         stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
+        natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
         
         // Style background USA outline map to a very dark, contextual background
         nationalLayer.setStyle((feature) => {
@@ -938,13 +938,13 @@ function populateLeaderboardTable() {
         const egLean = data.enacted_eg > 0 ? 'D' : 'R';
         
         const row = document.createElement('tr');
-        row.className = "border-b border-slate-800/40 hover:bg-slate-800/25 transition-all pointer-events-auto cursor-pointer";
+        row.className = "border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100/50 dark:hover:bg-slate-800/25 transition-all pointer-events-auto cursor-pointer";
         row.innerHTML = `
-            <td class="py-2.5 font-semibold text-slate-300">${data.name}</td>
-            <td class="py-2.5 text-center font-bold ${Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-400' : 'text-emerald-400'}">${egPct}% ${egLean}</td>
-            <td class="py-2.5 text-center text-slate-400">${data.enacted_compac.toFixed(3)}</td>
+            <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-300">${data.name}</td>
+            <td class="py-2.5 text-center font-bold ${Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-650 dark:text-emerald-400'}">${egPct}% ${egLean}</td>
+            <td class="py-2.5 text-center text-slate-500 dark:text-slate-400">${data.enacted_compac.toFixed(3)}</td>
             <td class="py-2.5 text-center">
-                <button onclick="selectState('${key}')" class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">
+                <button onclick="selectState('${key}')" class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-650 dark:text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">
                     Analyze
                 </button>
             </td>
@@ -969,19 +969,19 @@ function switchSidebarTab(tab) {
     leaderboardPanel.classList.add('hidden');
     methodologyPanel.classList.add('hidden');
     
-    stateTabBtn.className = "flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-300 focus:outline-none transition-all";
-    leaderboardTabBtn.className = "flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-300 focus:outline-none transition-all";
-    methodologyTabBtn.className = "flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-300 focus:outline-none transition-all";
+    stateTabBtn.className = "flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 focus:outline-none transition-all";
+    leaderboardTabBtn.className = "flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 focus:outline-none transition-all";
+    methodologyTabBtn.className = "flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 focus:outline-none transition-all";
     
     if (tab === 'state-detail') {
         statePanel.classList.remove('hidden');
-        stateTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
+        stateTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
     } else if (tab === 'leaderboard') {
         leaderboardPanel.classList.remove('hidden');
-        leaderboardTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
+        leaderboardTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
     } else if (tab === 'methodology') {
         methodologyPanel.classList.remove('hidden');
-        methodologyTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
+        methodologyTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
     }
 }
 
@@ -1031,22 +1031,29 @@ async function init() {
         }, 310);
     });
     
-    // Set up Light / Dark Mode Toggle button
+    // Set up Light / Dark Mode Toggle button (Synchronized explicitly)
     const themeToggleBtn = document.getElementById('btn-theme-toggle');
     const themeIconMoon = document.getElementById('theme-icon-moon');
     const themeIconSun = document.getElementById('theme-icon-sun');
     
     themeToggleBtn.addEventListener('click', () => {
-        const isDark = document.body.classList.toggle('dark');
-        document.documentElement.classList.toggle('dark');
+        const isDarkNow = document.body.classList.contains('dark');
         
-        if (isDark) {
-            themeIconMoon.classList.remove('hidden');
-            themeIconSun.classList.add('hidden');
-        } else {
+        if (isDarkNow) {
+            // Switch to Light Mode
+            document.body.classList.remove('dark');
+            document.documentElement.classList.remove('dark');
             themeIconMoon.classList.add('hidden');
             themeIconSun.classList.remove('hidden');
+        } else {
+            // Switch to Dark Mode
+            document.body.classList.add('dark');
+            document.documentElement.classList.add('dark');
+            themeIconMoon.classList.remove('hidden');
+            themeIconSun.classList.add('hidden');
         }
+        
+        const isDark = document.body.classList.contains('dark');
         
         // Redraw US states coordinates to match the theme
         if (nationalLayer) {
@@ -1085,6 +1092,18 @@ async function init() {
                 getOrGenerateStateData(stateKey, name);
             }
         });
+        
+        // Sync theme elements explicitly on load
+        const isDarkInitial = document.body.classList.contains('dark');
+        if (isDarkInitial) {
+            document.documentElement.classList.add('dark');
+            themeIconMoon.classList.remove('hidden');
+            themeIconSun.classList.add('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            themeIconMoon.classList.add('hidden');
+            themeIconSun.classList.remove('hidden');
+        }
         
         nationalLayer = L.geoJSON(usStatesDataCache, {
             style: getNationalStyle,
