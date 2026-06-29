@@ -12,7 +12,7 @@ let layerFeatures = {}; // Caches feature arrays for active state
 let nationalLayer;
 let usStatesDataCache; // Holds the geojson of all US States
 
-// State-by-State Actual Congressional District Counts
+// State-by-State Actual Congressional District Counts (All 50 States + 6 Territories/Districts = 56 Total)
 const districtCounts = {
     'alabama': 7, 'alaska': 1, 'arizona': 9, 'arkansas': 4, 'california': 52,
     'colorado': 8, 'connecticut': 5, 'delaware': 1, 'florida': 28, 'georgia': 14,
@@ -40,6 +40,19 @@ const stateLeaderboardData = {
 // Summary metrics database
 let metricsDatabase = {};
 let globalMetrics = {};
+
+// State Name Formatter
+function formatStateName(key) {
+    const specialNames = {
+        'district_of_columbia': 'District of Columbia',
+        'puerto_rico': 'Puerto Rico',
+        'virgin_islands': 'Virgin Islands',
+        'american_samoa': 'American Samoa',
+        'northern_mariana_islands': 'Northern Mariana Islands'
+    };
+    if (specialNames[key]) return specialNames[key];
+    return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}
 
 // Partisan Colors
 function getDistrictColor(demPct) {
@@ -259,7 +272,7 @@ function updateSummaryDashboard() {
     const prefixLabel = activeView === 'national' ? 'USA Summary: ' : '';
     if (activeMode === 'enacted') {
         statusPill.innerText = `${prefixLabel}Enacted Reality`;
-        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-550/10 text-indigo-650 dark:bg-indigo-500/10 dark:text-indigo-400 border border-indigo-500/20 mb-2';
+        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-650 dark:text-indigo-400 border border-indigo-500/20 mb-2';
     } else {
         const criteriaLabel = {
             'headcount': 'Headcount Balanced',
@@ -269,7 +282,7 @@ function updateSummaryDashboard() {
             'all': 'Multi-Objective Combined'
         }[activeCriteria];
         statusPill.innerText = `${prefixLabel}Optimized (${criteriaLabel})`;
-        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-550/10 text-emerald-650 dark:bg-emerald-500/10 dark:text-emerald-400 border border-emerald-500/20 mb-2';
+        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20 mb-2';
     }
     
     // 1. Efficiency Gap
@@ -622,13 +635,21 @@ function selectState(stateKey) {
     }, 2000);
 }
 
-// Slices state boundaries dynamically using Turf.js
-function generateDynamicDistricts(stateFeature, mode) {
-    const stateKey = stateFeature.properties.name.toLowerCase().replace(/ /g, '_');
+// Slices state boundaries dynamically using Turf.js (supports synthetic boxes for Pacific territories)
+function generateDynamicDistricts(stateFeature, mode, stateKey) {
     const numDistricts = districtCounts[stateKey] || 4;
     
+    let geomFeature = stateFeature;
+    if (!geomFeature) {
+        // Feature not in mainland GeoJSON cache. Construct a synthetic geographical box.
+        const data = stateLeaderboardData[stateKey];
+        const center = [data.lon, data.lat];
+        const box = [center[0] - 0.4, center[1] - 0.4, center[0] + 0.4, center[1] + 0.4];
+        geomFeature = turf.bboxPolygon(box);
+    }
+    
     if (numDistricts === 1) {
-        const geom = stateFeature.geometry;
+        const geom = geomFeature.geometry;
         const baseDem = stateKey === 'district_of_columbia' ? 0.92 : (stateKey === 'wyoming' ? 0.30 : 0.45);
         
         const props = {
@@ -651,7 +672,7 @@ function generateDynamicDistricts(stateFeature, mode) {
         };
     }
     
-    const bbox = turf.bbox(stateFeature);
+    const bbox = turf.bbox(geomFeature);
     const minX = bbox[0], minY = bbox[1], maxX = bbox[2], maxY = bbox[3];
     
     const cols = Math.ceil(Math.sqrt(numDistricts));
@@ -678,7 +699,7 @@ function generateDynamicDistricts(stateFeature, mode) {
             
             const boxPoly = turf.bboxPolygon([bx1, by1, bx2, by2]);
             try {
-                const intersected = turf.intersect(stateFeature, boxPoly);
+                const intersected = turf.intersect(geomFeature, boxPoly);
                 if (intersected && turf.area(intersected) > 100) {
                     rawFeatures.push(intersected);
                 }
@@ -688,7 +709,7 @@ function generateDynamicDistricts(stateFeature, mode) {
         }
     }
     
-    const stateCenter = turf.centroid(stateFeature).geometry.coordinates;
+    const stateCenter = turf.centroid(geomFeature).geometry.coordinates;
     const maxDist = Math.max(maxX - minX, maxY - minY) || 1.0;
     
     const districtFeatures = rawFeatures.slice(0, numDistricts).map((feature, idx) => {
@@ -736,7 +757,7 @@ function generateDynamicDistricts(stateFeature, mode) {
     while (districtFeatures.length < numDistricts) {
         districtFeatures.push(JSON.parse(JSON.stringify(districtFeatures[districtFeatures.length - 1] || {
             type: "Feature",
-            geometry: stateFeature.geometry,
+            geometry: geomFeature.geometry,
             properties: {
                 district_id: districtFeatures.length,
                 total_pop: 710000,
@@ -819,17 +840,32 @@ function compileDynamicStateMetrics(enactedCol, optimizedCol, stateKey) {
 function getOrGenerateStateData(stateKey, name) {
     if (stateLeaderboardData[stateKey]) return stateLeaderboardData[stateKey];
     
-    const feature = usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
-    let lat = 39.8, lon = -98.5, zoom = 6.0;
+    // Explicit geographical coordinates for territories outside standard mainland bounds
+    const coords = {
+        'district_of_columbia': { lat: 38.9072, lon: -77.0369, zoom: 11.0 },
+        'puerto_rico': { lat: 18.2208, lon: -66.5901, zoom: 8.5 },
+        'guam': { lat: 13.4443, lon: 144.7937, zoom: 10.0 },
+        'virgin_islands': { lat: 18.3358, lon: -64.8963, zoom: 9.5 },
+        'american_samoa': { lat: -14.2710, lon: -170.1322, zoom: 10.0 },
+        'northern_mariana_islands': { lat: 15.0979, lon: 145.6739, zoom: 9.0 }
+    };
     
-    if (feature) {
-        const center = turf.centroid(feature).geometry.coordinates;
-        lon = center[0];
-        lat = center[1];
-        
-        const bbox = turf.bbox(feature);
-        const maxDim = Math.max(bbox[2] - bbox[0], bbox[3] - bbox[1]);
-        zoom = maxDim > 12 ? 5.0 : (maxDim > 6 ? 6.0 : (maxDim > 3 ? 7.0 : 8.0));
+    let lat = 39.8, lon = -98.5, zoom = 6.0;
+    if (coords[stateKey]) {
+        lat = coords[stateKey].lat;
+        lon = coords[stateKey].lon;
+        zoom = coords[stateKey].zoom;
+    } else if (usStatesDataCache && usStatesDataCache.features) {
+        const feature = usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
+        if (feature) {
+            const center = turf.centroid(feature).geometry.coordinates;
+            lon = center[0];
+            lat = center[1];
+            
+            const bbox = turf.bbox(feature);
+            const maxDim = Math.max(bbox[2] - bbox[0], bbox[3] - bbox[1]);
+            zoom = maxDim > 12 ? 5.0 : (maxDim > 6 ? 6.0 : (maxDim > 3 ? 7.0 : 8.0));
+        }
     }
     
     const count = districtCounts[stateKey] || 4;
@@ -861,7 +897,7 @@ function getOrGenerateStateData(stateKey, name) {
 
 // Fetch and load state geometries
 async function loadStateGeometries(stateKey) {
-    const data = getOrGenerateStateData(stateKey, stateKey.replace(/_/g, ' ').toUpperCase());
+    const data = getOrGenerateStateData(stateKey, formatStateName(stateKey));
     
     layers = {};
     layerFeatures = {};
@@ -891,10 +927,10 @@ async function loadStateGeometries(stateKey) {
             });
         });
     } else {
-        const feature = usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
+        const feature = usStatesDataCache ? usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey) : null;
         
-        const enactedCollection = generateDynamicDistricts(feature, 'enacted');
-        const optimizedCollection = generateDynamicDistricts(feature, 'optimized');
+        const enactedCollection = generateDynamicDistricts(feature, 'enacted', stateKey);
+        const optimizedCollection = generateDynamicDistricts(feature, 'optimized', stateKey);
         
         const stateMetrics = compileDynamicStateMetrics(enactedCollection, optimizedCollection, stateKey);
         metricsDatabase[stateKey] = stateMetrics;
@@ -1084,15 +1120,6 @@ async function init() {
         const usStatesRes = await fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json');
         usStatesDataCache = await usStatesRes.json();
         
-        // Hydrate baseline values for other states dynamically
-        usStatesDataCache.features.forEach(f => {
-            const name = f.properties.name;
-            const stateKey = name.toLowerCase().replace(/ /g, '_');
-            if (districtCounts[stateKey]) {
-                getOrGenerateStateData(stateKey, name);
-            }
-        });
-        
         // Sync theme elements explicitly on load
         const isDarkInitial = document.body.classList.contains('dark');
         if (isDarkInitial) {
@@ -1104,6 +1131,12 @@ async function init() {
             themeIconMoon.classList.add('hidden');
             themeIconSun.classList.remove('hidden');
         }
+        
+        // Hydrate baseline values for all 56 states and territories directly from districtCounts
+        Object.keys(districtCounts).forEach(key => {
+            const formattedName = formatStateName(key);
+            getOrGenerateStateData(key, formattedName);
+        });
         
         nationalLayer = L.geoJSON(usStatesDataCache, {
             style: getNationalStyle,
