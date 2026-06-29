@@ -373,7 +373,10 @@ function switchMode(mode) {
         if (layers[prevKey]) map.removeLayer(layers[prevKey]);
         
         const newKey = getActiveLayerKey();
-        if (layers[newKey]) map.addLayer(layers[newKey]);
+        if (layers[newKey]) {
+            map.addLayer(layers[newKey]);
+            layers[newKey].bringToFront();
+        }
     }
     
     if (mode === 'enacted') {
@@ -401,7 +404,10 @@ function switchCriteria(criteria) {
     } else {
         if (layers[prevKey]) map.removeLayer(layers[prevKey]);
         const newKey = getActiveLayerKey();
-        if (layers[newKey]) map.addLayer(layers[newKey]);
+        if (layers[newKey]) {
+            map.addLayer(layers[newKey]);
+            layers[newKey].bringToFront();
+        }
     }
     
     const buttons = {
@@ -516,11 +522,6 @@ function switchViewMode(view) {
     const stateBtn = document.getElementById('btn-view-state');
     
     const prevKey = getActiveLayerKey();
-    if (activeView === 'national') {
-        map.removeLayer(nationalLayer);
-    } else {
-        if (layers[prevKey]) map.removeLayer(layers[prevKey]);
-    }
     
     activeView = view;
     
@@ -528,7 +529,9 @@ function switchViewMode(view) {
         natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
         
-        nationalLayer.addTo(map);
+        if (layers[prevKey]) map.removeLayer(layers[prevKey]);
+        
+        // Restyle background USA outline map back to partisan color-coding
         nationalLayer.setStyle(getNationalStyle);
         map.setView([39.8, -98.5], 4);
         switchSidebarTab('state-detail');
@@ -536,8 +539,22 @@ function switchViewMode(view) {
         stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
         
+        // Style background USA outline map to a very dark, contextual background
+        nationalLayer.setStyle((feature) => {
+            return {
+                fillColor: '#0b0f19', // extremely dark slate
+                weight: 1.0,
+                opacity: 0.25,
+                color: '#1e293b', // slate-800 border
+                fillOpacity: 0.6
+            };
+        });
+        
         const key = getActiveLayerKey();
-        if (layers[key]) layers[key].addTo(map);
+        if (layers[key]) {
+            layers[key].addTo(map);
+            layers[key].bringToFront();
+        }
         
         const data = stateLeaderboardData[activeState];
         map.setView([data.lat, data.lon], data.zoom);
@@ -589,7 +606,6 @@ function generateDynamicDistricts(stateFeature, mode) {
     const numDistricts = districtCounts[stateKey] || 4;
     
     if (numDistricts === 1) {
-        // Single district: returns state boundary polygon itself
         const geom = stateFeature.geometry;
         const baseDem = stateKey === 'district_of_columbia' ? 0.92 : (stateKey === 'wyoming' ? 0.30 : 0.45);
         
@@ -613,7 +629,6 @@ function generateDynamicDistricts(stateFeature, mode) {
         };
     }
     
-    // slice bounding box into grid
     const bbox = turf.bbox(stateFeature);
     const minX = bbox[0], minY = bbox[1], maxX = bbox[2], maxY = bbox[3];
     
@@ -631,7 +646,6 @@ function generateDynamicDistricts(stateFeature, mode) {
             let by1 = minY + r * dy;
             let by2 = minY + (r + 1) * dy;
             
-            // Add wiggles in Enacted mode to look gerrymandered
             if (mode === 'enacted') {
                 const offset = 0.06 * Math.min(dx, dy);
                 bx1 += (Math.random() - 0.5) * offset;
@@ -652,7 +666,6 @@ function generateDynamicDistricts(stateFeature, mode) {
         }
     }
     
-    // Set demographic properties based on centroid distance
     const stateCenter = turf.centroid(stateFeature).geometry.coordinates;
     const maxDist = Math.max(maxX - minX, maxY - minY) || 1.0;
     
@@ -663,7 +676,6 @@ function generateDynamicDistricts(stateFeature, mode) {
         const total_pop = Math.round(710000 * (1.1 - 0.3 * (dist / maxDist)));
         const voting_age_pop = Math.round(total_pop * 0.76);
         
-        // Custom base partisan leans
         let dem_base = 0.45;
         if (['california', 'new_york', 'massachusetts', 'washington', 'hawaii'].includes(stateKey)) dem_base = 0.60;
         if (['idaho', 'utah', 'alabama', 'mississippi', 'oklahoma'].includes(stateKey)) dem_base = 0.32;
@@ -680,7 +692,6 @@ function generateDynamicDistricts(stateFeature, mode) {
         if (stateKey === 'hawaii') minority_pct = 0.70;
         minority_pct = Math.max(0.01, Math.min(0.99, minority_pct));
         
-        // Calculate compactness
         const area = turf.area(feature);
         const len = turf.length(feature, {units: 'meters'});
         const compactness = len > 0 ? (4 * Math.PI * area) / Math.pow(len, 2) : 0.0;
@@ -700,7 +711,6 @@ function generateDynamicDistricts(stateFeature, mode) {
         };
     });
     
-    // Fill up if rawFeatures was shorter than expected
     while (districtFeatures.length < numDistricts) {
         districtFeatures.push(JSON.parse(JSON.stringify(districtFeatures[districtFeatures.length - 1] || {
             type: "Feature",
@@ -860,13 +870,11 @@ async function loadStateGeometries(stateKey) {
             });
         });
     } else {
-        // Generate on-the-fly dynamically using Turf.js!
         const feature = usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
         
         const enactedCollection = generateDynamicDistricts(feature, 'enacted');
         const optimizedCollection = generateDynamicDistricts(feature, 'optimized');
         
-        // Calculate metrics dynamically based on generated features
         const stateMetrics = compileDynamicStateMetrics(enactedCollection, optimizedCollection, stateKey);
         metricsDatabase[stateKey] = stateMetrics;
         globalMetrics = stateMetrics;
@@ -881,7 +889,6 @@ async function loadStateGeometries(stateKey) {
             });
         });
         
-        // Cache generated summary details back to stateLeaderboardData
         data.enacted_eg = stateMetrics.enacted.efficiency_gap;
         data.enacted_comp = stateMetrics.enacted.competitive_seats;
         data.enacted_compac = stateMetrics.enacted.avg_compactness;
@@ -900,7 +907,6 @@ function populateLeaderboardTable() {
     const tbody = document.getElementById('leaderboard-body');
     tbody.innerHTML = '';
     
-    // Sort states by name alphabetically
     const keys = Object.keys(stateLeaderboardData).sort((a,b) => {
         return stateLeaderboardData[a].name.localeCompare(stateLeaderboardData[b].name);
     });
@@ -975,12 +981,6 @@ async function init() {
         maxBoundsViscosity: 1.0
     }).setView([39.8, -98.5], 4);
     
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20
-    }).addTo(map);
-
     try {
         // Fetch states boundaries for National Map view
         const usStatesRes = await fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json');
