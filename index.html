@@ -67,7 +67,7 @@
                 </button>
             </div>
 
-            <!-- District Map Toggles (Now visible in both views!) -->
+            <!-- District Map Toggles -->
             <div id="district-toggles-container" class="flex items-center space-x-2 bg-slate-900/80 border border-slate-700/50 p-1.5 rounded-xl">
                 <button id="toggle-enacted" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md">
                     Enacted Map (Reality)
@@ -84,7 +84,7 @@
         <!-- Interactive Map Container -->
         <div id="map" class="flex-1 w-full h-full z-0"></div>
 
-        <!-- Simulated Loading Overlay (For running ReCom on other states) -->
+        <!-- Simulated Loading Overlay -->
         <div id="state-loader" class="absolute inset-0 bg-slate-950/90 flex flex-col items-center justify-center hidden z-[1000] pointer-events-auto">
             <div class="relative w-20 h-20 mb-6">
                 <!-- Glowing Outer Rings -->
@@ -95,7 +95,7 @@
             <p class="text-xs text-slate-400 font-semibold tracking-wider uppercase animate-pulse" id="loader-status">Fetching Precinct Geometries...</p>
         </div>
 
-        <!-- Left Column: Float Panels (Glassmorphism overlays) -->
+        <!-- Left Column: Float Panels -->
         <div class="absolute left-6 top-6 bottom-6 w-[420px] flex flex-col space-y-6 pointer-events-none z-10">
             
             <!-- Dashboard Card -->
@@ -113,7 +113,7 @@
                     </button>
                 </div>
 
-                <!-- Tab 1: State Detail Panel (Transforms to USA Summary in National View) -->
+                <!-- Tab 1: State Detail Panel -->
                 <div id="panel-state-detail" class="flex flex-col flex-1 space-y-4">
                     <div class="border-b border-slate-800 pb-3">
                         <span id="map-status-pill" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
@@ -123,7 +123,7 @@
                             Colorado
                         </h2>
                         
-                        <!-- Optimization Criteria Selector (Visible when Optimized is active) -->
+                        <!-- Optimization Criteria Selector -->
                         <div id="criteria-selector-container" class="mt-3 border-t border-slate-800/60 pt-3 hidden">
                             <label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Optimization Criteria</label>
                             <div class="grid grid-cols-2 gap-2 text-center text-[10px]">
@@ -146,7 +146,7 @@
                         </div>
                     </div>
 
-                    <!-- Summary Metrics (Comparison display) -->
+                    <!-- Summary Metrics -->
                     <div class="space-y-4 flex-1">
                         <!-- Efficiency Gap / Partisan Bias -->
                         <div class="bg-slate-950/50 border border-slate-800/60 p-4 rounded-xl">
@@ -218,7 +218,7 @@
                             </div>
                         </div>
 
-                        <!-- Minority Influence / VRA (Hidden in National Summary view) -->
+                        <!-- Minority Influence / VRA -->
                         <div id="vra-stats-card" class="bg-slate-950/50 border border-slate-800/60 p-4 rounded-xl">
                             <div class="flex justify-between items-center mb-3">
                                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">VRA / Minority Power</span>
@@ -237,7 +237,7 @@
                             </div>
                         </div>
 
-                        <!-- Partisan Distribution Histogram (Hidden in National Summary view) -->
+                        <!-- Partisan Distribution Histogram -->
                         <div id="histogram-stats-card" class="bg-slate-950/50 border border-slate-800/60 p-4 rounded-xl">
                             <div class="flex justify-between items-center mb-2.5">
                                 <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Partisan Distribution (Seats)</span>
@@ -414,6 +414,9 @@
         </div>
     </main>
 
+    <!-- Turf.js Geospatial Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    
     <!-- Leaflet.js Map Library -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
