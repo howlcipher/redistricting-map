@@ -4,11 +4,35 @@ An interactive geospatial tool to analyze, visualize, and compare actual enacted
 
 This project is built using:
 1. **Python Data Pipeline (Phase 1):** Python 3, `GeoPandas`, and `GerryChain` (MGGG Lab) using the **ReCom (Recombination)** Markov Chain Monte Carlo algorithm.
-2. **Frontend Map Viewer (Phase 2):** HTML5, Tailwind CSS, and `Leaflet.js` to render interactive choropleths and comparative statistics.
+2. **Frontend Map Viewer (Phase 2):** HTML5, Vanilla JS, Tailwind CSS, and `Leaflet.js` to render interactive choropleths and comparative statistics.
 
 ---
 
-## Project Structure
+## 🚀 Core Features
+
+### 🗳️ Projected U.S. House Control Dashboard
+* **Real-time Seat Share Projections:** Aggregates all 435 voting seats across the 50 states to show if Democrats or Republicans would win control under enacted vs. optimized maps.
+* **Progressive Majority Bar:** Visual progress indicator divided by a center line marking the `218` seats needed for a majority.
+* **Gerrymander Tax Seat Count:** Displays how many seats are shifted/biased away from a perfectly proportional split (e.g. `R +8 Seat Bias`).
+* **Seat-to-Vote Bias Margin:** Computes the overall percentage deviation of congressional representation from the national popular vote.
+
+### 🎨 Progressive Partisan Color Gradient Scale
+* **Bi-directional Partisan Gradients:** Replaces flat categorizations with a continuous color gradient representing the partisan efficiency gap (EG).
+  * **Democratic Bias:** Light pastel blue (`#bfdbfe`) for minor leans up to strong royal blue (`#3b82f6`) for heavy leans.
+  * **Republican Bias:** Light pastel red (`#fecaca`) for minor leans up to strong crimson red (`#ef4444`) for heavy leans.
+  * **Neutral/Single District:** Soft slate grey (`#cbd5e1` in light mode, `#1e293b` in dark mode) reserved for single-representative states (e.g., Wyoming, Alaska, Vermont) or non-partisan territories.
+
+### 🗺️ Clickable US Territory Insets
+* Includes interactive, clickable cartographic insets on the US National Map for **Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands**.
+* Hovering over or clicking territory insets triggers the same detailed census profiles and dynamic redistricting math as mainland states.
+
+### 🌓 Synchronized Light/Dark Mode Switcher
+* Single-click toggle between Light and Dark mode.
+* Seamlessly swaps page background colors, leaflet map base tiles, text contrast borders, card containers, and typography colors to ensure 100% reading contrast.
+
+---
+
+## ## Project Structure
 
 ```
 redistricting-map/
@@ -35,7 +59,7 @@ redistricting-map/
 
 ---
 
-## Getting Started
+## 🛠️ Getting Started
 
 ### 1. Run the Multi-State Data Pipeline
 Activate the virtual environment and execute the pipeline to pull Census boundaries, clip coordinate grids, and run ReCom chains for **Colorado, Wisconsin, Texas, North Carolina, and Maryland**:
@@ -63,7 +87,7 @@ Now open your web browser and navigate to:
 
 ---
 
-## Mathematical & Open-Source Legitimacy (GerryChain & ReCom)
+## 📐 Mathematical & Open-Source Legitimacy (GerryChain & ReCom)
 
 To build trust and eliminate suspicion of "black box" algorithms, this project leverages **GerryChain**, developed by the **Metric Geometry and Gerrymandering Group (MGGG)** at Tufts University and MIT.
 

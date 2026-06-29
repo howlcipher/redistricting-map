@@ -47,7 +47,27 @@ To compare maps fairly, we implemented standard U.S. redistricting criteria in o
 
 ---
 
-## 3. Detailed Run Instructions
+## 3. Phase 3 & 4 Enhancements
+
+### Hurdle D: Aligning Partisan Conventions
+* **The Problem:** The initial map colored Democratic leans in red and Republican leans in blue, which directly contradicted standard U.S. political cartography conventions (Blue for Democrats, Red for Republicans).
+* **The Solution:** We updated the styling functions (`getPartisanFillColor` and `getDistrictColor`) to align strictly with convention, ensuring intuitive and immediate map comprehension.
+
+### Hurdle E: Empty Map and Grey-Out Visibility
+* **The Problem:** Because optimized maps minimize partisan bias, efficiency gaps are reduced to near `0.0`. When styled with standard grey, the entire map appeared faded or transparent.
+* **The Solution:** We implemented a progressive partisan color gradient using soft pastel colors for low-bias states (like `#bfdbfe` for minor Dem leans and `#fecaca` for minor Rep leans) and darkened boundary borders to `#64748b` (slate-500) to keep the map looking complete and sharp.
+
+### Hurdle F: Clickable US Territories Insets
+* **The Problem:** The standard US states GeoJSON lacks coordinate layouts for overseas territories, causing Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands to be completely unrepresented on the national map.
+* **The Solution:** We dynamically injected geographic square polygon nodes for all 5 territories as cartographic insets directly into the Leaflet GeoJSON layer, enabling them to be hovered, clicked, and analyzed just like standard states.
+
+### Hurdle G: Projected U.S. House Control Model
+* **The Problem:** The user requested national aggregates to see the cumulative impact of gerrymandering on the U.S. House of Representatives.
+* **The Solution:** We wrote a seat-vote projection model that dynamically calculates the expected seats won by each party (out of 435 total) for both enacted and optimized maps, displaying the margin of control, "Gerrymander Tax" seat shifts, and seat-to-vote bias metrics.
+
+---
+
+## 4. Detailed Run Instructions
 
 ### Developer Setup
 1. **Initialize the Virtual Environment:**
@@ -72,6 +92,7 @@ To compare maps fairly, we implemented standard U.S. redistricting criteria in o
   * Displays the United States map colored by enacted partisan bias.
   * Toggling Enacted vs. Optimized or changing Criteria (e.g. VAP, VRA, County Splits) dynamically recolors the national map using GerryChain metrics.
   * Hover over states to read their bias and splits. Click **Analyze** on the leaderboard or state to deep-dive.
+  * **U.S. House Control Card:** Displays a live balance progress bar of the 435 House seats, comparing the enacted gerrymandered seats with fair optimized seat allocations.
 * **State View Mode:**
   * Displays the state-shaped districts (Wisconsin shape, Texas shape, etc.).
   * Toggling to **Optimized** reveals green/red comparative **Delta Badges (Δ)** next to metrics showing exact differences from reality.
