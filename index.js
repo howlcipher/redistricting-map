@@ -416,12 +416,12 @@ function switchMode(mode) {
     
     if (mode === 'enacted') {
         criteriaPanel.classList.add('hidden');
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-650 text-white shadow-md";
+        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     } else {
         criteriaPanel.classList.remove('hidden');
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-650 text-white shadow-md";
+        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     }
     
     updateSummaryDashboard();
@@ -457,14 +457,30 @@ function switchCriteria(criteria) {
         if (k === criteria) {
             buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-650 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
         } else {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-650 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-655 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
         }
     });
     
     updateSummaryDashboard();
 }
 
-// National Map Styles (Recolors dynamically based on metrics database) - Corrected Partisan Bias color coding
+// Continuous Partisan Color Scale to fully populate map
+function getPartisanFillColor(eg, isDark) {
+    if (eg < 0) {
+        const absEg = Math.abs(eg);
+        if (absEg < 0.03) return isDark ? '#1e293b' : '#dbeafe'; // Very light blue
+        if (absEg < 0.07) return isDark ? '#1e3a8a' : '#93c5fd'; // Light blue
+        return isDark ? '#2563eb' : '#3b82f6'; // Strong blue
+    } else if (eg > 0) {
+        if (eg < 0.03) return isDark ? '#1e293b' : '#fee2e2'; // Very light red
+        if (eg < 0.07) return isDark ? '#7f1d1d' : '#fca5a5'; // Light red
+        return isDark ? '#dc2626' : '#ef4444'; // Strong red
+    } else {
+        return isDark ? '#1e293b' : '#cbd5e1'; // Neutral grey (single district states)
+    }
+}
+
+// National Map Styles (Recolors dynamically based on metrics database) - Gradient partisan color scale
 function getNationalStyle(feature) {
     try {
         if (!feature || !feature.properties || !feature.properties.name) {
@@ -493,10 +509,7 @@ function getNationalStyle(feature) {
                 eg = activeMode === 'enacted' ? stateData.enacted_eg : stateData.optimized_eg;
             }
             
-            // Correct Partisan Bias: Negative EG means Reps wasted more votes (Democratic advantage -> Blue). Positive EG means Dems wasted more votes (Republican advantage -> Red).
-            if (eg < -0.05) fill = '#3b82f6'; // Democratic Bias (Blue)
-            else if (eg > 0.05) fill = '#ef4444'; // Republican Bias (Red)
-            else fill = isDark ? '#475569' : '#94a3b8'; // Muted fair color
+            fill = getPartisanFillColor(eg, isDark);
         }
         
         return {
@@ -1268,7 +1281,7 @@ async function init() {
         
         // Button Listeners
         document.getElementById('tab-state-detail').addEventListener('click', () => switchSidebarTab('state-detail'));
-        document.getElementById('tab-leaderboard').addEventListener('click', () => switchSidebarTab('leaderboard'));
+        document.getElementById('tab-leaderboard').addEventListener('click', () => switchSidebarTab('tab-leaderboard'));
         document.getElementById('tab-methodology').addEventListener('click', () => switchSidebarTab('methodology'));
         document.getElementById('btn-view-national').addEventListener('click', () => switchViewMode('national'));
         document.getElementById('btn-view-state').addEventListener('click', () => switchViewMode('state'));
