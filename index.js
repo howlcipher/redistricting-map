@@ -58,12 +58,13 @@ function getDistrictColor(demPct) {
 
 function getStyle(feature) {
     const demPct = feature.properties.dem_pct;
+    const isDark = document.body.classList.contains('dark');
     return {
         fillColor: getDistrictColor(demPct),
         weight: 1.5,
         opacity: 0.95,
-        color: '#f8fafc', // slate-50 (off-white) border to show district boundaries clearly
-        fillOpacity: 0.70 // higher opacity to pop district polygons vibrantly
+        color: isDark ? '#f8fafc' : '#334155', // off-white borders in dark mode, dark grey in light mode
+        fillOpacity: 0.70
     };
 }
 
@@ -132,6 +133,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
+// Helper to determine active layer configuration
 function getActiveLayerKey() {
     if (activeMode === 'enacted') return 'enacted';
     return `optimized_${activeCriteria}`;
@@ -433,8 +435,9 @@ function switchCriteria(criteria) {
 function getNationalStyle(feature) {
     const name = feature.properties.name.toLowerCase().replace(/ /g, '_');
     const stateData = stateLeaderboardData[name];
+    const isDark = document.body.classList.contains('dark');
     
-    let fill = '#1e293b'; // Default dark slate
+    let fill = isDark ? '#1e293b' : '#cbd5e1'; // Default theme neutral background fill
     if (stateData || metricsDatabase[name]) {
         let eg = 0.0;
         const stateMetrics = metricsDatabase[name];
@@ -447,15 +450,15 @@ function getNationalStyle(feature) {
         
         if (eg < -0.05) fill = '#ef4444'; // Red bias
         else if (eg > 0.05) fill = '#3b82f6'; // Blue bias
-        else fill = '#475569'; // Muted fair
+        else fill = isDark ? '#475569' : '#94a3b8'; // Muted fair color
     }
     
     return {
         fillColor: fill,
         weight: 1.5,
         opacity: 0.9,
-        color: '#475569', // slate-600 border for clean visible outline
-        fillOpacity: 0.70 // higher opacity to glow vibrantly on dark background
+        color: isDark ? '#475569' : '#94a3b8', // boundary line adapting to dark/light
+        fillOpacity: 0.70
     };
 }
 
@@ -544,11 +547,12 @@ function switchViewMode(view) {
         
         // Style background USA outline map to a very dark, contextual background
         nationalLayer.setStyle((feature) => {
+            const isDark = document.body.classList.contains('dark');
             return {
-                fillColor: '#0b0f19', // extremely dark slate
+                fillColor: isDark ? '#0b0f19' : '#e2e8f0', // extremely dark slate vs light slate
                 weight: 1.0,
                 opacity: 0.25,
-                color: '#1e293b', // slate-800 border
+                color: isDark ? '#1e293b' : '#cbd5e1', // slate border matches mode
                 fillOpacity: 0.6
             };
         });
@@ -1025,6 +1029,47 @@ async function init() {
         setTimeout(() => {
             map.invalidateSize();
         }, 310);
+    });
+    
+    // Set up Light / Dark Mode Toggle button
+    const themeToggleBtn = document.getElementById('btn-theme-toggle');
+    const themeIconMoon = document.getElementById('theme-icon-moon');
+    const themeIconSun = document.getElementById('theme-icon-sun');
+    
+    themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.body.classList.toggle('dark');
+        document.documentElement.classList.toggle('dark');
+        
+        if (isDark) {
+            themeIconMoon.classList.remove('hidden');
+            themeIconSun.classList.add('hidden');
+        } else {
+            themeIconMoon.classList.add('hidden');
+            themeIconSun.classList.remove('hidden');
+        }
+        
+        // Redraw US states coordinates to match the theme
+        if (nationalLayer) {
+            if (activeView === 'national') {
+                nationalLayer.setStyle(getNationalStyle);
+            } else {
+                nationalLayer.setStyle((feature) => {
+                    return {
+                        fillColor: isDark ? '#0b0f19' : '#e2e8f0',
+                        weight: 1.0,
+                        opacity: 0.25,
+                        color: isDark ? '#1e293b' : '#cbd5e1',
+                        fillOpacity: 0.6
+                    };
+                });
+            }
+        }
+        
+        // Redraw active state district coordinates
+        const activeKey = getActiveLayerKey();
+        if (layers[activeKey]) {
+            layers[activeKey].setStyle(getStyle);
+        }
     });
 
     try {
