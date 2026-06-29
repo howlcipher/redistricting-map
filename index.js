@@ -355,7 +355,7 @@ function updateSummaryDashboard() {
             if (id === 'metric-eg-diff' || id === 'metric-mmd-diff') {
                 const improvement = Math.abs(parseFloat(id === 'metric-eg-diff' ? eg : mmd)) < Math.abs(parseFloat(id === 'metric-eg-diff' ? enactedData.efficiency_gap : enactedData.mean_median_diff));
                 el.innerText = `Δ: ${prefix}${diff} ${improvement ? 'Fairer' : 'Unfairer'}`;
-                el.className = improvement ? "text-[8px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[8px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
+                el.className = improvement ? "text-[8px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20" : "text-[8px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else if (id === 'metric-compac-diff' || id === 'metric-comp-diff') {
                 el.innerText = `Δ: ${prefix}${diff}`;
                 el.className = numericVal >= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
@@ -398,11 +398,11 @@ function switchMode(mode) {
     if (mode === 'enacted') {
         criteriaPanel.classList.add('hidden');
         enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     } else {
         criteriaPanel.classList.remove('hidden');
         optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     }
     
     updateSummaryDashboard();
@@ -445,35 +445,56 @@ function switchCriteria(criteria) {
     updateSummaryDashboard();
 }
 
-// National Map Styles (Recolors dynamically based on metrics database)
+// National Map Styles (Recolors dynamically based on metrics database) - Wrapped in try-catch to prevent rendering crashes
 function getNationalStyle(feature) {
-    const name = feature.properties.name.toLowerCase().replace(/ /g, '_');
-    const stateData = stateLeaderboardData[name];
-    const isDark = document.body.classList.contains('dark');
-    
-    let fill = isDark ? '#1e293b' : '#cbd5e1'; // Default theme neutral background fill
-    if (stateData || metricsDatabase[name]) {
-        let eg = 0.0;
-        const stateMetrics = metricsDatabase[name];
-        if (stateMetrics) {
-            const key = activeMode === 'enacted' ? 'enacted' : `optimized_${activeCriteria}`;
-            eg = stateMetrics[key].efficiency_gap;
-        } else {
-            eg = activeMode === 'enacted' ? stateData.enacted_eg : stateData.optimized_eg;
+    try {
+        if (!feature || !feature.properties || !feature.properties.name) {
+            return {
+                fillColor: '#cbd5e1',
+                weight: 1.0,
+                opacity: 0.5,
+                color: '#94a3b8'
+            };
         }
         
-        if (eg < -0.05) fill = '#ef4444'; // Red bias
-        else if (eg > 0.05) fill = '#3b82f6'; // Blue bias
-        else fill = isDark ? '#475569' : '#94a3b8'; // Muted fair color
+        const name = feature.properties.name.toLowerCase().replace(/ /g, '_');
+        const stateData = stateLeaderboardData[name];
+        const isDark = document.body.classList.contains('dark');
+        
+        let fill = isDark ? '#1e293b' : '#cbd5e1'; // Default theme neutral background fill
+        if (stateData || (metricsDatabase && metricsDatabase[name])) {
+            let eg = 0.0;
+            const stateMetrics = metricsDatabase ? metricsDatabase[name] : null;
+            if (stateMetrics) {
+                const key = activeMode === 'enacted' ? 'enacted' : `optimized_${activeCriteria}`;
+                if (stateMetrics[key]) {
+                    eg = stateMetrics[key].efficiency_gap;
+                }
+            } else if (stateData) {
+                eg = activeMode === 'enacted' ? stateData.enacted_eg : stateData.optimized_eg;
+            }
+            
+            if (eg < -0.05) fill = '#ef4444'; // Red bias
+            else if (eg > 0.05) fill = '#3b82f6'; // Blue bias
+            else fill = isDark ? '#475569' : '#94a3b8'; // Muted fair color
+        }
+        
+        return {
+            fillColor: fill,
+            weight: 1.5,
+            opacity: 0.9,
+            color: isDark ? '#475569' : '#94a3b8', // boundary line adapting to dark/light
+            fillOpacity: 0.70
+        };
+    } catch (err) {
+        console.error("Error styling national feature:", feature, err);
+        return {
+            fillColor: '#cbd5e1',
+            weight: 1.0,
+            opacity: 0.5,
+            color: '#94a3b8'
+        };
     }
-    
-    return {
-        fillColor: fill,
-        weight: 1.5,
-        opacity: 0.9,
-        color: isDark ? '#475569' : '#94a3b8', // boundary line adapting to dark/light
-        fillOpacity: 0.70
-    };
 }
 
 function onEachNationalFeature(feature, layer) {
@@ -1190,6 +1211,9 @@ async function init() {
         // Fetch combined pre-computed metrics database from python pipeline
         const metricsRes = await fetch('./data/metrics.json');
         metricsDatabase = await metricsRes.json();
+        
+        // Redraw national map styles once metricsDatabase is fully loaded to apply correct metrics colors
+        nationalLayer.setStyle(getNationalStyle);
         
         // Populate the Quick State Select dropdown menu
         const dropdown = document.getElementById('state-select-dropdown');
