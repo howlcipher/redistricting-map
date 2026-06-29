@@ -992,16 +992,22 @@ async function init() {
     // Set up Minimize / Maximize Sidebar handlers
     const sidebarContainer = document.getElementById('sidebar-container');
     const toggleBtn = document.getElementById('btn-toggle-sidebar');
-    const toggleIcon = document.getElementById('sidebar-toggle-icon');
+    const restoreBtn = document.getElementById('btn-floating-restore');
     
     toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const isMinimized = sidebarContainer.classList.toggle('-translate-x-[444px]');
-        if (isMinimized) {
-            toggleIcon.classList.add('rotate-180');
-        } else {
-            toggleIcon.classList.remove('rotate-180');
-        }
+        // Collapse Sidebar and show floating icon
+        sidebarContainer.classList.add('-translate-x-[444px]');
+        restoreBtn.classList.remove('scale-0', 'opacity-0');
+        restoreBtn.classList.add('scale-100', 'opacity-100');
+    });
+
+    restoreBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // Restore Sidebar and hide floating icon
+        sidebarContainer.classList.remove('-translate-x-[444px]');
+        restoreBtn.classList.add('scale-0', 'opacity-0');
+        restoreBtn.classList.remove('scale-100', 'opacity-100');
     });
 
     try {
