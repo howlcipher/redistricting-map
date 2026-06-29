@@ -86,7 +86,13 @@ function getDistrictColor(demPct) {
 }
 
 function getStyle(feature) {
-    const demPct = feature.properties.dem_pct;
+    let demPct = feature.properties.dem_pct;
+    if (activeMode === 'tuned') {
+        // Scale district leans dynamically based on the Partisan Swing slider value
+        const stateData = stateLeaderboardData[activeState];
+        const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
+        demPct = Math.max(0.02, Math.min(0.98, demPct - swing));
+    }
     const isDark = document.body.classList.contains('dark');
     return {
         fillColor: getDistrictColor(demPct),
@@ -123,8 +129,13 @@ function updateHoverCard(properties) {
     document.getElementById('hover-pop').innerText = formatPop(properties.total_pop);
     document.getElementById('hover-vap').innerText = formatPop(properties.voting_age_pop);
     
-    const demPct = properties.dem_pct;
-    const repPct = properties.rep_pct;
+    let demPct = properties.dem_pct;
+    if (activeMode === 'tuned') {
+        const stateData = stateLeaderboardData[activeState];
+        const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
+        demPct = Math.max(0.02, Math.min(0.98, demPct - swing));
+    }
+    const repPct = 1 - demPct;
     const leanText = demPct > 0.55 ? 'Dem Lean' : (demPct < 0.45 ? 'Rep Lean' : 'Competitive Tossup');
     
     document.getElementById('hover-partisan-lean').innerText = `${leanText} (${formatPercent(demPct)} D)`;
@@ -166,6 +177,7 @@ function onEachFeature(feature, layer) {
 // Helper to determine active layer configuration
 function getActiveLayerKey() {
     if (activeMode === 'enacted') return 'enacted';
+    if (activeMode === 'tuned') return 'optimized_all'; // Tuned sandbox playground uses optimized boundaries as a base
     return `optimized_${activeCriteria}`;
 }
 
@@ -494,22 +506,24 @@ function updateSummaryDashboard() {
     updatePartisanHistogram(key);
 }
 
-// Switch Enacted vs Optimized
+// Switch Enacted vs Optimized vs Tuned Sandbox Playground
 function switchMode(mode) {
     if (activeMode === mode) return;
     
     const enactedBtn = document.getElementById('toggle-enacted');
     const optimizedBtn = document.getElementById('toggle-optimized');
-    const criteriaPanel = document.getElementById('criteria-selector-container');
+    const tunedBtn = document.getElementById('toggle-tuned');
     
+    const criteriaPanel = document.getElementById('criteria-selector-container');
+    const playgroundPanel = document.getElementById('playground-slider-container');
+    
+    const prevKey = getActiveLayerKey();
     activeMode = mode;
     
     if (activeView === 'national') {
         nationalLayer.setStyle(getNationalStyle);
     } else {
-        const prevKey = activeMode === 'enacted' ? `optimized_${activeCriteria}` : 'enacted';
         if (layers[prevKey]) map.removeLayer(layers[prevKey]);
-        
         const newKey = getActiveLayerKey();
         if (layers[newKey]) {
             map.addLayer(layers[newKey]);
@@ -517,17 +531,42 @@ function switchMode(mode) {
         }
     }
     
+    // De-activate all buttons
+    const btnList = [enactedBtn, optimizedBtn, tunedBtn];
+    btnList.forEach(btn => {
+        if (btn) btn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+    });
+    
     if (mode === 'enacted') {
+        if (enactedBtn) enactedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         criteriaPanel.classList.add('hidden');
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
-    } else {
+        playgroundPanel.classList.add('hidden');
+    } else if (mode === 'optimized') {
+        if (optimizedBtn) optimizedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         criteriaPanel.classList.remove('hidden');
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        playgroundPanel.classList.add('hidden');
+    } else if (mode === 'tuned') {
+        if (tunedBtn) tunedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
+        criteriaPanel.classList.add('hidden');
+        playgroundPanel.classList.remove('hidden');
+        syncSlidersToActiveState();
     }
     
     updateSummaryDashboard();
+}
+
+function syncSlidersToActiveState() {
+    const data = stateLeaderboardData[activeState];
+    if (data) {
+        document.getElementById('slider-eg').value = (data.tuned_eg * 100).toFixed(1);
+        document.getElementById('slider-compac').value = Math.round(data.tuned_compac * 1000);
+        document.getElementById('slider-splits').value = data.tuned_splits;
+        
+        // Update labels
+        document.getElementById('val-slider-eg').innerText = data.tuned_eg === 0.0 ? '0.0% Neutral' : `${Math.abs(data.tuned_eg * 100).toFixed(1)}% ${data.tuned_eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
+        document.getElementById('val-slider-compac').innerText = data.tuned_compac.toFixed(3);
+        document.getElementById('val-slider-splits').innerText = `${data.tuned_splits} splits`;
+    }
 }
 
 // Switch Criteria
@@ -604,12 +643,20 @@ function getNationalStyle(feature) {
             let eg = 0.0;
             const stateMetrics = metricsDatabase ? metricsDatabase[name] : null;
             if (stateMetrics) {
-                const key = activeMode === 'enacted' ? 'enacted' : `optimized_${activeCriteria}`;
+                let key;
+                if (activeMode === 'enacted') key = 'enacted';
+                else if (activeMode === 'tuned') key = 'tuned';
+                else key = `optimized_${activeCriteria}`;
+                
                 if (stateMetrics[key]) {
                     eg = stateMetrics[key].efficiency_gap;
+                } else if (activeMode === 'tuned' && stateData) {
+                    eg = stateData.tuned_eg;
                 }
             } else if (stateData) {
-                eg = activeMode === 'enacted' ? stateData.enacted_eg : stateData.optimized_eg;
+                if (activeMode === 'enacted') eg = stateData.enacted_eg;
+                else if (activeMode === 'tuned') eg = stateData.tuned_eg;
+                else eg = stateData.optimized_eg;
             }
             
             fill = getPartisanFillColor(eg, isDark);
@@ -1053,6 +1100,9 @@ function getOrGenerateStateData(stateKey, name) {
         optimized_eg: optEg,
         optimized_comp: isSingle ? 0 : Math.round(count * 0.45),
         optimized_compac: isSingle ? 0.45 : (0.33 + Math.random() * 0.04),
+        tuned_eg: optEg,
+        tuned_compac: isSingle ? 0.45 : (0.33 + Math.random() * 0.04),
+        tuned_splits: isSingle ? 0 : Math.round(count * 1.3),
         enacted_min_inf: isSingle ? 0 : Math.round(count * 0.3),
         enacted_min_maj: isSingle ? 0 : Math.round(count * 0.1),
         optimized_min_inf: isSingle ? 0 : Math.round(count * 0.35),
@@ -1371,6 +1421,14 @@ async function init() {
         const metricsRes = await fetch('./data/metrics.json');
         metricsDatabase = await metricsRes.json();
         
+        // Initialize fallback tuned parameters to match optimized baseline parameters for all states
+        Object.keys(stateLeaderboardData).forEach(key => {
+            const data = stateLeaderboardData[key];
+            data.tuned_eg = data.optimized_eg;
+            data.tuned_compac = data.optimized_compac;
+            data.tuned_splits = data.optimized_splits;
+        });
+        
         // Redraw national map styles once metricsDatabase is fully loaded to apply correct metrics colors
         nationalLayer.setStyle(getNationalStyle);
         
@@ -1405,12 +1463,69 @@ async function init() {
         document.getElementById('btn-view-state').addEventListener('click', () => switchViewMode('state'));
         document.getElementById('toggle-enacted').addEventListener('click', () => switchMode('enacted'));
         document.getElementById('toggle-optimized').addEventListener('click', () => switchMode('optimized'));
+        document.getElementById('toggle-tuned').addEventListener('click', () => switchMode('tuned'));
         
         document.getElementById('opt-headcount').addEventListener('click', () => switchCriteria('headcount'));
         document.getElementById('opt-age').addEventListener('click', () => switchCriteria('age'));
         document.getElementById('opt-race').addEventListener('click', () => switchCriteria('race'));
         document.getElementById('opt-county').addEventListener('click', () => switchCriteria('county'));
         document.getElementById('opt-all').addEventListener('click', () => switchCriteria('all'));
+
+        // Set up sandbox playground slider input handlers
+        const sliderEg = document.getElementById('slider-eg');
+        const sliderCompac = document.getElementById('slider-compac');
+        const sliderSplits = document.getElementById('slider-splits');
+        
+        const updateTunedValues = () => {
+            const egVal = parseFloat(sliderEg.value) / 100;
+            const compacVal = parseFloat(sliderCompac.value) / 1000;
+            const splitsVal = parseInt(sliderSplits.value);
+            
+            // Update labels
+            document.getElementById('val-slider-eg').innerText = egVal === 0.0 ? '0.0% Neutral' : `${Math.abs(egVal * 100).toFixed(1)}% ${egVal > 0 ? 'Rep Lean' : 'Dem Lean'}`;
+            document.getElementById('val-slider-compac').innerText = compacVal.toFixed(3);
+            document.getElementById('val-slider-splits').innerText = `${splitsVal} splits`;
+            
+            // Save to active state data
+            const stateData = stateLeaderboardData[activeState];
+            if (stateData) {
+                stateData.tuned_eg = egVal;
+                stateData.tuned_compac = compacVal;
+                stateData.tuned_splits = splitsVal;
+                
+                // Sync with metricsDatabase under key 'tuned' so that dashboard pulls it automatically!
+                if (!metricsDatabase[activeState]) {
+                    metricsDatabase[activeState] = {};
+                }
+                metricsDatabase[activeState]['tuned'] = {
+                    efficiency_gap: egVal,
+                    mean_median_diff: egVal * 0.6,
+                    competitive_seats: Math.max(0, Math.round((districtCounts[activeState] || 8) * (compacVal * 1.5))),
+                    avg_compactness: compacVal,
+                    county_splits: splitsVal,
+                    minority_influence_seats: Math.round((districtCounts[activeState] || 8) * 0.3),
+                    minority_majority_seats: Math.round((districtCounts[activeState] || 8) * 0.1)
+                };
+            }
+            
+            // Redraw national map styles (to update colors in real-time)
+            if (activeView === 'national' && nationalLayer) {
+                nationalLayer.setStyle(getNationalStyle);
+            }
+            
+            // Redraw active state district styles (to shift district colors in real-time)
+            const key = getActiveLayerKey();
+            if (activeView === 'state' && layers[key]) {
+                layers[key].setStyle(getStyle);
+            }
+            
+            // Recalculate summary metrics & control balance
+            updateSummaryDashboard();
+        };
+        
+        sliderEg.addEventListener('input', updateTunedValues);
+        sliderCompac.addEventListener('input', updateTunedValues);
+        sliderSplits.addEventListener('input', updateTunedValues);
         
         // Start on national details view
         switchSidebarTab('state-detail');
