@@ -1,0 +1,86 @@
+/* Core Page Styles */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: #020617; /* Slate 950 */
+}
+
+/* Hide default leaflet map background to make dark tiles seamless */
+#map {
+    background-color: #0b0f19 !important;
+}
+
+/* Scrollbar styling for panels */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #334155; /* Slate 700 */
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #475569; /* Slate 600 */
+}
+
+/* Leaflet Zoom Control Styling Overrides */
+.leaflet-control-zoom {
+    border: 1px solid rgba(51, 65, 85, 0.5) !important; /* border-slate-700/50 */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+.leaflet-control-zoom a {
+    background-color: rgba(15, 23, 42, 0.85) !important; /* bg-slate-900/85 */
+    color: #cbd5e1 !important; /* text-slate-300 */
+    border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
+    transition: all 0.2s ease;
+}
+.leaflet-control-zoom a:hover {
+    background-color: #1e293b !important; /* bg-slate-800 */
+    color: #ffffff !important;
+}
+.leaflet-control-zoom-out {
+    border-bottom: none !important;
+}
+
+/* Custom dark-mode tooltips/popups */
+.leaflet-popup-content-wrapper {
+    background-color: #0f172a !important; /* Slate 900 */
+    color: #e2e8f0 !important; /* Slate 200 */
+    border: 1px solid rgba(51, 65, 85, 0.5) !important;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3) !important;
+    border-radius: 12px !important;
+}
+.leaflet-popup-tip {
+    background-color: #0f172a !important;
+    border: 1px solid rgba(51, 65, 85, 0.5) !important;
+}
+
+/* Map Labels & Hover glowing styles */
+.leaflet-interactive {
+    transition: stroke-width 0.15s ease, fill-opacity 0.15s ease, stroke 0.15s ease;
+}
+.district-hovered {
+    stroke-width: 3.5 !important;
+    stroke: #818cf8 !important; /* Indigo 400 */
+    fill-opacity: 0.75 !important;
+}
+
+/* Leaflet Attribution panel overrides */
+.leaflet-container .leaflet-control-attribution {
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(4px);
+    color: #64748b !important; /* text-slate-500 */
+    border-top-left-radius: 8px;
+    font-size: 9px;
+    border-left: 1px solid rgba(51, 65, 85, 0.2);
+    border-top: 1px solid rgba(51, 65, 85, 0.2);
+}
+.leaflet-container .leaflet-control-attribution a {
+    color: #818cf8 !important;
+}
