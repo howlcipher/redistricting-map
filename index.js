@@ -535,6 +535,9 @@ function switchViewMode(view) {
         nationalLayer.setStyle(getNationalStyle);
         map.setView([39.8, -98.5], 4);
         switchSidebarTab('state-detail');
+        
+        // Reset dropdown to default empty state in USA view
+        document.getElementById('state-select-dropdown').value = "";
     } else {
         stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white";
@@ -559,6 +562,9 @@ function switchViewMode(view) {
         const data = stateLeaderboardData[activeState];
         map.setView([data.lat, data.lon], data.zoom);
         switchSidebarTab('state-detail');
+        
+        // Sync quick select dropdown
+        document.getElementById('state-select-dropdown').value = activeState;
     }
     updateSummaryDashboard();
 }
@@ -572,6 +578,9 @@ function selectState(stateKey) {
     
     loader.classList.remove('hidden');
     activeState = stateKey;
+    
+    // Sync select dropdown
+    document.getElementById('state-select-dropdown').value = stateKey;
     
     setTimeout(() => {
         titleEl.innerText = `Connecting to ${name} State GeoDB...`;
@@ -797,7 +806,6 @@ function compileDynamicStateMetrics(enactedCol, optimizedCol, stateKey) {
 function getOrGenerateStateData(stateKey, name) {
     if (stateLeaderboardData[stateKey]) return stateLeaderboardData[stateKey];
     
-    // Retrieve centroid and bounding box from cache
     const feature = usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
     let lat = 39.8, lon = -98.5, zoom = 6.0;
     
@@ -981,6 +989,21 @@ async function init() {
         maxBoundsViscosity: 1.0
     }).setView([39.8, -98.5], 4);
     
+    // Set up Minimize / Maximize Sidebar handlers
+    const sidebarContainer = document.getElementById('sidebar-container');
+    const toggleBtn = document.getElementById('btn-toggle-sidebar');
+    const toggleIcon = document.getElementById('sidebar-toggle-icon');
+    
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isMinimized = sidebarContainer.classList.toggle('-translate-x-[444px]');
+        if (isMinimized) {
+            toggleIcon.classList.add('rotate-180');
+        } else {
+            toggleIcon.classList.remove('rotate-180');
+        }
+    });
+
     try {
         // Fetch states boundaries for National Map view
         const usStatesRes = await fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json');
@@ -1005,6 +1028,23 @@ async function init() {
         // Fetch combined pre-computed metrics database from python pipeline
         const metricsRes = await fetch('./data/metrics.json');
         metricsDatabase = await metricsRes.json();
+        
+        // Populate the Quick State Select dropdown menu
+        const dropdown = document.getElementById('state-select-dropdown');
+        const sortedKeys = Object.keys(stateLeaderboardData).sort((a,b) => {
+            return stateLeaderboardData[a].name.localeCompare(stateLeaderboardData[b].name);
+        });
+        
+        sortedKeys.forEach(key => {
+            const option = document.createElement('option');
+            option.value = key;
+            option.innerText = stateLeaderboardData[key].name;
+            dropdown.appendChild(option);
+        });
+        
+        dropdown.addEventListener('change', (e) => {
+            if (e.target.value) selectState(e.target.value);
+        });
         
         // Load default state (Colorado)
         await loadStateGeometries('colorado');
