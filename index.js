@@ -289,7 +289,7 @@ function updateSummaryDashboard() {
     const prefixLabel = activeView === 'national' ? 'USA Summary: ' : '';
     if (activeMode === 'enacted') {
         statusPill.innerText = `${prefixLabel}Enacted Reality`;
-        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 mb-2';
+        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-650 dark:text-indigo-400 border border-indigo-500/20 mb-2';
     } else {
         const criteriaLabel = {
             'headcount': 'Headcount Balanced',
@@ -299,7 +299,7 @@ function updateSummaryDashboard() {
             'all': 'Multi-Objective Combined'
         }[activeCriteria];
         statusPill.innerText = `${prefixLabel}Optimized (${criteriaLabel})`;
-        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 mb-2';
+        statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20 mb-2';
     }
     
     // 1. Efficiency Gap
@@ -421,7 +421,7 @@ function switchMode(mode) {
     } else {
         criteriaPanel.classList.remove('hidden');
         optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     }
     
     updateSummaryDashboard();
@@ -559,7 +559,7 @@ function onEachNationalFeature(feature, layer) {
             
             // Fix: Fallback parameters must align to activeMode (enacted vs optimized)
             let eg = activeMode === 'enacted' ? data.enacted_eg : data.optimized_eg;
-            let compactness = activeMode === 'enacted' ? data.enacted_compac; : data.optimized_compac;
+            let compactness = activeMode === 'enacted' ? data.enacted_compac : data.optimized_compac;
             let splits = activeMode === 'enacted' ? data.enacted_splits : data.optimized_splits;
             
             if (stateMetrics) {
@@ -939,12 +939,15 @@ function getOrGenerateStateData(stateKey, name) {
     const isSingle = count === 1;
     const baseEg = statePartisanBaselines[stateKey] !== undefined ? statePartisanBaselines[stateKey] : 0.0;
     
+    // Fallback optimized EG initialized to 22% of enacted bias (realistic residual post-optimization bias)
+    const optEg = isSingle ? 0.0 : baseEg * 0.22;
+    
     stateLeaderboardData[stateKey] = {
         name: name,
         enacted_eg: baseEg,
         enacted_comp: isSingle ? 0 : Math.round(count * 0.2),
         enacted_compac: isSingle ? 0.45 : (0.16 + Math.random() * 0.06),
-        optimized_eg: 0.0,
+        optimized_eg: optEg,
         optimized_comp: isSingle ? 0 : Math.round(count * 0.45),
         optimized_compac: isSingle ? 0.45 : (0.33 + Math.random() * 0.04),
         enacted_min_inf: isSingle ? 0 : Math.round(count * 0.3),
@@ -952,7 +955,7 @@ function getOrGenerateStateData(stateKey, name) {
         optimized_min_inf: isSingle ? 0 : Math.round(count * 0.35),
         optimized_min_maj: isSingle ? 0 : Math.round(count * 0.15),
         enacted_mmd: baseEg * 0.6, // Approximate baseline Mean-Median Diff
-        optimized_mmd: 0.0,
+        optimized_mmd: optEg * 0.6,
         enacted_splits: isSingle ? 0 : Math.round(count * 2.8),
         optimized_splits: isSingle ? 0 : Math.round(count * 1.3),
         lat: lat,
