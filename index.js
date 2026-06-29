@@ -455,7 +455,7 @@ function switchCriteria(criteria) {
     
     Object.keys(buttons).forEach(k => {
         if (k === criteria) {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-650 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-655 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
         } else {
             buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 text-slate-650 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
         }
@@ -557,18 +557,21 @@ function onEachNationalFeature(feature, layer) {
             document.getElementById('hover-pop').innerText = `${districtCounts[key] || 1} Congressional Districts`;
             document.getElementById('hover-vap').innerText = 'Detailed metrics enabled';
             
-            let eg = data.enacted_eg;
-            let compactness = data.enacted_compac;
-            let splits = data.enacted_splits;
+            // Fix: Fallback parameters must align to activeMode (enacted vs optimized)
+            let eg = activeMode === 'enacted' ? data.enacted_eg : data.optimized_eg;
+            let compactness = activeMode === 'enacted' ? data.enacted_compac; : data.optimized_compac;
+            let splits = activeMode === 'enacted' ? data.enacted_splits : data.optimized_splits;
             
             if (stateMetrics) {
                 const k = activeMode === 'enacted' ? 'enacted' : `optimized_${activeCriteria}`;
-                eg = stateMetrics[k].efficiency_gap;
-                compactness = stateMetrics[k].avg_compactness;
-                splits = stateMetrics[k].county_splits;
+                if (stateMetrics[k]) {
+                    eg = stateMetrics[k].efficiency_gap;
+                    compactness = stateMetrics[k].avg_compactness;
+                    splits = stateMetrics[k].county_splits;
+                }
             }
             
-            document.getElementById('hover-partisan-lean').innerText = `Bias (EG): ${Math.abs(eg * 100).toFixed(1)}% ${eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
+            document.getElementById('hover-partisan-lean').innerText = eg === 0.0 ? 'Bias (EG): 0.0% Fair/Neutral' : `Bias (EG): ${Math.abs(eg * 100).toFixed(1)}% ${eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
             
             // Visual partisan split derived from the actual baseline/precomputed EG (Dem share = 50% - EG, Rep share = 50% + EG)
             const demPct = Math.max(0.1, Math.min(0.9, 0.5 - eg));
