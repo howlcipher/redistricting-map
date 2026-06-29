@@ -33,8 +33,8 @@ const stateLeaderboardData = {
     'colorado': { name: 'Colorado', enacted_eg: -0.065, enacted_comp: 2, enacted_compac: 0.246, optimized_eg: -0.126, optimized_comp: 2, optimized_compac: 0.358, enacted_min_inf: 8, enacted_min_maj: 4, optimized_min_inf: 8, optimized_min_maj: 2, enacted_mmd: 0.045, optimized_mmd: 0.004, enacted_splits: 22, optimized_splits: 16, lat: 40.2, lon: -104.8, zoom: 7.5 },
     'wisconsin': { name: 'Wisconsin', enacted_eg: -0.116, enacted_comp: 1, enacted_compac: 0.211, optimized_eg: -0.012, optimized_comp: 4, optimized_compac: 0.385, enacted_min_inf: 1, enacted_min_maj: 1, optimized_min_inf: 2, optimized_min_maj: 1, enacted_mmd: 0.082, optimized_mmd: 0.005, enacted_splits: 21, optimized_splits: 14, lat: 44.5, lon: -89.5, zoom: 7.2 },
     'north_carolina': { name: 'North Carolina', enacted_eg: -0.104, enacted_comp: 2, enacted_compac: 0.198, optimized_eg: -0.008, optimized_comp: 5, optimized_compac: 0.372, enacted_min_inf: 3, enacted_min_maj: 1, optimized_min_inf: 4, optimized_min_maj: 2, enacted_mmd: 0.061, optimized_mmd: 0.004, enacted_splits: 28, optimized_splits: 16, lat: 35.5, lon: -80.0, zoom: 7.0 },
-    'texas': { name: 'Texas', enacted_eg: -0.089, enacted_comp: 3, enacted_compac: 0.185, optimized_eg: -0.005, optimized_comp: 8, optimized_compac: 0.354, enacted_min_inf: 12, enacted_min_maj: 8, optimized_min_inf: 15, optimized_min_maj: 10, enacted_mmd: 0.054, optimized_mmd: 0.003, enacted_splits: 42, optimized_splits: 28, lat: 31.5, lon: -99.5, zoom: 6.0 },
-    'maryland': { name: 'Maryland', enacted_eg: 0.078, enacted_comp: 1, enacted_compac: 0.174, optimized_eg: 0.002, optimized_comp: 3, optimized_compac: 0.361, enacted_min_inf: 4, enacted_min_maj: 2, optimized_min_inf: 5, optimized_min_maj: 3, enacted_mmd: -0.048, optimized_mmd: -0.002, enacted_splits: 19, optimized_splits: 12, lat: 39.0, lon: -76.8, zoom: 8.0 }
+    'texas': { name: 'Texas', enacted_eg: 0.089, enacted_comp: 3, enacted_compac: 0.185, optimized_eg: 0.005, optimized_comp: 8, optimized_compac: 0.354, enacted_min_inf: 12, enacted_min_maj: 8, optimized_min_inf: 15, optimized_min_maj: 10, enacted_mmd: 0.054, optimized_mmd: 0.003, enacted_splits: 42, optimized_splits: 28, lat: 31.5, lon: -99.5, zoom: 6.0 },
+    'maryland': { name: 'Maryland', enacted_eg: -0.078, enacted_comp: 1, enacted_compac: 0.174, optimized_eg: -0.002, optimized_comp: 3, optimized_compac: 0.361, enacted_min_inf: 4, enacted_min_maj: 2, optimized_min_inf: 5, optimized_min_maj: 3, enacted_mmd: -0.048, optimized_mmd: -0.002, enacted_splits: 19, optimized_splits: 12, lat: 39.0, lon: -76.8, zoom: 8.0 }
 };
 
 // Summary metrics database
@@ -289,23 +289,25 @@ function updateSummaryDashboard() {
     // 1. Efficiency Gap
     const eg = data.efficiency_gap;
     const egPct = Math.abs(eg * 100).toFixed(1);
-    const egText = eg === 0 ? '0.0%' : `${egPct}% ${eg > 0 ? 'Dem Lean' : 'Rep Lean'}`;
+    
+    // Positive EG means Dem wasted > Rep wasted (Rep advantage). Negative EG means Rep wasted > Dem wasted (Dem advantage).
+    const egText = eg === 0 ? '0.0%' : `${egPct}% ${eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
     const egEl = document.getElementById('metric-eg');
     egEl.innerText = egText;
     egEl.className = Math.abs(eg) < 0.08 ? 'text-sm font-bold text-emerald-600 dark:text-emerald-400' : 'text-sm font-bold text-rose-600 dark:text-rose-400';
     
-    // Double-sided slider
+    // Double-sided slider (Left for Dem, Right for Rep)
     const bar = document.getElementById('metric-eg-bar');
     const egVal = eg * 100;
     if (egVal > 0) {
         bar.style.left = '50%';
         bar.style.width = `${Math.min(egVal * 4, 50)}%`;
-        bar.style.backgroundColor = '#3b82f6';
+        bar.style.backgroundColor = '#ef4444'; // Red for Republican bias
     } else if (egVal < 0) {
         const width = Math.min(Math.abs(egVal) * 4, 50);
         bar.style.left = `${50 - width}%`;
         bar.style.width = `${width}%`;
-        bar.style.backgroundColor = '#ef4444';
+        bar.style.backgroundColor = '#3b82f6'; // Blue for Democratic bias
     } else {
         bar.style.width = '0%';
         bar.style.left = '50%';
@@ -319,7 +321,8 @@ function updateSummaryDashboard() {
     
     // 4. Mean-Median Diff (MMD)
     const mmd = data.mean_median_diff;
-    const mmdPct = (mmd * 100).toFixed(1);
+    const mmdPct = (Math.abs(mmd) * 100).toFixed(1);
+    // Negative MMD favors Republicans (so Dem share is lower in median), Positive favors Democrats.
     document.getElementById('metric-mmd').innerText = `${mmdPct}% ${mmd >= 0 ? 'D' : 'R'}`;
     
     // 5. County Splits
@@ -358,13 +361,13 @@ function updateSummaryDashboard() {
                 el.className = improvement ? "text-[8px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20" : "text-[8px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else if (id === 'metric-compac-diff' || id === 'metric-comp-diff') {
                 el.innerText = `Δ: ${prefix}${diff}`;
-                el.className = numericVal >= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
+                el.className = numericVal >= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else if (id === 'metric-splits-diff') {
                 el.innerText = `Δ: ${prefix}${diff}`;
                 el.className = numericVal <= 0 ? "text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "text-[9px] font-bold px-1 rounded bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/20";
             } else {
                 el.innerText = `${prefix}${diff}`;
-                el.className = numericVal >= 0 ? "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20" : "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border border-slate-350 dark:border-slate-700/50";
+                el.className = numericVal >= 0 ? "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-650 dark:text-emerald-400 border border-emerald-500/20" : "absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400 border border-slate-350 dark:border-slate-700/50";
             }
         }
     });
@@ -436,16 +439,16 @@ function switchCriteria(criteria) {
     
     Object.keys(buttons).forEach(k => {
         if (k === criteria) {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-600 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-650 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
         } else {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-650 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
         }
     });
     
     updateSummaryDashboard();
 }
 
-// National Map Styles (Recolors dynamically based on metrics database) - Wrapped in try-catch to prevent rendering crashes
+// National Map Styles (Recolors dynamically based on metrics database) - Corrected Partisan Bias color coding
 function getNationalStyle(feature) {
     try {
         if (!feature || !feature.properties || !feature.properties.name) {
@@ -474,8 +477,9 @@ function getNationalStyle(feature) {
                 eg = activeMode === 'enacted' ? stateData.enacted_eg : stateData.optimized_eg;
             }
             
-            if (eg < -0.05) fill = '#ef4444'; // Red bias
-            else if (eg > 0.05) fill = '#3b82f6'; // Blue bias
+            // Correct Partisan Bias: Negative EG means Reps wasted more votes (Democratic advantage -> Blue). Positive EG means Dems wasted more votes (Republican advantage -> Red).
+            if (eg < -0.05) fill = '#3b82f6'; // Democratic Bias (Blue)
+            else if (eg > 0.05) fill = '#ef4444'; // Republican Bias (Red)
             else fill = isDark ? '#475569' : '#94a3b8'; // Muted fair color
         }
         
@@ -535,7 +539,7 @@ function onEachNationalFeature(feature, layer) {
                 splits = stateMetrics[k].county_splits;
             }
             
-            document.getElementById('hover-partisan-lean').innerText = `Bias (EG): ${(eg * 100).toFixed(1)}%`;
+            document.getElementById('hover-partisan-lean').innerText = `Bias (EG): ${Math.abs(eg * 100).toFixed(1)}% ${eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
             document.getElementById('hover-dem-bar').style.width = '50%';
             document.getElementById('hover-rep-bar').style.width = '50%';
             document.getElementById('hover-minority-pct').innerText = `${splits} county splits`;
@@ -893,12 +897,13 @@ function getOrGenerateStateData(stateKey, name) {
     const count = districtCounts[stateKey] || 4;
     const isSingle = count === 1;
     
+    // Default fallback values prior to running slice calculations (keeps them neutral grey on national map)
     stateLeaderboardData[stateKey] = {
         name: name,
-        enacted_eg: isSingle ? 0.0 : (Math.random() * 0.16 - 0.08),
+        enacted_eg: 0.0, // Neutral (Grey) on load
         enacted_comp: isSingle ? 0 : Math.round(count * 0.2),
         enacted_compac: isSingle ? 0.45 : (0.16 + Math.random() * 0.06),
-        optimized_eg: 0.0,
+        optimized_eg: 0.0, // Neutral (Grey)
         optimized_comp: isSingle ? 0 : Math.round(count * 0.45),
         optimized_compac: isSingle ? 0.45 : (0.33 + Math.random() * 0.04),
         enacted_min_inf: isSingle ? 0 : Math.round(count * 0.3),
@@ -993,13 +998,13 @@ function populateLeaderboardTable() {
     keys.forEach(key => {
         const data = stateLeaderboardData[key];
         const egPct = Math.abs(data.enacted_eg * 100).toFixed(1);
-        const egLean = data.enacted_eg > 0 ? 'D' : 'R';
+        const egLean = data.enacted_eg > 0 ? 'R' : 'D'; // Sync display party letter with corrected logic
         
         const row = document.createElement('tr');
         row.className = "border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100/50 dark:hover:bg-slate-800/25 transition-all pointer-events-auto cursor-pointer";
         row.innerHTML = `
             <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-300">${data.name}</td>
-            <td class="py-2.5 text-center font-bold ${Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-650 dark:text-emerald-400'}">${egPct}% ${egLean}</td>
+            <td class="py-2.5 text-center font-bold ${data.enacted_eg === 0 ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-650 dark:text-rose-400' : 'text-emerald-650 dark:text-emerald-400')}">${data.enacted_eg === 0 ? '0.0%' : egPct + '% ' + egLean}</td>
             <td class="py-2.5 text-center text-slate-500 dark:text-slate-400">${data.enacted_compac.toFixed(3)}</td>
             <td class="py-2.5 text-center">
                 <button onclick="selectState('${key}')" class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-650 dark:text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">
