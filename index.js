@@ -416,11 +416,11 @@ function switchMode(mode) {
     
     if (mode === 'enacted') {
         criteriaPanel.classList.add('hidden');
-        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-650 text-white shadow-md";
+        enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-655 text-white shadow-md";
         optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     } else {
         criteriaPanel.classList.remove('hidden');
-        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-650 text-white shadow-md";
+        optimizedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-655 text-white shadow-md";
         enactedBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
     }
     
@@ -457,7 +457,7 @@ function switchCriteria(criteria) {
         if (k === criteria) {
             buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-650 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
         } else {
-            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-655 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
+            buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 text-slate-650 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
         }
     });
     
@@ -569,8 +569,17 @@ function onEachNationalFeature(feature, layer) {
             }
             
             document.getElementById('hover-partisan-lean').innerText = `Bias (EG): ${Math.abs(eg * 100).toFixed(1)}% ${eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
-            document.getElementById('hover-dem-bar').style.width = '50%';
-            document.getElementById('hover-rep-bar').style.width = '50%';
+            
+            // Visual partisan split derived from the actual baseline/precomputed EG (Dem share = 50% - EG, Rep share = 50% + EG)
+            const demPct = Math.max(0.1, Math.min(0.9, 0.5 - eg));
+            const repPct = 1.0 - demPct;
+            
+            document.getElementById('hover-dem-pct').innerText = `D: ${(demPct * 100).toFixed(1)}%`;
+            document.getElementById('hover-rep-pct').innerText = `R: ${(repPct * 100).toFixed(1)}%`;
+            
+            document.getElementById('hover-dem-bar').style.width = `${demPct * 100}%`;
+            document.getElementById('hover-rep-bar').style.width = `${repPct * 100}%`;
+            
             document.getElementById('hover-minority-pct').innerText = `${splits} county splits`;
             document.getElementById('hover-compactness').innerText = compactness.toFixed(3);
         },
@@ -1040,10 +1049,10 @@ function populateLeaderboardTable() {
         row.className = "border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100/50 dark:hover:bg-slate-800/25 transition-all pointer-events-auto cursor-pointer";
         row.innerHTML = `
             <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-300">${data.name}</td>
-            <td class="py-2.5 text-center font-bold ${data.enacted_eg === 0 ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-650 dark:text-rose-400' : 'text-emerald-650 dark:text-emerald-400')}">${data.enacted_eg === 0 ? '0.0%' : egPct + '% ' + egLean}</td>
+            <td class="py-2.5 text-center font-bold ${data.enacted_eg === 0 ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-655 dark:text-rose-400' : 'text-emerald-655 dark:text-emerald-400')}">${data.enacted_eg === 0 ? '0.0%' : egPct + '% ' + egLean}</td>
             <td class="py-2.5 text-center text-slate-500 dark:text-slate-400">${data.enacted_compac.toFixed(3)}</td>
             <td class="py-2.5 text-center">
-                <button onclick="selectState('${key}')" class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-650 dark:text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">
+                <button onclick="selectState('${key}')" class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-655 dark:text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">
                     Analyze
                 </button>
             </td>
