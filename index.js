@@ -262,6 +262,106 @@ function updateSummaryDashboard() {
         document.getElementById('metric-comp-denominator').innerText = `/ ${denom}`;
         document.getElementById('vra-stats-card').classList.add('hidden');
         document.getElementById('histogram-stats-card').classList.add('hidden');
+        
+        // Show U.S. House control visualization card
+        document.getElementById('national-house-control-card').classList.remove('hidden');
+        
+        // Dynamic Projected U.S. House Control calculation
+        const votingStates = [
+            'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware',
+            'florida', 'georgia', 'hawaii', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky',
+            'louisiana', 'maine', 'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi',
+            'missouri', 'montana', 'nebraska', 'nevada', 'new_hampshire', 'new_jersey', 'new_mexico',
+            'new_york', 'north_carolina', 'north_dakota', 'ohio', 'oklahoma', 'oregon', 'pennsylvania',
+            'rhode_island', 'south_carolina', 'south_dakota', 'tennessee', 'texas', 'utah', 'vermont',
+            'virginia', 'washington', 'west_virginia', 'wisconsin', 'wyoming'
+        ];
+        
+        let demSeats = 0;
+        let repSeats = 0;
+        let totalDemVoteShareSum = 0;
+        
+        votingStates.forEach(s => {
+            const N = districtCounts[s] || 1;
+            const data = stateLeaderboardData[s];
+            if (!data) return;
+            
+            let eg = 0.0;
+            const stateMetrics = metricsDatabase[s];
+            
+            if (stateMetrics) {
+                const key = getActiveLayerKey();
+                if (stateMetrics[key]) {
+                    eg = stateMetrics[key].efficiency_gap;
+                }
+            } else {
+                eg = activeMode === 'enacted' ? data.enacted_eg : data.optimized_eg;
+            }
+            
+            // Baseline vote share
+            const baseEg = statePartisanBaselines[s] || 0.0;
+            const demVoteShare = 0.50 - baseEg;
+            totalDemVoteShareSum += (N * demVoteShare);
+            
+            // Seat-vote projection: Dem seat share = vote share - efficiency gap bias
+            let stateDemSeats = Math.round(N * (demVoteShare - eg));
+            stateDemSeats = Math.max(0, Math.min(N, stateDemSeats));
+            
+            demSeats += stateDemSeats;
+            repSeats += (N - stateDemSeats);
+        });
+        
+        const nationalDemVoteShare = totalDemVoteShareSum / 435; // ~50.97% Dem
+        const proportionalDemSeats = Math.round(435 * nationalDemVoteShare); // 222 seats
+        
+        // Gerrymander Tax: seats lost/shifted from proportional baseline
+        const seatShift = proportionalDemSeats - demSeats;
+        let shiftText = "0 Seats Shifted";
+        if (seatShift > 0) {
+            shiftText = `R +${seatShift} Seat Bias`;
+        } else if (seatShift < 0) {
+            shiftText = `D +${Math.abs(seatShift)} Seat Bias`;
+        } else {
+            shiftText = "Perfectly Proportional";
+        }
+        
+        // Seat-to-Vote Bias: difference between seat share and popular vote share
+        const demSeatShare = demSeats / 435;
+        const bias = (demSeatShare - nationalDemVoteShare) * 100;
+        const biasText = `${bias > 0 ? '+' : ''}${bias.toFixed(1)}% ${bias > 0 ? 'Dem Lean' : 'Rep Lean'}`;
+        
+        document.getElementById('house-dem-seats').innerText = `D: ${demSeats}`;
+        document.getElementById('house-rep-seats').innerText = `R: ${repSeats}`;
+        
+        let majorityText = "Split Control";
+        if (demSeats >= 218) {
+            majorityText = `D Majority (+${demSeats - 217})`;
+        } else {
+            majorityText = `R Majority (+${repSeats - 217})`;
+        }
+        document.getElementById('house-majority-text').innerText = majorityText;
+        
+        const demBarPct = (demSeats / 435) * 100;
+        const repBarPct = 100 - demBarPct;
+        document.getElementById('house-bar-dem').style.width = `${demBarPct}%`;
+        document.getElementById('house-bar-rep').style.width = `${repBarPct}%`;
+        
+        document.getElementById('house-gerrymander-tax').innerText = shiftText;
+        document.getElementById('house-disproportionality').innerText = biasText;
+        
+        // Color coding summary badges based on bias severity
+        const taxEl = document.getElementById('house-gerrymander-tax');
+        const biasEl = document.getElementById('house-disproportionality');
+        if (Math.abs(seatShift) > 5) {
+            taxEl.className = "font-bold text-rose-600 dark:text-rose-450 text-xs mt-0.5";
+            biasEl.className = "font-bold text-rose-600 dark:text-rose-450 text-xs mt-0.5";
+        } else if (Math.abs(seatShift) > 0) {
+            taxEl.className = "font-bold text-amber-600 dark:text-amber-450 text-xs mt-0.5";
+            biasEl.className = "font-bold text-amber-600 dark:text-amber-450 text-xs mt-0.5";
+        } else {
+            taxEl.className = "font-bold text-emerald-600 dark:text-emerald-450 text-xs mt-0.5";
+            biasEl.className = "font-bold text-emerald-600 dark:text-emerald-450 text-xs mt-0.5";
+        }
     } else {
         summarySource = metricsDatabase[activeState];
         const stateName = stateLeaderboardData[activeState] ? stateLeaderboardData[activeState].name : activeState;
@@ -274,6 +374,9 @@ function updateSummaryDashboard() {
         document.getElementById('metric-comp-denominator').innerText = `/ ${denom}`;
         document.getElementById('vra-stats-card').classList.remove('hidden');
         document.getElementById('histogram-stats-card').classList.remove('hidden');
+        
+        // Hide U.S. House control visualization card
+        document.getElementById('national-house-control-card').classList.add('hidden');
     }
     
     if (!summarySource) return;
