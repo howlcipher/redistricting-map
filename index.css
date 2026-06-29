@@ -14,8 +14,12 @@
     background: rgba(99, 102, 241, 0.45);
 }
 
-/* Leaflet Container Styling */
+/* Leaflet Container Styling - Absolute Fill */
 #map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     background-color: #020617 !important; /* Tailwind slate-950 */
     outline: none;
 }

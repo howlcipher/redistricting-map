@@ -61,9 +61,9 @@ function getStyle(feature) {
     return {
         fillColor: getDistrictColor(demPct),
         weight: 1.5,
-        opacity: 0.85,
-        color: '#334155',
-        fillOpacity: 0.45
+        opacity: 0.95,
+        color: '#f8fafc', // slate-50 (off-white) border to show district boundaries clearly
+        fillOpacity: 0.70 // higher opacity to pop district polygons vibrantly
     };
 }
 
@@ -115,7 +115,7 @@ function onEachFeature(feature, layer) {
             l.setStyle({
                 weight: 3.5,
                 color: '#818cf8',
-                fillOpacity: 0.65
+                fillOpacity: 0.85
             });
             l.bringToFront();
             updateHoverCard(feature.properties);
@@ -454,8 +454,8 @@ function getNationalStyle(feature) {
         fillColor: fill,
         weight: 1.5,
         opacity: 0.9,
-        color: '#334155',
-        fillOpacity: 0.45
+        color: '#475569', // slate-600 border for clean visible outline
+        fillOpacity: 0.70 // higher opacity to glow vibrantly on dark background
     };
 }
 
@@ -466,7 +466,7 @@ function onEachNationalFeature(feature, layer) {
             l.setStyle({
                 weight: 3.0,
                 color: '#818cf8',
-                fillOpacity: 0.65
+                fillOpacity: 0.85
             });
             l.bringToFront();
             
@@ -567,6 +567,11 @@ function switchViewMode(view) {
         document.getElementById('state-select-dropdown').value = activeState;
     }
     updateSummaryDashboard();
+    
+    // Invalidate size to force Leaflet viewport correction
+    setTimeout(() => {
+        map.invalidateSize();
+    }, 100);
 }
 
 function selectState(stateKey) {
@@ -606,6 +611,10 @@ function selectState(stateKey) {
         
         document.getElementById('btn-view-state').innerText = `${name.length > 15 ? name.slice(0, 12) + '...' : name} Detail`;
         switchViewMode('state');
+        
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 100);
     }, 2000);
 }
 
@@ -1000,6 +1009,10 @@ async function init() {
         sidebarContainer.classList.add('-translate-x-[444px]');
         restoreBtn.classList.remove('scale-0', 'opacity-0');
         restoreBtn.classList.add('scale-100', 'opacity-100');
+        
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 310);
     });
 
     restoreBtn.addEventListener('click', (e) => {
@@ -1008,6 +1021,10 @@ async function init() {
         sidebarContainer.classList.remove('-translate-x-[444px]');
         restoreBtn.classList.add('scale-0', 'opacity-0');
         restoreBtn.classList.remove('scale-100', 'opacity-100');
+        
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 310);
     });
 
     try {
@@ -1076,6 +1093,11 @@ async function init() {
         // Start on national details view
         switchSidebarTab('state-detail');
         updateSummaryDashboard();
+        
+        // Force size invalidation after paint to resolve absolute positioned size issues
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 150);
         
     } catch (err) {
         console.error('Failed to initialize US National map dashboard:', err);
