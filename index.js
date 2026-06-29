@@ -464,17 +464,17 @@ function switchCriteria(criteria) {
     updateSummaryDashboard();
 }
 
-// Continuous Partisan Color Scale to fully populate map
+// Continuous Partisan Color Scale to fully populate map (High-contrast pastel colors for light EG values)
 function getPartisanFillColor(eg, isDark) {
     if (eg < 0) {
         const absEg = Math.abs(eg);
-        if (absEg < 0.03) return isDark ? '#1e293b' : '#dbeafe'; // Very light blue
-        if (absEg < 0.07) return isDark ? '#1e3a8a' : '#93c5fd'; // Light blue
-        return isDark ? '#2563eb' : '#3b82f6'; // Strong blue
+        if (absEg < 0.03) return isDark ? '#172554' : '#bfdbfe'; // Soft pastel blue
+        if (absEg < 0.07) return isDark ? '#1e40af' : '#60a5fa'; // Medium pastel blue
+        return isDark ? '#3b82f6' : '#3b82f6'; // Strong blue
     } else if (eg > 0) {
-        if (eg < 0.03) return isDark ? '#1e293b' : '#fee2e2'; // Very light red
-        if (eg < 0.07) return isDark ? '#7f1d1d' : '#fca5a5'; // Light red
-        return isDark ? '#dc2626' : '#ef4444'; // Strong red
+        if (eg < 0.03) return isDark ? '#450a0a' : '#fecaca'; // Soft pastel red
+        if (eg < 0.07) return isDark ? '#991b1b' : '#f87171'; // Medium pastel red
+        return isDark ? '#ef4444' : '#ef4444'; // Strong red
     } else {
         return isDark ? '#1e293b' : '#cbd5e1'; // Neutral grey (single district states)
     }
@@ -515,9 +515,9 @@ function getNationalStyle(feature) {
         return {
             fillColor: fill,
             weight: 1.5,
-            opacity: 0.9,
-            color: isDark ? '#475569' : '#94a3b8', // boundary line adapting to dark/light
-            fillOpacity: 0.70
+            opacity: 0.95, // High opacity border
+            color: isDark ? '#475569' : '#64748b', // Richer state boundary lines for perfect definition
+            fillOpacity: 0.80 // Richer fill opacity so pastel states stand out clearly
         };
     } catch (err) {
         console.error("Error styling national feature:", feature, err);
@@ -525,7 +525,7 @@ function getNationalStyle(feature) {
             fillColor: '#cbd5e1',
             weight: 1.0,
             opacity: 0.5,
-            color: '#94a3b8'
+            color: '#cbd5e1'
         };
     }
 }
