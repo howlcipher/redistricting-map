@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +28,8 @@
                         outfit: ['Outfit', 'sans-serif'],
                     },
                     boxShadow: {
-                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.08)',
+                        'glass-dark': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
                         'glass-glow': '0 8px 32px 0 rgba(99, 102, 241, 0.15)',
                     }
                 }
@@ -38,10 +39,10 @@
     
     <link rel="stylesheet" href="index.css">
 </head>
-<body class="bg-slate-950 font-sans text-slate-100 min-h-screen overflow-hidden flex flex-col dark">
+<body class="bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 min-h-screen overflow-hidden flex flex-col transition-colors duration-300">
 
     <!-- Header Section -->
-    <header id="app-header" class="bg-slate-900/60 backdrop-blur-md border-b border-slate-800/80 px-6 py-4 flex items-center justify-between z-10 transition-all duration-300">
+    <header id="app-header" class="bg-white/80 dark:bg-slate-900/60 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 px-6 py-4 flex items-center justify-between z-10 transition-all duration-300">
         <div class="flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -49,37 +50,37 @@
                 </svg>
             </div>
             <div>
-                <h1 class="font-outfit font-bold text-xl tracking-tight bg-gradient-to-r from-indigo-200 via-purple-200 to-pink-200 bg-clip-text text-transparent">
+                <h2 class="font-outfit font-bold text-xl tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-200 dark:via-purple-200 dark:to-pink-200 bg-clip-text text-transparent">
                     RedrawUS Analyzer
-                </h1>
-                <p class="text-xs text-slate-400 font-medium header-subtitle">National Redistricting & Algorithmic Map Comparators</p>
+                </h2>
+                <p class="text-xs text-slate-500 dark:text-slate-400 font-medium">National Redistricting & Algorithmic Map Comparators</p>
             </div>
         </div>
         
         <!-- View Toggle & Map Controls -->
         <div class="flex items-center space-x-4">
             <!-- View Mode (National vs State Detail) -->
-            <div class="flex items-center space-x-2 bg-slate-900/80 border border-slate-700/50 p-1.5 rounded-xl controls-group">
+            <div class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/50 p-1.5 rounded-xl">
                 <button id="btn-view-national" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md">
                     USA National Map
                 </button>
-                <button id="btn-view-state" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
+                <button id="btn-view-state" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
                     State View
                 </button>
             </div>
 
             <!-- District Map Toggles -->
-            <div id="district-toggles-container" class="flex items-center space-x-2 bg-slate-900/80 border border-slate-700/50 p-1.5 rounded-xl controls-group">
+            <div id="district-toggles-container" class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/50 p-1.5 rounded-xl">
                 <button id="toggle-enacted" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md">
-                    Enacted Map (Reality)
+                    Enacted Reality
                 </button>
-                <button id="toggle-optimized" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-400 hover:text-white">
-                    Optimized Map (Algorithmic)
+                <button id="toggle-optimized" class="px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+                    Optimized Map
                 </button>
             </div>
 
             <!-- Light/Dark Theme Toggle Button -->
-            <button id="btn-theme-toggle" class="p-2.5 rounded-xl bg-slate-900/80 border border-slate-700/50 text-slate-400 hover:text-white transition-all shadow-md focus:outline-none cursor-pointer flex items-center justify-center theme-btn">
+            <button id="btn-theme-toggle" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/50 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all shadow-md focus:outline-none cursor-pointer flex items-center justify-center">
                 <!-- Moon Icon (Default: Dark Mode Active) -->
                 <svg id="theme-icon-moon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -109,11 +110,11 @@
         </div>
 
         <!-- Floating Restore Icon (Appears when sidebar is minimized) -->
-        <button id="btn-floating-restore" class="group absolute top-6 left-6 w-12 h-12 rounded-xl bg-slate-900/90 backdrop-blur-md border border-indigo-500/30 text-indigo-400 flex items-center justify-center pointer-events-auto shadow-glass-glow hover:bg-slate-800 hover:text-white transition-all duration-300 transform scale-0 opacity-0 z-20 cursor-pointer hover:border-indigo-400 restore-btn-glow">
+        <button id="btn-floating-restore" class="group absolute top-6 left-6 w-12 h-12 rounded-xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800/80 text-indigo-600 dark:text-indigo-400 flex items-center justify-center pointer-events-auto shadow-glass hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-300 transform scale-0 opacity-0 z-20 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
             </svg>
-            <span class="absolute left-14 bg-slate-950 border border-slate-800 px-2.5 py-1 rounded text-[9px] text-slate-300 font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-md">
+            <span class="absolute left-14 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-2.5 py-1 rounded text-[9px] font-bold tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-md">
                 Show Dashboard
             </span>
         </button>
@@ -122,62 +123,62 @@
         <div id="sidebar-container" class="absolute left-6 top-6 bottom-6 w-[420px] flex flex-col space-y-6 pointer-events-none z-10 transition-all duration-300 transform">
             
             <!-- Dashboard Card -->
-            <section class="pointer-events-auto bg-slate-900/85 backdrop-blur-lg border border-slate-800/80 rounded-2xl p-5 shadow-glass flex flex-col flex-1 max-h-[85vh] overflow-y-auto relative panel-card">
+            <section class="pointer-events-auto bg-white/90 dark:bg-slate-900/85 backdrop-blur-lg border border-slate-200 dark:border-slate-800/80 rounded-2xl p-5 shadow-glass dark:shadow-glass-dark flex flex-col flex-1 max-h-[85vh] overflow-y-auto relative transition-colors duration-300">
                 
                 <!-- Toggle Minimize Sidebar Button (Fitted on border) -->
-                <button id="btn-toggle-sidebar" class="absolute -right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-900 border border-slate-700/80 text-slate-400 hover:text-white flex items-center justify-center shadow-lg hover:border-indigo-500 transition-all focus:outline-none cursor-pointer collapse-btn">
+                <button id="btn-toggle-sidebar" class="absolute -right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center justify-center shadow-lg hover:border-indigo-500 transition-all focus:outline-none cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
                     </svg>
                 </button>
 
                 <!-- Sidebar Tabs Navigation -->
-                <div class="flex border-b border-slate-800 mb-3 text-[10px] font-bold uppercase tracking-wider pointer-events-auto gap-1 tab-nav">
-                    <button id="tab-state-detail" class="flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-400 focus:outline-none transition-all">
+                <div class="flex border-b border-slate-250 dark:border-slate-800 mb-3 text-[10px] font-bold uppercase tracking-wider pointer-events-auto gap-1">
+                    <button id="tab-state-detail" class="flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 focus:outline-none transition-all">
                         State Details
                     </button>
-                    <button id="tab-leaderboard" class="flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-300 focus:outline-none transition-all">
+                    <button id="tab-leaderboard" class="flex-1 py-2.5 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-350 focus:outline-none transition-all">
                         Leaderboard
                     </button>
-                    <button id="tab-methodology" class="flex-1 py-2.5 border-b-2 border-transparent text-slate-500 hover:text-slate-300 focus:outline-none transition-all">
+                    <button id="tab-methodology" class="flex-1 py-2.5 border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-950 dark:hover:text-slate-350 focus:outline-none transition-all">
                         Methodology
                     </button>
                 </div>
 
                 <!-- State Selection Dropdown List -->
                 <div class="mb-4 pointer-events-auto">
-                    <select id="state-select-dropdown" class="w-full bg-slate-950/80 border border-slate-800/80 text-slate-300 text-xs rounded-lg px-3 py-2.5 focus:border-indigo-500 focus:outline-none transition-all cursor-pointer font-medium select-dropdown">
+                    <select id="state-select-dropdown" class="w-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800/80 text-slate-800 dark:text-slate-300 text-xs rounded-lg px-3 py-2.5 focus:border-indigo-500 focus:outline-none transition-all cursor-pointer font-medium">
                         <option value="" disabled selected>Quick State Select...</option>
                     </select>
                 </div>
 
                 <!-- Tab 1: State Detail Panel -->
                 <div id="panel-state-detail" class="flex flex-col flex-1 space-y-4">
-                    <div class="border-b border-slate-800 pb-3 detail-header">
-                        <span id="map-status-pill" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 mb-2">
+                    <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+                        <span id="map-status-pill" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 mb-2">
                             Displaying Enacted Reality
                         </span>
-                        <h2 class="font-outfit font-bold text-lg text-slate-100 mb-1" id="detail-state-name">
+                        <h2 class="font-outfit font-bold text-lg text-slate-900 dark:text-slate-100 mb-1" id="detail-state-name">
                             Colorado
                         </h2>
                         
                         <!-- Optimization Criteria Selector -->
-                        <div id="criteria-selector-container" class="mt-3 border-t border-slate-800/60 pt-3 hidden criteria-container">
-                            <label class="text-[9px] font-bold text-slate-400 uppercase tracking-widest block mb-2">Optimization Criteria</label>
+                        <div id="criteria-selector-container" class="mt-3 border-t border-slate-200 dark:border-slate-800/60 pt-3 hidden">
+                            <label class="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest block mb-2">Optimization Criteria</label>
                             <div class="grid grid-cols-2 gap-2 text-center text-[10px]">
-                                <button id="opt-headcount" class="px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-200 font-semibold hover:border-indigo-400 transition-all">
+                                <button id="opt-headcount" class="px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-600 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all">
                                     Headcount
                                 </button>
-                                <button id="opt-age" class="px-2 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-400 font-semibold hover:border-slate-700 hover:text-slate-200 transition-all">
-                                    Voting Age (VAP)
+                                <button id="opt-age" class="px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all">
+                                    Voting Age
                                 </button>
-                                <button id="opt-race" class="px-2 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-400 font-semibold hover:border-slate-700 hover:text-slate-200 transition-all">
+                                <button id="opt-race" class="px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-200 transition-all">
                                     Race (VRA)
                                 </button>
-                                <button id="opt-county" class="px-2 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-400 font-semibold hover:border-slate-700 hover:text-slate-200 transition-all">
+                                <button id="opt-county" class="px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-200 transition-all">
                                     County Splits
                                 </button>
-                                <button id="opt-all" class="col-span-2 px-2 py-1.5 rounded-lg border border-slate-800 bg-slate-950 text-slate-400 font-semibold hover:border-slate-700 hover:text-slate-200 transition-all">
+                                <button id="opt-all" class="col-span-2 px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-200 transition-all">
                                     Combined (Optimal)
                                 </button>
                             </div>
@@ -187,19 +188,19 @@
                     <!-- Summary Metrics -->
                     <div class="space-y-4 flex-1">
                         <!-- Efficiency Gap / Partisan Bias -->
-                        <div class="bg-slate-950/50 border border-slate-800/60 p-4 rounded-xl stat-card">
+                        <div class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-4 rounded-xl">
                             <div class="flex justify-between items-center mb-1">
-                                <span id="label-partisan-bias" class="text-xs font-semibold text-slate-400 uppercase tracking-wider card-title">Efficiency Gap (Partisan Bias)</span>
+                                <span id="label-partisan-bias" class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Efficiency Gap (Partisan Bias)</span>
                                 <div class="flex items-center space-x-1.5">
-                                    <span id="metric-eg-diff" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
-                                    <span id="metric-eg" class="text-sm font-bold text-emerald-400">-</span>
+                                    <span id="metric-eg-diff" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <span id="metric-eg" class="text-sm font-bold text-emerald-600 dark:text-emerald-400">-</span>
                                 </div>
                             </div>
-                            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden flex relative slider-track">
-                                <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-600 z-10 slider-midpoint"></div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden flex relative">
+                                <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-slate-400 dark:bg-slate-600 z-10"></div>
                                 <div id="metric-eg-bar" class="h-full bg-indigo-500 transition-all duration-500" style="width: 0%; margin-left: 50%;"></div>
                             </div>
-                            <p class="text-[10px] text-slate-500 mt-1.5 leading-relaxed card-desc">
+                            <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
                                 Partisan asymmetry in wasted votes. Values near 0% are fair. Positive favors Dem, negative favors Rep.
                             </p>
                         </div>
@@ -207,114 +208,114 @@
                         <!-- 2x2 Grid Layout for Stats Cards -->
                         <div class="grid grid-cols-2 gap-3">
                             <!-- Competitiveness -->
-                            <div class="bg-slate-950/50 border border-slate-800/60 p-3 rounded-xl flex flex-col justify-between stat-card">
+                            <div class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-3 rounded-xl flex flex-col justify-between">
                                 <div class="flex justify-between items-start">
-                                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider card-title">Competitive Seats</span>
-                                    <span id="metric-comp-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <span class="text-[10px] font-semibold text-slate-550 dark:text-slate-400 uppercase tracking-wider">Competitive Seats</span>
+                                    <span id="metric-comp-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
                                 </div>
                                 <div class="my-2 flex items-baseline space-x-1">
-                                    <span id="metric-comp" class="text-2xl font-bold font-outfit text-indigo-400">-</span>
-                                    <span id="metric-comp-denominator" class="text-xs text-slate-500 denom-text">/ 8</span>
+                                    <span id="metric-comp" class="text-2xl font-bold font-outfit text-indigo-600 dark:text-indigo-400">-</span>
+                                    <span id="metric-comp-denominator" class="text-xs text-slate-500 dark:text-slate-450">/ 8</span>
                                 </div>
-                                <span class="text-[9px] text-slate-500 leading-tight card-desc">Margins between 45% and 55%.</span>
+                                <span class="text-[9px] text-slate-500 dark:text-slate-400 leading-tight">Margins between 45% and 55%.</span>
                             </div>
 
                             <!-- Compactness -->
-                            <div class="bg-slate-950/50 border border-slate-800/60 p-3 rounded-xl flex flex-col justify-between stat-card">
+                            <div class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-3 rounded-xl flex flex-col justify-between">
                                 <div class="flex justify-between items-start">
-                                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider card-title">Avg Compactness</span>
-                                    <span id="metric-compac-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <span class="text-[10px] font-semibold text-slate-550 dark:text-slate-400 uppercase tracking-wider">Avg Compactness</span>
+                                    <span id="metric-compac-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
                                 </div>
                                 <div class="my-2 flex items-baseline space-x-1">
-                                    <span id="metric-compac" class="text-2xl font-bold font-outfit text-indigo-400">-</span>
+                                    <span id="metric-compac" class="text-2xl font-bold font-outfit text-indigo-600 dark:text-indigo-400">-</span>
                                 </div>
-                                <span class="text-[9px] text-slate-500 leading-tight card-desc">Polsby-Popper score (0-1).</span>
+                                <span class="text-[9px] text-slate-500 dark:text-slate-400 leading-tight">Polsby-Popper score (0-1).</span>
                             </div>
 
                             <!-- Mean-Median Difference -->
-                            <div class="bg-slate-950/50 border border-slate-800/60 p-3 rounded-xl flex flex-col justify-between stat-card">
+                            <div class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-3 rounded-xl flex flex-col justify-between">
                                 <div class="flex justify-between items-start">
-                                    <span id="label-mmd" class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider card-title">Mean-Median Diff</span>
-                                    <span id="metric-mmd-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <span id="label-mmd" class="text-[10px] font-semibold text-slate-555 dark:text-slate-400 uppercase tracking-wider">Mean-Median Diff</span>
+                                    <span id="metric-mmd-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
                                 </div>
                                 <div class="my-2 flex items-baseline space-x-1">
-                                    <span id="metric-mmd" class="text-2xl font-bold font-outfit text-indigo-400">-</span>
+                                    <span id="metric-mmd" class="text-2xl font-bold font-outfit text-indigo-600 dark:text-indigo-400">-</span>
                                 </div>
-                                <span class="text-[9px] text-slate-500 leading-tight card-desc">Partisan vote-median gap.</span>
+                                <span class="text-[9px] text-slate-500 dark:text-slate-400 leading-tight">Partisan vote-median gap.</span>
                             </div>
 
                             <!-- County Splits -->
-                            <div class="bg-slate-950/50 border border-slate-800/60 p-3 rounded-xl flex flex-col justify-between stat-card">
+                            <div class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-3 rounded-xl flex flex-col justify-between">
                                 <div class="flex justify-between items-start">
-                                    <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider card-title">County Splits</span>
-                                    <span id="metric-splits-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <span class="text-[10px] font-semibold text-slate-555 dark:text-slate-400 uppercase tracking-wider">County Splits</span>
+                                    <span id="metric-splits-diff" class="text-[9px] font-bold px-1 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
                                 </div>
                                 <div class="my-2 flex items-baseline space-x-1">
-                                    <span id="metric-splits" class="text-2xl font-bold font-outfit text-indigo-400">-</span>
+                                    <span id="metric-splits" class="text-2xl font-bold font-outfit text-indigo-600 dark:text-indigo-400">-</span>
                                 </div>
-                                <span class="text-[9px] text-slate-500 leading-tight card-desc">Lower keeps counties unified.</span>
+                                <span class="text-[9px] text-slate-500 dark:text-slate-400 leading-tight">Lower keeps counties unified.</span>
                             </div>
                         </div>
 
                         <!-- Minority Influence / VRA -->
-                        <div id="vra-stats-card" class="bg-slate-950/50 border border-slate-800/60 p-4 rounded-xl stat-card">
+                        <div id="vra-stats-card" class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-4 rounded-xl">
                             <div class="flex justify-between items-center mb-3">
-                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider card-title">VRA / Minority Power</span>
+                                <span class="text-xs font-semibold text-slate-555 dark:text-slate-400 uppercase tracking-wider">VRA / Minority Power</span>
                             </div>
                             <div class="grid grid-cols-2 gap-2 text-center">
-                                <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 relative inner-card">
-                                    <span id="metric-min-influence-diff" class="absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
-                                    <div id="metric-min-influence" class="text-lg font-bold text-purple-400">-</div>
-                                    <div class="text-[9px] text-slate-500 font-semibold uppercase tracking-wider inner-card-title">Influence (30%+)</div>
+                                <div class="bg-white dark:bg-slate-900/60 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 relative">
+                                    <span id="metric-min-influence-diff" class="absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <div id="metric-min-influence" class="text-lg font-bold text-purple-600 dark:text-purple-400">-</div>
+                                    <div class="text-[9px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">Influence (30%+)</div>
                                 </div>
-                                <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800 relative inner-card">
-                                    <span id="metric-min-majority-diff" class="absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/20 hidden"></span>
-                                    <div id="metric-min-majority" class="text-lg font-bold text-pink-400">-</div>
-                                    <div class="text-[9px] text-slate-500 font-semibold uppercase tracking-wider inner-card-title">Majority (50%+)</div>
+                                <div class="bg-white dark:bg-slate-900/60 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 relative">
+                                    <span id="metric-min-majority-diff" class="absolute top-1 right-1 text-[8px] font-bold px-0.5 rounded bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hidden"></span>
+                                    <div id="metric-min-majority" class="text-lg font-bold text-pink-600 dark:text-pink-400">-</div>
+                                    <div class="text-[9px] text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider">Majority (50%+)</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Partisan Distribution Histogram -->
-                        <div id="histogram-stats-card" class="bg-slate-950/50 border border-slate-800/60 p-4 rounded-xl stat-card">
+                        <div id="histogram-stats-card" class="bg-slate-550/10 dark:bg-slate-950/50 border border-slate-200 dark:border-slate-800/60 p-4 rounded-xl">
                             <div class="flex justify-between items-center mb-2.5">
-                                <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider card-title">Partisan Distribution (Seats)</span>
+                                <span class="text-xs font-semibold text-slate-555 dark:text-slate-400 uppercase tracking-wider">Partisan Distribution (Seats)</span>
                             </div>
-                            <div class="space-y-2 text-[10px] text-slate-400 dist-list">
+                            <div class="space-y-2 text-[10px] text-slate-500 dark:text-slate-400">
                                 <div class="flex items-center justify-between">
-                                    <span class="w-20 text-left label-safe-d">Safe D (&gt;60%)</span>
-                                    <div class="flex-1 bg-slate-800 h-2 mx-3 rounded overflow-hidden slider-track">
+                                    <span class="w-20 text-left">Safe D (&gt;60%)</span>
+                                    <div class="flex-1 bg-slate-200 dark:bg-slate-800 h-2 mx-3 rounded overflow-hidden">
                                         <div id="bar-dist-safe-d" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%;"></div>
                                     </div>
-                                    <span id="lbl-dist-safe-d" class="w-4 text-right font-bold text-blue-400">0</span>
+                                    <span id="lbl-dist-safe-d" class="w-4 text-right font-bold text-blue-600 dark:text-blue-400">0</span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="w-20 text-left label-lean-d">Lean D (55-60%)</span>
-                                    <div class="flex-1 bg-slate-800 h-2 mx-3 rounded overflow-hidden slider-track">
+                                    <span class="w-20 text-left">Lean D (55-60%)</span>
+                                    <div class="flex-1 bg-slate-200 dark:bg-slate-800 h-2 mx-3 rounded overflow-hidden">
                                         <div id="bar-dist-lean-d" class="bg-blue-400 h-full transition-all duration-300" style="width: 0%;"></div>
                                     </div>
-                                    <span id="lbl-dist-lean-d" class="w-4 text-right font-bold text-blue-300">0</span>
+                                    <span id="lbl-dist-lean-d" class="w-4 text-right font-bold text-blue-500 dark:text-blue-300">0</span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="w-20 text-left label-tossup">Tossup (45-55%)</span>
-                                    <div class="flex-1 bg-slate-800 h-2 mx-3 rounded overflow-hidden slider-track">
+                                    <span class="w-20 text-left">Tossup (45-55%)</span>
+                                    <div class="flex-1 bg-slate-200 dark:bg-slate-800 h-2 mx-3 rounded overflow-hidden">
                                         <div id="bar-dist-toss" class="bg-purple-500 h-full transition-all duration-300" style="width: 0%;"></div>
                                     </div>
-                                    <span id="lbl-dist-toss" class="w-4 text-right font-bold text-purple-400">0</span>
+                                    <span id="lbl-dist-toss" class="w-4 text-right font-bold text-purple-500 dark:text-purple-400">0</span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="w-20 text-left label-lean-r">Lean R (40-45%)</span>
-                                    <div class="flex-1 bg-slate-800 h-2 mx-3 rounded overflow-hidden slider-track">
+                                    <span class="w-20 text-left">Lean R (40-45%)</span>
+                                    <div class="flex-1 bg-slate-200 dark:bg-slate-800 h-2 mx-3 rounded overflow-hidden">
                                         <div id="bar-dist-lean-r" class="bg-red-400 h-full transition-all duration-300" style="width: 0%;"></div>
                                     </div>
-                                    <span id="lbl-dist-lean-r" class="w-4 text-right font-bold text-red-300">0</span>
+                                    <span id="lbl-dist-lean-r" class="w-4 text-right font-bold text-red-500 dark:text-red-300">0</span>
                                 </div>
                                 <div class="flex items-center justify-between">
-                                    <span class="w-20 text-left label-safe-r">Safe R (&lt;40%)</span>
-                                    <div class="flex-1 bg-slate-800 h-2 mx-3 rounded overflow-hidden slider-track">
+                                    <span class="w-20 text-left">Safe R (&lt;40%)</span>
+                                    <div class="flex-1 bg-slate-200 dark:bg-slate-800 h-2 mx-3 rounded overflow-hidden">
                                         <div id="bar-dist-safe-r" class="bg-red-600 h-full transition-all duration-300" style="width: 0%;"></div>
                                     </div>
-                                    <span id="lbl-dist-safe-r" class="w-4 text-right font-bold text-red-400">0</span>
+                                    <span id="lbl-dist-safe-r" class="w-4 text-right font-bold text-red-600 dark:text-red-400">0</span>
                                 </div>
                             </div>
                         </div>
@@ -323,26 +324,26 @@
 
                 <!-- Tab 2: National Leaderboard Panel -->
                 <div id="panel-leaderboard" class="flex flex-col flex-1 space-y-4 hidden pointer-events-auto">
-                    <div class="border-b border-slate-800 pb-3 border-title">
-                        <h3 class="font-outfit font-bold text-sm text-slate-300 uppercase tracking-wider section-header-title">
+                    <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+                        <h3 class="font-outfit font-bold text-sm text-slate-800 dark:text-slate-300 uppercase tracking-wider">
                             States Comparative Leaderboard
                         </h3>
-                        <p class="text-[10px] text-slate-500 mt-1 section-header-desc">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
                             Ranked by Enacted Partisan Bias. Select a state to inspect and run its model.
                         </p>
                     </div>
                     
                     <div class="flex-1 overflow-y-auto max-h-[50vh]">
-                        <table class="w-full text-left border-collapse text-xs leaderboard-table">
+                        <table class="w-full text-left border-collapse text-xs">
                             <thead>
-                                <tr class="border-b border-slate-800 text-[10px] font-bold text-slate-400 uppercase table-header-row">
+                                <tr class="border-b border-slate-200 dark:border-slate-800 text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">
                                     <th class="py-2">State</th>
                                     <th class="py-2 text-center">Bias (EG)</th>
                                     <th class="py-2 text-center">Compactness</th>
                                     <th class="py-2 text-center">Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="leaderboard-body" class="divide-y divide-slate-800/55 table-body">
+                            <tbody id="leaderboard-body" class="divide-y divide-slate-150 dark:divide-slate-800/55">
                                 <!-- Populated dynamically by JS -->
                             </tbody>
                         </table>
@@ -350,19 +351,19 @@
                 </div>
 
                 <!-- Tab 3: Methodology Guide Panel -->
-                <div id="panel-methodology" class="flex flex-col flex-1 space-y-4 hidden pointer-events-auto text-xs text-slate-400 leading-relaxed overflow-y-auto pr-1 methodology-panel">
-                    <div class="border-b border-slate-800 pb-3 border-title">
-                        <h3 class="font-outfit font-bold text-sm text-slate-300 uppercase tracking-wider section-header-title">
+                <div id="panel-methodology" class="flex flex-col flex-1 space-y-4 hidden pointer-events-auto text-xs text-slate-650 dark:text-slate-400 leading-relaxed overflow-y-auto pr-1">
+                    <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
+                        <h3 class="font-outfit font-bold text-sm text-slate-800 dark:text-slate-300 uppercase tracking-wider">
                             Methodology & Math
                         </h3>
-                        <p class="text-[10px] text-slate-500 mt-1 section-header-desc">
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 mt-1">
                             Understanding redistricting metrics and algorithms.
                         </p>
                     </div>
                     
-                    <div class="space-y-4 math-desc-body">
+                    <div class="space-y-4">
                         <div>
-                            <h4 class="font-bold text-indigo-400 mb-1 math-heading">1. Partisan Bias (Efficiency Gap)</h4>
+                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">1. Partisan Bias (Efficiency Gap)</h4>
                             <p>
                                 The **Efficiency Gap (EG)** measures partisan asymmetry in seat shares by tallying "wasted votes." 
                                 A vote is wasted if it is cast for a losing candidate, or if it is cast for a winning candidate above the 50% threshold needed to win.
@@ -372,25 +373,25 @@
                         </div>
                         
                         <div>
-                            <h4 class="font-bold text-indigo-400 mb-1 math-heading">2. Mean-Median Difference</h4>
+                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">2. Mean-Median Difference</h4>
                             <p>
                                 The **Mean-Median Difference** compares a party's statewide average district vote share to its median district vote share. If the median is significantly lower than the mean, the party's voters are highly concentrated (packed) into a few districts, diluting their voting efficiency.
                             </p>
                         </div>
 
                         <div>
-                            <h4 class="font-bold text-indigo-400 mb-1 math-heading">3. County Splits</h4>
+                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">3. County Splits</h4>
                             <p>
                                 Splits measure how many times counties are divided across multiple districts. Minimizing splits keeps local administrative borders unified, ensuring localized communities of interest share a single, accountable representative.
                             </p>
                         </div>
 
                         <div>
-                            <h4 class="font-bold text-indigo-400 mb-1 math-heading">4. ReCom Spanning-Tree Algorithm</h4>
+                            <h4 class="font-bold text-indigo-600 dark:text-indigo-400 mb-1">4. ReCom Spanning-Tree Algorithm</h4>
                             <p>
                                 The **ReCom (Recombination)** algorithm is a Markov Chain Monte Carlo (MCMC) walk that explores redistricting plans.
                             </p>
-                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800 font-mono text-[9px] text-slate-300 my-2 space-y-1 algorithm-step-box">
+                            <div class="bg-slate-100 dark:bg-slate-950 p-2.5 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-[9px] text-slate-700 dark:text-slate-300 my-2 space-y-1">
                                 <div>Step 1: Merge two adjacent districts.</div>
                                 <div>Step 2: Build a spanning tree of blocks.</div>
                                 <div>Step 3: Cut the tree into two equal-population pieces.</div>
@@ -407,46 +408,46 @@
 
         <!-- Right Side: Hover Detail Panel -->
         <div class="absolute right-6 top-6 w-80 pointer-events-none z-10">
-            <div id="district-hover-card" class="bg-slate-900/85 backdrop-blur-lg border border-slate-800/80 rounded-2xl p-4 shadow-glass hidden hover-info-card">
-                <h3 class="font-outfit font-bold text-sm text-indigo-400 mb-2 hover-card-title" id="hover-district-title">
+            <div id="district-hover-card" class="bg-white/95 dark:bg-slate-900/85 backdrop-blur-lg border border-slate-200 dark:border-slate-800/80 rounded-2xl p-4 shadow-glass dark:shadow-glass-dark hidden">
+                <h3 class="font-outfit font-bold text-sm text-indigo-600 dark:text-indigo-400 mb-2" id="hover-district-title">
                     District Details
                 </h3>
-                <div class="space-y-2.5 text-xs text-slate-300 card-desc-list">
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-1.5 card-row">
-                        <span class="text-slate-400 card-row-label">Total Population:</span>
-                        <span class="font-bold text-slate-100 card-row-val" id="hover-pop">-</span>
+                <div class="space-y-2.5 text-xs text-slate-800 dark:text-slate-300">
+                    <div class="flex justify-between items-center border-b border-slate-150 dark:border-slate-800 pb-1.5">
+                        <span class="text-slate-500 dark:text-slate-400">Total Population:</span>
+                        <span class="font-bold text-slate-900 dark:text-slate-100" id="hover-pop">-</span>
                     </div>
-                    <div class="flex justify-between items-center border-b border-slate-800 pb-1.5 card-row">
-                        <span class="text-slate-400 card-row-label">Voting Age Pop (VAP):</span>
-                        <span class="font-bold text-slate-100 card-row-val" id="hover-vap">-</span>
+                    <div class="flex justify-between items-center border-b border-slate-150 dark:border-slate-800 pb-1.5">
+                        <span class="text-slate-500 dark:text-slate-400">Voting Age Pop (VAP):</span>
+                        <span class="font-bold text-slate-900 dark:text-slate-100" id="hover-vap">-</span>
                     </div>
                     <div class="space-y-1">
                         <div class="flex justify-between">
-                            <span class="text-slate-400 card-row-label">Partisan Split:</span>
-                            <span class="font-bold card-row-val" id="hover-partisan-lean">-</span>
+                            <span class="text-slate-500 dark:text-slate-400">Partisan Split:</span>
+                            <span class="font-bold" id="hover-partisan-lean">-</span>
                         </div>
-                        <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden flex slider-track">
+                        <div class="w-full bg-slate-200 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden flex">
                             <div id="hover-dem-bar" class="bg-blue-500 h-full" style="width: 50%;"></div>
                             <div id="hover-rep-bar" class="bg-red-500 h-full" style="width: 50%;"></div>
                         </div>
-                        <div class="flex justify-between text-[10px] text-slate-500 sub-label-row">
+                        <div class="flex justify-between text-[10px] text-slate-500">
                             <span id="hover-dem-pct">D: 50.0%</span>
                             <span id="hover-rep-pct">R: 50.0%</span>
                         </div>
                     </div>
-                    <div class="flex justify-between items-center pt-1 card-row">
-                        <span class="text-slate-400 card-row-label">Minority Share:</span>
-                        <span class="font-bold text-slate-100 card-row-val" id="hover-minority-pct">-</span>
+                    <div class="flex justify-between items-center pt-1">
+                        <span class="text-slate-500 dark:text-slate-400">Minority Share:</span>
+                        <span class="font-bold text-slate-900 dark:text-slate-100" id="hover-minority-pct">-</span>
                     </div>
-                    <div class="flex justify-between items-center card-row">
-                        <span class="text-slate-400 card-row-label">Polsby-Popper Compactness:</span>
-                        <span class="font-bold text-slate-100 card-row-val" id="hover-compactness">-</span>
+                    <div class="flex justify-between items-center">
+                        <span class="text-slate-500 dark:text-slate-400">Polsby-Popper Compactness:</span>
+                        <span class="font-bold text-slate-900 dark:text-slate-100" id="hover-compactness">-</span>
                     </div>
                 </div>
             </div>
             
             <!-- Default instructions card if no hover -->
-            <div id="district-instructions-card" class="bg-slate-900/60 backdrop-blur-lg border border-slate-800/40 rounded-2xl p-4 shadow-glass text-center text-slate-400 text-xs hover-instructions-card">
+            <div id="district-instructions-card" class="bg-white/90 dark:bg-slate-900/60 backdrop-blur-lg border border-slate-200 dark:border-slate-800/40 rounded-2xl p-4 shadow-glass text-center text-slate-500 dark:text-slate-400 text-xs">
                 Hover over a district or state to view detailed demographics, partisan leans, and compactness scores.
             </div>
         </div>
