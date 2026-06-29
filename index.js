@@ -147,6 +147,7 @@ function onEachFeature(feature, layer) {
     });
 }
 
+// Helper to determine active layer configuration
 function getActiveLayerKey() {
     if (activeMode === 'enacted') return 'enacted';
     return `optimized_${activeCriteria}`;
@@ -543,7 +544,7 @@ function switchViewMode(view) {
     
     if (view === 'national') {
         natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
         
         if (layers[prevKey]) map.removeLayer(layers[prevKey]);
         
@@ -556,7 +557,7 @@ function switchViewMode(view) {
         document.getElementById('state-select-dropdown').value = "";
     } else {
         stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-550 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-555 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
         
         // Style background USA outline map to a very dark, contextual background
         nationalLayer.setStyle((feature) => {
@@ -1119,6 +1120,47 @@ async function init() {
         // Fetch states boundaries for National Map view
         const usStatesRes = await fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json');
         usStatesDataCache = await usStatesRes.json();
+        
+        // Define territories to inject as cartographic insets on the national map
+        const territoryInsets = {
+            'puerto_rico': { name: 'Puerto Rico', lat: 24.5, lon: -82.0 },
+            'virgin_islands': { name: 'Virgin Islands', lat: 24.5, lon: -80.0 },
+            'guam': { name: 'Guam', lat: 24.5, lon: -124.0 },
+            'northern_mariana_islands': { name: 'Northern Mariana Islands', lat: 26.5, lon: -124.0 },
+            'american_samoa': { name: 'American Samoa', lat: 22.5, lon: -124.0 }
+        };
+        
+        // Helper to construct polygon geometry
+        function createInsetPolygon(lon, lat, size = 1.2) {
+            const half = size / 2;
+            return {
+                type: "Polygon",
+                coordinates: [[
+                    [lon - half, lat - half],
+                    [lon + half, lat - half],
+                    [lon + half, lat + half],
+                    [lon - half, lat + half],
+                    [lon - half, lat - half]
+                ]]
+            };
+        }
+        
+        // Check and inject any missing territories into the GeoJSON
+        Object.keys(territoryInsets).forEach(key => {
+            const exists = usStatesDataCache.features.some(f => f.properties.name.toLowerCase().replace(/ /g, '_') === key);
+            if (!exists) {
+                const info = territoryInsets[key];
+                usStatesDataCache.features.push({
+                    type: "Feature",
+                    id: key,
+                    properties: {
+                        name: info.name,
+                        density: 100
+                    },
+                    geometry: createInsetPolygon(info.lon, info.lat)
+                });
+            }
+        });
         
         // Sync theme elements explicitly on load
         const isDarkInitial = document.body.classList.contains('dark');
