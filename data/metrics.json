@@ -1,8 +1,8 @@
 {
   "colorado": {
     "enacted": {
-      "efficiency_gap": -0.19042657824826104,
-      "mean_median_diff": -0.00366396552511139,
+      "efficiency_gap": -0.18893671468469514,
+      "mean_median_diff": -0.0026228028708841222,
       "competitive_seats": 4,
       "minority_influence_seats": 4,
       "minority_majority_seats": 0,
@@ -10,223 +10,223 @@
       "county_splits": 21
     },
     "optimized_headcount": {
-      "efficiency_gap": -0.3967928048508446,
-      "mean_median_diff": 0.001916799339331643,
-      "competitive_seats": 4,
-      "minority_influence_seats": 4,
+      "efficiency_gap": -0.3953052348333184,
+      "mean_median_diff": 0.008276504399478135,
+      "competitive_seats": 5,
+      "minority_influence_seats": 2,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.4263538518164631,
+      "avg_compactness": 0.43686319719341166,
       "county_splits": 16
     },
     "optimized_age": {
-      "efficiency_gap": -0.3967928048508446,
-      "mean_median_diff": 0.012371214065424518,
-      "competitive_seats": 6,
-      "minority_influence_seats": 2,
-      "minority_majority_seats": 0,
-      "avg_compactness": 0.4486721257931625,
-      "county_splits": 19
-    },
-    "optimized_race": {
-      "efficiency_gap": -0.3967928048508446,
-      "mean_median_diff": 0.007997260819206042,
+      "efficiency_gap": -0.3953052348333184,
+      "mean_median_diff": 0.009102036589116458,
       "competitive_seats": 4,
-      "minority_influence_seats": 2,
-      "minority_majority_seats": 0,
-      "avg_compactness": 0.4658837045845248,
-      "county_splits": 17
-    },
-    "optimized_county": {
-      "efficiency_gap": -0.3967928048508446,
-      "mean_median_diff": 0.008271393045662934,
-      "competitive_seats": 6,
-      "minority_influence_seats": 2,
-      "minority_majority_seats": 0,
-      "avg_compactness": 0.4664296635189778,
-      "county_splits": 15
-    },
-    "optimized_all": {
-      "efficiency_gap": -0.3967928048508446,
-      "mean_median_diff": 0.008147400872122401,
-      "competitive_seats": 5,
       "minority_influence_seats": 3,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.4199033980008434,
-      "county_splits": 14
+      "avg_compactness": 0.4713509630172542,
+      "county_splits": 16
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.3953052348333184,
+      "mean_median_diff": 0.006879344472483062,
+      "competitive_seats": 4,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39871140399429755,
+      "county_splits": 20
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.3953052348333184,
+      "mean_median_diff": 0.009440749186187425,
+      "competitive_seats": 4,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.44550289654259095,
+      "county_splits": 19
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.3953052348333184,
+      "mean_median_diff": 0.01182116422657331,
+      "competitive_seats": 4,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3634552871842193,
+      "county_splits": 17
     }
   },
   "wisconsin": {
     "enacted": {
-      "efficiency_gap": -0.10459534030905933,
-      "mean_median_diff": -0.00599571671332344,
-      "competitive_seats": 5,
+      "efficiency_gap": 0.10859105650707121,
+      "mean_median_diff": -0.00047763706735776124,
+      "competitive_seats": 6,
       "minority_influence_seats": 2,
       "minority_majority_seats": 0,
       "avg_compactness": 0.30707516979204785,
       "county_splits": 15
     },
     "optimized_headcount": {
-      "efficiency_gap": 0.11432550841406545,
-      "mean_median_diff": 0.013950899572270636,
-      "competitive_seats": 6,
+      "efficiency_gap": -0.01122234083722603,
+      "mean_median_diff": -0.002415405408079274,
+      "competitive_seats": 7,
       "minority_influence_seats": 3,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.4417140094706514,
-      "county_splits": 17
+      "avg_compactness": 0.38097724050778997,
+      "county_splits": 18
     },
     "optimized_age": {
-      "efficiency_gap": 0.12344037869905942,
-      "mean_median_diff": 0.006595613122648836,
+      "efficiency_gap": -0.004030804247925535,
+      "mean_median_diff": -0.003957595783075474,
       "competitive_seats": 6,
       "minority_influence_seats": 2,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.40767244981213696,
-      "county_splits": 16
+      "avg_compactness": 0.3526171142369071,
+      "county_splits": 15
     },
     "optimized_race": {
-      "efficiency_gap": -0.009881788771255543,
-      "mean_median_diff": -0.000648327386752412,
-      "competitive_seats": 7,
+      "efficiency_gap": 0.11130881910878897,
+      "mean_median_diff": 0.004089281503157738,
+      "competitive_seats": 8,
       "minority_influence_seats": 2,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.43891408644584157,
+      "avg_compactness": 0.3784857785695992,
       "county_splits": 15
     },
     "optimized_county": {
-      "efficiency_gap": -0.011017180737123263,
-      "mean_median_diff": 0.004657903339603142,
-      "competitive_seats": 7,
-      "minority_influence_seats": 2,
-      "minority_majority_seats": 0,
-      "avg_compactness": 0.4198515602184104,
-      "county_splits": 16
-    },
-    "optimized_all": {
-      "efficiency_gap": -0.0005015823203251029,
-      "mean_median_diff": -0.003923331308739286,
+      "efficiency_gap": -0.01714623466905973,
+      "mean_median_diff": -6.43104179739451e-05,
       "competitive_seats": 6,
       "minority_influence_seats": 3,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.3723274207853421,
+      "avg_compactness": 0.4041544460659609,
+      "county_splits": 16
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.12329853339551071,
+      "mean_median_diff": 0.008933978523430475,
+      "competitive_seats": 7,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37923832880169994,
       "county_splits": 16
     }
   },
   "texas": {
     "enacted": {
-      "efficiency_gap": 0.35322393695581694,
-      "mean_median_diff": -0.002925354729951757,
-      "competitive_seats": 0,
-      "minority_influence_seats": 7,
-      "minority_majority_seats": 3,
-      "avg_compactness": 0.3953903242440333,
-      "county_splits": 17
+      "efficiency_gap": 0.3638900825138703,
+      "mean_median_diff": -0.009831527622739367,
+      "competitive_seats": 6,
+      "minority_influence_seats": 32,
+      "minority_majority_seats": 12,
+      "avg_compactness": 0.1918086533645937,
+      "county_splits": 79
     },
     "optimized_headcount": {
-      "efficiency_gap": 0.35322393695581694,
-      "mean_median_diff": -0.0026728549820476677,
-      "competitive_seats": 2,
-      "minority_influence_seats": 8,
-      "minority_majority_seats": 4,
-      "avg_compactness": 0.4288026950174832,
-      "county_splits": 13
+      "efficiency_gap": 0.3638900825138703,
+      "mean_median_diff": -0.004416879058660617,
+      "competitive_seats": 10,
+      "minority_influence_seats": 37,
+      "minority_majority_seats": 20,
+      "avg_compactness": 0.37050756371269544,
+      "county_splits": 62
     },
     "optimized_age": {
-      "efficiency_gap": 0.35322393695581694,
-      "mean_median_diff": 0.003150900247453292,
-      "competitive_seats": 1,
-      "minority_influence_seats": 8,
-      "minority_majority_seats": 3,
-      "avg_compactness": 0.446164153991602,
-      "county_splits": 13
+      "efficiency_gap": 0.3638900825138703,
+      "mean_median_diff": 0.0006987917014262823,
+      "competitive_seats": 11,
+      "minority_influence_seats": 37,
+      "minority_majority_seats": 18,
+      "avg_compactness": 0.3597899883546906,
+      "county_splits": 63
     },
     "optimized_race": {
-      "efficiency_gap": 0.35322393695581694,
-      "mean_median_diff": -0.004284178949928441,
-      "competitive_seats": 1,
-      "minority_influence_seats": 8,
-      "minority_majority_seats": 3,
-      "avg_compactness": 0.40982175222897405,
-      "county_splits": 15
+      "efficiency_gap": 0.3638900825138703,
+      "mean_median_diff": -0.001477262175357652,
+      "competitive_seats": 11,
+      "minority_influence_seats": 37,
+      "minority_majority_seats": 18,
+      "avg_compactness": 0.3340695423356811,
+      "county_splits": 65
     },
     "optimized_county": {
-      "efficiency_gap": 0.35322393695581694,
-      "mean_median_diff": 0.0016100310698701215,
-      "competitive_seats": 1,
-      "minority_influence_seats": 8,
-      "minority_majority_seats": 3,
-      "avg_compactness": 0.4895693959480991,
-      "county_splits": 12
+      "efficiency_gap": 0.3638900825138703,
+      "mean_median_diff": -0.00257264974064475,
+      "competitive_seats": 11,
+      "minority_influence_seats": 37,
+      "minority_majority_seats": 18,
+      "avg_compactness": 0.3804985164085279,
+      "county_splits": 60
     },
     "optimized_all": {
-      "efficiency_gap": 0.35322393695581694,
-      "mean_median_diff": 0.005003618591595815,
-      "competitive_seats": 1,
-      "minority_influence_seats": 8,
-      "minority_majority_seats": 3,
-      "avg_compactness": 0.46926817083141226,
-      "county_splits": 10
+      "efficiency_gap": 0.3638900825138703,
+      "mean_median_diff": -0.00269646884026864,
+      "competitive_seats": 12,
+      "minority_influence_seats": 37,
+      "minority_majority_seats": 19,
+      "avg_compactness": 0.4098560309583772,
+      "county_splits": 60
     }
   },
   "north_carolina": {
     "enacted": {
-      "efficiency_gap": -0.037094564917063276,
-      "mean_median_diff": 0.0002967072984881858,
-      "competitive_seats": 7,
-      "minority_influence_seats": 4,
+      "efficiency_gap": -0.10655391991047374,
+      "mean_median_diff": -0.008311518066922652,
+      "competitive_seats": 11,
+      "minority_influence_seats": 7,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.5426707568065379,
-      "county_splits": 17
+      "avg_compactness": 0.48365669288664165,
+      "county_splits": 31
     },
     "optimized_headcount": {
-      "efficiency_gap": 0.0049419388323268055,
-      "mean_median_diff": 0.006751677648397125,
-      "competitive_seats": 8,
-      "minority_influence_seats": 5,
+      "efficiency_gap": -0.13656084295690663,
+      "mean_median_diff": -0.013305006222932625,
+      "competitive_seats": 13,
+      "minority_influence_seats": 9,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.34477526094716804,
-      "county_splits": 13
+      "avg_compactness": 0.29945302212314423,
+      "county_splits": 24
     },
     "optimized_age": {
-      "efficiency_gap": 0.13628018848988896,
-      "mean_median_diff": 0.00743994458907693,
-      "competitive_seats": 8,
-      "minority_influence_seats": 6,
+      "efficiency_gap": -0.12075212992391576,
+      "mean_median_diff": -0.010713388317454164,
+      "competitive_seats": 13,
+      "minority_influence_seats": 10,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.3471141690460602,
-      "county_splits": 14
+      "avg_compactness": 0.28775945301946393,
+      "county_splits": 24
     },
     "optimized_race": {
-      "efficiency_gap": -0.12080644849743057,
-      "mean_median_diff": -0.000762587606900289,
-      "competitive_seats": 8,
-      "minority_influence_seats": 6,
+      "efficiency_gap": -0.06800767499933617,
+      "mean_median_diff": -0.0039563259692407815,
+      "competitive_seats": 13,
+      "minority_influence_seats": 9,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.38709306654814873,
-      "county_splits": 12
+      "avg_compactness": 0.3223492971221217,
+      "county_splits": 25
     },
     "optimized_county": {
-      "efficiency_gap": -0.12038989625665665,
-      "mean_median_diff": -0.01008135168624047,
-      "competitive_seats": 8,
-      "minority_influence_seats": 6,
+      "efficiency_gap": -0.13396056364911893,
+      "mean_median_diff": -0.00825393614391956,
+      "competitive_seats": 13,
+      "minority_influence_seats": 10,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.32391984137639596,
-      "county_splits": 12
+      "avg_compactness": 0.32807662404516985,
+      "county_splits": 25
     },
     "optimized_all": {
-      "efficiency_gap": 0.014417662486867266,
-      "mean_median_diff": -0.0034070584015315486,
-      "competitive_seats": 8,
-      "minority_influence_seats": 6,
+      "efficiency_gap": -0.13126715609026052,
+      "mean_median_diff": -0.011058576295366218,
+      "competitive_seats": 12,
+      "minority_influence_seats": 9,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.32556354963864365,
-      "county_splits": 13
+      "avg_compactness": 0.3181470545369338,
+      "county_splits": 26
     }
   },
   "maryland": {
     "enacted": {
-      "efficiency_gap": -0.12878008141340747,
-      "mean_median_diff": -0.004420436427462038,
+      "efficiency_gap": -0.13529685640875308,
+      "mean_median_diff": -0.005591345179340568,
       "competitive_seats": 0,
       "minority_influence_seats": 6,
       "minority_majority_seats": 0,
@@ -234,49 +234,2905 @@
       "county_splits": 12
     },
     "optimized_headcount": {
-      "efficiency_gap": -0.12878008141340747,
-      "mean_median_diff": -0.00823118171155568,
+      "efficiency_gap": -0.13529685640875308,
+      "mean_median_diff": -0.008744076090304698,
+      "competitive_seats": 0,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.390554635293878,
+      "county_splits": 13
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.13529685640875308,
+      "mean_median_diff": -0.009852870462295327,
       "competitive_seats": 0,
       "minority_influence_seats": 7,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.3347165821150283,
-      "county_splits": 11
-    },
-    "optimized_age": {
-      "efficiency_gap": -0.12878008141340747,
-      "mean_median_diff": -0.008251936937088478,
-      "competitive_seats": 0,
-      "minority_influence_seats": 8,
-      "minority_majority_seats": 0,
-      "avg_compactness": 0.3795705057016364,
+      "avg_compactness": 0.34973888875068415,
       "county_splits": 11
     },
     "optimized_race": {
-      "efficiency_gap": -0.12878008141340747,
-      "mean_median_diff": -0.009167760400550007,
+      "efficiency_gap": -0.13529685640875308,
+      "mean_median_diff": -0.006541936346629695,
       "competitive_seats": 0,
       "minority_influence_seats": 7,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.3516200990609439,
+      "county_splits": 10
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.13529685640875308,
+      "mean_median_diff": -0.007136537875981341,
+      "competitive_seats": 0,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.35439689146646824,
+      "county_splits": 12
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.13529685640875308,
+      "mean_median_diff": -0.00799658525285496,
+      "competitive_seats": 0,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.3744697558376568,
+      "county_splits": 10
+    }
+  },
+  "alabama": {
+    "enacted": {
+      "efficiency_gap": 0.1548136584449749,
+      "mean_median_diff": 0.004010930035594218,
+      "competitive_seats": 7,
+      "minority_influence_seats": 2,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.36684473748504187,
+      "avg_compactness": 0.24077558604556604,
+      "county_splits": 19
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.07240478248047526,
+      "mean_median_diff": 0.006139201991046839,
+      "competitive_seats": 7,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.36459188729612046,
+      "county_splits": 16
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.07910767917062199,
+      "mean_median_diff": 0.002342857170800128,
+      "competitive_seats": 6,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.43273858811694543,
+      "county_splits": 11
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.07484400011150709,
+      "mean_median_diff": -0.003146650344961477,
+      "competitive_seats": 7,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.337603907924706,
+      "county_splits": 17
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.07286841723019319,
+      "mean_median_diff": 0.01935418865601013,
+      "competitive_seats": 6,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39669683690373764,
+      "county_splits": 16
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.07510589505715472,
+      "mean_median_diff": 0.01622681836814943,
+      "competitive_seats": 7,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40193262727664525,
+      "county_splits": 13
+    }
+  },
+  "alaska": {
+    "enacted": {
+      "efficiency_gap": -0.3171169064526848,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.0642233698820016,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.3171169064526848,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.0642233698820016,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.3171169064526848,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.0642233698820016,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.3171169064526848,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.0642233698820016,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.3171169064526848,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.0642233698820016,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.3171169064526848,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.0642233698820016,
+      "county_splits": 0
+    }
+  },
+  "arizona": {
+    "enacted": {
+      "efficiency_gap": -0.025434767943673442,
+      "mean_median_diff": 0.0023210771522017004,
+      "competitive_seats": 8,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2455282649600082,
+      "county_splits": 18
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.056984434856894174,
+      "mean_median_diff": -0.006582444701200341,
+      "competitive_seats": 8,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3704196300567755,
+      "county_splits": 21
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.172118018803777,
+      "mean_median_diff": 0.0072465991527423945,
+      "competitive_seats": 8,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35540136264334216,
+      "county_splits": 17
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.05977861474823129,
+      "mean_median_diff": -0.012179674452159284,
+      "competitive_seats": 8,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.34582825861236893,
+      "county_splits": 24
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.16324475893519688,
+      "mean_median_diff": 0.010262961907183843,
+      "competitive_seats": 7,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3316686954095593,
+      "county_splits": 21
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.06025829075350623,
+      "mean_median_diff": 0.008201186038576669,
+      "competitive_seats": 8,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40307090814525615,
+      "county_splits": 19
+    }
+  },
+  "arkansas": {
+    "enacted": {
+      "efficiency_gap": -0.1556944923904381,
+      "mean_median_diff": -0.0002480709185521679,
+      "competitive_seats": 3,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4743569958430902,
+      "county_splits": 9
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.007865984199841743,
+      "mean_median_diff": 0.006114505161131711,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37245974387863984,
+      "county_splits": 10
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.0005547529041065922,
+      "mean_median_diff": 0.000785836029899345,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39614500990418733,
+      "county_splits": 7
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.24798094093479772,
+      "mean_median_diff": 0.00118107091891545,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4597640837878071,
+      "county_splits": 7
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.009308625874925595,
+      "mean_median_diff": 0.0005948686316156748,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4574196569795063,
+      "county_splits": 8
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.010364858356880143,
+      "mean_median_diff": 0.004906219509840382,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3792629566821458,
+      "county_splits": 9
+    }
+  },
+  "california": {
+    "enacted": {
+      "efficiency_gap": -0.09395704068496975,
+      "mean_median_diff": -0.0010601096989935055,
+      "competitive_seats": 36,
+      "minority_influence_seats": 23,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.14177575117017735,
+      "county_splits": 90
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.09290880779006816,
+      "mean_median_diff": -0.006127362916339418,
+      "competitive_seats": 32,
+      "minority_influence_seats": 29,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.41245141941655983,
+      "county_splits": 74
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.07533176145671552,
+      "mean_median_diff": -0.0073424713249005125,
+      "competitive_seats": 31,
+      "minority_influence_seats": 30,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39637070189431706,
+      "county_splits": 72
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.09231925276027234,
+      "mean_median_diff": -0.005704832671278082,
+      "competitive_seats": 32,
+      "minority_influence_seats": 29,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.41501380918784,
+      "county_splits": 74
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.052460875629010646,
+      "mean_median_diff": -0.006991900278560781,
+      "competitive_seats": 32,
+      "minority_influence_seats": 29,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38945451978528267,
+      "county_splits": 74
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.06093061362751386,
+      "mean_median_diff": -0.0063593115836685365,
+      "competitive_seats": 33,
+      "minority_influence_seats": 30,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3896133468408596,
+      "county_splits": 74
+    }
+  },
+  "connecticut": {
+    "enacted": {
+      "efficiency_gap": -0.25174020866748387,
+      "mean_median_diff": -0.009789079822801972,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4732678977110278,
+      "county_splits": 12
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.06797921518085881,
+      "mean_median_diff": -0.002287764123087843,
+      "competitive_seats": 5,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3280565599459937,
+      "county_splits": 11
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.2699387421340047,
+      "mean_median_diff": -0.002353348396617938,
+      "competitive_seats": 5,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.41550083947289707,
+      "county_splits": 10
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.11545878801438174,
+      "mean_median_diff": 0.011008688038807335,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3398897283139882,
       "county_splits": 11
     },
     "optimized_county": {
-      "efficiency_gap": -0.12878008141340747,
-      "mean_median_diff": -0.006262675000709317,
-      "competitive_seats": 0,
-      "minority_influence_seats": 7,
+      "efficiency_gap": -0.07816365051505135,
+      "mean_median_diff": 0.0038426699540762277,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.32734963689777385,
-      "county_splits": 11
+      "avg_compactness": 0.45588453861296896,
+      "county_splits": 9
     },
     "optimized_all": {
-      "efficiency_gap": -0.12878008141340747,
-      "mean_median_diff": -0.003599517182813816,
-      "competitive_seats": 0,
+      "efficiency_gap": -0.27185226266515833,
+      "mean_median_diff": 0.002814384138507098,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.36579841747281483,
+      "county_splits": 12
+    }
+  },
+  "delaware": {
+    "enacted": {
+      "efficiency_gap": -0.47079402338283755,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3835580903647683,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.47079402338283755,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3835580903647683,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.47079402338283755,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3835580903647683,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.47079402338283755,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3835580903647683,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.47079402338283755,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3835580903647683,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.47079402338283755,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3835580903647683,
+      "county_splits": 0
+    }
+  },
+  "florida": {
+    "enacted": {
+      "efficiency_gap": -0.2804404537554978,
+      "mean_median_diff": -0.004823509325057929,
+      "competitive_seats": 20,
+      "minority_influence_seats": 13,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3656222948505256,
+      "county_splits": 39
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.1978316214883737,
+      "mean_median_diff": -0.0022375780434208403,
+      "competitive_seats": 18,
+      "minority_influence_seats": 20,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4648761824323921,
+      "county_splits": 38
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.18522975430679445,
+      "mean_median_diff": -0.00995042426760906,
+      "competitive_seats": 18,
+      "minority_influence_seats": 19,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.436747824834911,
+      "county_splits": 38
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.1620339994927682,
+      "mean_median_diff": -0.006036745971470414,
+      "competitive_seats": 18,
+      "minority_influence_seats": 19,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.42758527311113853,
+      "county_splits": 41
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.15680307810397054,
+      "mean_median_diff": -0.0053858073152597274,
+      "competitive_seats": 19,
+      "minority_influence_seats": 20,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3876436953863029,
+      "county_splits": 38
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.18878636189866288,
+      "mean_median_diff": -0.007895370612763242,
+      "competitive_seats": 18,
+      "minority_influence_seats": 20,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4142791393140091,
+      "county_splits": 38
+    }
+  },
+  "georgia": {
+    "enacted": {
+      "efficiency_gap": -0.12438209779451151,
+      "mean_median_diff": -0.00620022174966961,
+      "competitive_seats": 12,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2199618959629079,
+      "county_splits": 36
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.008739271254767476,
+      "mean_median_diff": 0.007498605408455261,
+      "competitive_seats": 12,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3822445924930277,
+      "county_splits": 25
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.09518383054639776,
+      "mean_median_diff": 0.013340525373783996,
+      "competitive_seats": 12,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35257517384444176,
+      "county_splits": 22
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.05679521302120814,
+      "mean_median_diff": -0.0007537166519686611,
+      "competitive_seats": 11,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38083066006471417,
+      "county_splits": 23
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.01201362327459105,
+      "mean_median_diff": 0.008536053858268222,
+      "competitive_seats": 13,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3618472954367021,
+      "county_splits": 29
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.030392150826628113,
+      "mean_median_diff": 0.00912768156701338,
+      "competitive_seats": 12,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.32345575880938615,
+      "county_splits": 27
+    }
+  },
+  "hawaii": {
+    "enacted": {
+      "efficiency_gap": 0.47021898027761844,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5723276995129962,
+      "county_splits": 1
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.47021898027761844,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5865990337509815,
+      "county_splits": 1
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.47021898027761844,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5865990337509815,
+      "county_splits": 1
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.47021898027761844,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5865990337509815,
+      "county_splits": 1
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.47021898027761844,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5389051689723998,
+      "county_splits": 1
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.47021898027761844,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5865990337509815,
+      "county_splits": 1
+    }
+  },
+  "idaho": {
+    "enacted": {
+      "efficiency_gap": -0.4706561733805011,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.48108237777462126,
+      "county_splits": 2
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4706561733805011,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3770794891430295,
+      "county_splits": 3
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.4706561733805011,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37737868585497214,
+      "county_splits": 2
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4706561733805011,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3401913952898029,
+      "county_splits": 4
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.4706561733805011,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.383143766250444,
+      "county_splits": 2
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.4706561733805011,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4027017403348988,
+      "county_splits": 2
+    }
+  },
+  "illinois": {
+    "enacted": {
+      "efficiency_gap": -0.14820641590967687,
+      "mean_median_diff": -0.005189383715387408,
+      "competitive_seats": 17,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.1408575328388435,
+      "county_splits": 43
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.01691644139056906,
+      "mean_median_diff": -0.004052776657963442,
+      "competitive_seats": 14,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.29044735521565856,
+      "county_splits": 30
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.1273916621802576,
+      "mean_median_diff": -0.0017109406984283648,
+      "competitive_seats": 13,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.29154042195766566,
+      "county_splits": 31
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.0976619750671016,
+      "mean_median_diff": 0.014718093793534393,
+      "competitive_seats": 15,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2680273795019482,
+      "county_splits": 35
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.041315885451276776,
+      "mean_median_diff": 0.003954395677123412,
+      "competitive_seats": 15,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3040564171257552,
+      "county_splits": 33
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.014328215106812713,
+      "mean_median_diff": 0.004215433972148741,
+      "competitive_seats": 15,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3429534118355194,
+      "county_splits": 34
+    }
+  },
+  "indiana": {
+    "enacted": {
+      "efficiency_gap": -0.13017068207950522,
+      "mean_median_diff": -0.0040541262060965755,
+      "competitive_seats": 8,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.23472325117294465,
+      "county_splits": 16
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.044298881794850455,
+      "mean_median_diff": -0.003773883873531947,
+      "competitive_seats": 8,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3107515955289392,
+      "county_splits": 22
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.1418287406353365,
+      "mean_median_diff": 0.0020872881061204662,
+      "competitive_seats": 8,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3461686544798864,
+      "county_splits": 18
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.0381433888980848,
+      "mean_median_diff": 0.003327413767599041,
+      "competitive_seats": 8,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3125613161635086,
+      "county_splits": 19
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.035708916618691446,
+      "mean_median_diff": -0.004364686741507251,
+      "competitive_seats": 8,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.31088477536978826,
+      "county_splits": 18
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.07933730575572925,
+      "mean_median_diff": 0.01546858273486762,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37492749586830815,
+      "county_splits": 20
+    }
+  },
+  "iowa": {
+    "enacted": {
+      "efficiency_gap": -0.1528776564034479,
+      "mean_median_diff": 0.0002915099396965104,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5669895505543106,
+      "county_splits": 9
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.014784996558447356,
+      "mean_median_diff": -0.002773651953373979,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39296278047842476,
+      "county_splits": 8
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.00773053362785728,
+      "mean_median_diff": 0.003347034551313799,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4479348343525277,
+      "county_splits": 7
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.014828915954116471,
+      "mean_median_diff": 0.001637702377560557,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.380657585593152,
+      "county_splits": 7
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.24092740483890943,
+      "mean_median_diff": 0.0005141528589446276,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3806201251394312,
+      "county_splits": 7
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.011303124469007306,
+      "mean_median_diff": 0.00922655176689735,
+      "competitive_seats": 3,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.36176421169116724,
+      "county_splits": 10
+    }
+  },
+  "kansas": {
+    "enacted": {
+      "efficiency_gap": -0.12003440583456726,
+      "mean_median_diff": 0.0007395445779554422,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6837607131912293,
+      "county_splits": 9
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.00279241666807777,
+      "mean_median_diff": -0.0017207241896667336,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3817593550817672,
+      "county_splits": 8
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.0020548800029100084,
+      "mean_median_diff": 0.0016167501054918931,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.46115549551306045,
+      "county_splits": 7
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.0022041433756225318,
+      "mean_median_diff": -0.00047955594996695883,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4287164854745771,
+      "county_splits": 6
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.0007014751360460384,
+      "mean_median_diff": 3.3218888078057063e-06,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3745200714360036,
+      "county_splits": 8
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.012587982291594151,
+      "mean_median_diff": 0.006801281224412814,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.36039129352252136,
+      "county_splits": 9
+    }
+  },
+  "kentucky": {
+    "enacted": {
+      "efficiency_gap": -0.11667308626262288,
+      "mean_median_diff": -0.000961227952809951,
+      "competitive_seats": 4,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.49257162778953534,
+      "county_splits": 10
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.28520422688526786,
+      "mean_median_diff": -0.0062225725620354,
+      "competitive_seats": 4,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3465346713025567,
+      "county_splits": 14
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.11148828563294425,
+      "mean_median_diff": -0.006063978321905084,
+      "competitive_seats": 4,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.27237239134820607,
+      "county_splits": 11
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.2826838376902852,
+      "mean_median_diff": -0.005581448795608068,
+      "competitive_seats": 5,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37723450925597235,
+      "county_splits": 11
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.2871267563177198,
+      "mean_median_diff": -0.005073575462650859,
+      "competitive_seats": 5,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.331167452190763,
+      "county_splits": 10
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.28110964111667475,
+      "mean_median_diff": -0.011448231334329928,
+      "competitive_seats": 5,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35642571404977236,
+      "county_splits": 12
+    }
+  },
+  "louisiana": {
+    "enacted": {
+      "efficiency_gap": -0.12311696358356511,
+      "mean_median_diff": -0.0013785211575562117,
+      "competitive_seats": 6,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3569586466644648,
+      "county_splits": 10
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.12926013052314794,
+      "mean_median_diff": -0.003094879892140523,
+      "competitive_seats": 6,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35189801792448777,
+      "county_splits": 13
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.04530521786199407,
+      "mean_median_diff": 0.0052721851457424584,
+      "competitive_seats": 5,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3754749820216827,
+      "county_splits": 13
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.036555162541150196,
+      "mean_median_diff": 0.0032195903430790596,
+      "competitive_seats": 5,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3221378402479998,
+      "county_splits": 12
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.13192574410790459,
+      "mean_median_diff": -0.006273205660607961,
+      "competitive_seats": 6,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3226453693871317,
+      "county_splits": 12
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.12431104272130891,
+      "mean_median_diff": 0.0006152137780320865,
+      "competitive_seats": 5,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3501144270565097,
+      "county_splits": 10
+    }
+  },
+  "maine": {
+    "enacted": {
+      "efficiency_gap": -0.4756782526737467,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4286111968777326,
+      "county_splits": 3
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4756782526737467,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3536899715713674,
+      "county_splits": 4
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.4756782526737467,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.30018911446245844,
+      "county_splits": 4
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4756782526737467,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.34285404414232223,
+      "county_splits": 3
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.030192151402762834,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.42689955430986365,
+      "county_splits": 2
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.4756782526737467,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3678213771126376,
+      "county_splits": 3
+    }
+  },
+  "massachusetts": {
+    "enacted": {
+      "efficiency_gap": -0.2181041594770517,
+      "mean_median_diff": -0.005382187664445537,
+      "competitive_seats": 5,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.48290843958709534,
+      "county_splits": 12
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.12794614886780892,
+      "mean_median_diff": -0.0063555028185704465,
+      "competitive_seats": 7,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3761351729993488,
+      "county_splits": 15
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.12211813943439677,
+      "mean_median_diff": 0.000951695747271053,
+      "competitive_seats": 6,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40438009235424155,
+      "county_splits": 15
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.12820712591616806,
+      "mean_median_diff": 0.006627894267119405,
+      "competitive_seats": 7,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3746076824909081,
+      "county_splits": 16
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.12131943495123171,
+      "mean_median_diff": -0.0024297316081414166,
+      "competitive_seats": 7,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3640305698450267,
+      "county_splits": 17
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.11888508310637252,
+      "mean_median_diff": 0.0034291856827272094,
+      "competitive_seats": 8,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.33374786252342026,
+      "county_splits": 15
+    }
+  },
+  "michigan": {
+    "enacted": {
+      "efficiency_gap": -0.13875400851433384,
+      "mean_median_diff": -0.001480241590103959,
+      "competitive_seats": 11,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.18481080554742182,
+      "county_splits": 23
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.042224973618865715,
+      "mean_median_diff": 0.007477183698163081,
+      "competitive_seats": 12,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38548462444993437,
+      "county_splits": 20
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.04855253390917066,
+      "mean_median_diff": 0.0025517042009686186,
+      "competitive_seats": 12,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.45400038186733277,
+      "county_splits": 17
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.11153767538931121,
+      "mean_median_diff": 0.008277039484634319,
+      "competitive_seats": 11,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.44274953040131027,
+      "county_splits": 18
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.03940251009524592,
+      "mean_median_diff": -0.00019909173051324558,
+      "competitive_seats": 12,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.41793384491116636,
+      "county_splits": 17
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.13473840379223304,
+      "mean_median_diff": 0.004275169391502409,
+      "competitive_seats": 11,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4392754829662108,
+      "county_splits": 18
+    }
+  },
+  "minnesota": {
+    "enacted": {
+      "efficiency_gap": -0.1874757521249956,
+      "mean_median_diff": -0.00260065014319133,
+      "competitive_seats": 7,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3067737013847716,
+      "county_splits": 19
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.10157126230028568,
+      "mean_median_diff": 0.007272752571306329,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3191137479782198,
+      "county_splits": 16
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.03333597855606109,
+      "mean_median_diff": 0.005503125430089906,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38270437842905547,
+      "county_splits": 13
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.02581913730469439,
+      "mean_median_diff": 0.0015810830990340419,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4055688316620871,
+      "county_splits": 13
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.0258641060910662,
+      "mean_median_diff": 0.01102403629594817,
+      "competitive_seats": 8,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38108990719429414,
+      "county_splits": 14
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.029508341269001516,
+      "mean_median_diff": 0.009675391208950002,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40858400634913794,
+      "county_splits": 14
+    }
+  },
+  "mississippi": {
+    "enacted": {
+      "efficiency_gap": -0.1237097836071261,
+      "mean_median_diff": -8.265386123801344e-05,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.32229936447130014,
+      "county_splits": 9
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.0026614470608178698,
+      "mean_median_diff": 4.0602901415498494e-05,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3698122924390681,
+      "county_splits": 9
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.2453605036683106,
+      "mean_median_diff": -0.00026008081950790185,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4096850468564566,
+      "county_splits": 9
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.25209158752498434,
+      "mean_median_diff": 0.011202841367783378,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.34842616125475023,
+      "county_splits": 10
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.2561229840060869,
+      "mean_median_diff": 0.007550890146608924,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.27156327680223075,
+      "county_splits": 9
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.0019139868879085701,
+      "mean_median_diff": -0.000400794137141558,
+      "competitive_seats": 4,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.45616646524571425,
+      "county_splits": 7
+    }
+  },
+  "missouri": {
+    "enacted": {
+      "efficiency_gap": -0.1947371266981133,
+      "mean_median_diff": -0.006764483356314355,
+      "competitive_seats": 6,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3486105336077594,
+      "county_splits": 18
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.23322248441820795,
+      "mean_median_diff": -0.009603170535842476,
+      "competitive_seats": 8,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4191331705989513,
+      "county_splits": 14
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.22644566164213542,
+      "mean_median_diff": -0.009776817782511826,
+      "competitive_seats": 8,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3680576662393862,
+      "county_splits": 15
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.1031718673564308,
+      "mean_median_diff": -0.0009929394665473268,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4266335552197854,
+      "county_splits": 14
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.1104581558018677,
+      "mean_median_diff": -0.0028131212354046697,
+      "competitive_seats": 8,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37271347632617785,
+      "county_splits": 16
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.22564555552457644,
+      "mean_median_diff": 0.0016201931244458345,
+      "competitive_seats": 6,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4469533052815425,
+      "county_splits": 15
+    }
+  },
+  "montana": {
+    "enacted": {
+      "efficiency_gap": -0.4808814475397599,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6975376998610254,
+      "county_splits": 3
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4808814475397599,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5549399822265808,
+      "county_splits": 3
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.4808814475397599,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40200651784653857,
+      "county_splits": 5
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4808814475397599,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.42818403269338,
+      "county_splits": 3
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.4808814475397599,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4447042614417828,
+      "county_splits": 3
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.4808814475397599,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4174614487679011,
+      "county_splits": 3
+    }
+  },
+  "nebraska": {
+    "enacted": {
+      "efficiency_gap": 0.09063578636023846,
+      "mean_median_diff": 0.021466758803722286,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6758128879836541,
+      "county_splits": 1
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4725151059643934,
+      "mean_median_diff": 0.003932205208585393,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3377379641351422,
+      "county_splits": 8
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.13001654302130083,
+      "mean_median_diff": 0.003101953652027478,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40405320474336154,
+      "county_splits": 6
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4725151059643934,
+      "mean_median_diff": -0.001990987553444845,
+      "competitive_seats": 3,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.43161138438975716,
+      "county_splits": 6
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.4725151059643934,
+      "mean_median_diff": -0.00040130211281785844,
+      "competitive_seats": 3,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38102396966916996,
+      "county_splits": 7
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.14461380276292743,
+      "mean_median_diff": 0.008848444402288491,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3265982796653383,
+      "county_splits": 7
+    }
+  },
+  "nevada": {
+    "enacted": {
+      "efficiency_gap": -0.054344791625810115,
+      "mean_median_diff": -0.00279319012807977,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.44301189889841763,
+      "county_splits": 8
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.2308351041044205,
+      "mean_median_diff": -0.002442580483754675,
+      "competitive_seats": 4,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39559012184678943,
+      "county_splits": 9
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.024430488486719408,
+      "mean_median_diff": 0.005160610008031918,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3929076047346634,
+      "county_splits": 8
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.02682996982959837,
+      "mean_median_diff": 0.01086773440565214,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4144463061346801,
+      "county_splits": 9
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.015011755151386507,
+      "mean_median_diff": 0.009761301632824515,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.42372488161930977,
+      "county_splits": 8
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.01974380922277569,
+      "mean_median_diff": 0.007618337338494485,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.41100535013722317,
+      "county_splits": 8
+    }
+  },
+  "new_hampshire": {
+    "enacted": {
+      "efficiency_gap": -0.4672857606006925,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4457713182979687,
+      "county_splits": 2
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4672857606006925,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3922748866477769,
+      "county_splits": 3
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.4672857606006925,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.42983721044510054,
+      "county_splits": 4
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4672857606006925,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3989839602567457,
+      "county_splits": 2
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.4672857606006925,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.48154693331366616,
+      "county_splits": 3
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.4672857606006925,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.395027122440685,
+      "county_splits": 2
+    }
+  },
+  "new_jersey": {
+    "enacted": {
+      "efficiency_gap": 0.00850781708296469,
+      "mean_median_diff": -0.008540429921151838,
+      "competitive_seats": 10,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2016353201921539,
+      "county_splits": 25
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.07675243969950772,
+      "mean_median_diff": 0.0030827133421467146,
+      "competitive_seats": 10,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.312785541246051,
+      "county_splits": 22
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.08716252753648714,
+      "mean_median_diff": 0.008895962925138445,
+      "competitive_seats": 9,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3875779611414764,
+      "county_splits": 23
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.009820945755356286,
+      "mean_median_diff": -0.005349864192164877,
+      "competitive_seats": 9,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3326884527641079,
+      "county_splits": 23
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.07432340391571943,
+      "mean_median_diff": 0.011097435940729261,
+      "competitive_seats": 11,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38212406398982784,
+      "county_splits": 23
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.011360649895495505,
+      "mean_median_diff": -0.006613421614012072,
+      "competitive_seats": 11,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35753501837796525,
+      "county_splits": 23
+    }
+  },
+  "new_mexico": {
+    "enacted": {
+      "efficiency_gap": 0.14206383043720225,
+      "mean_median_diff": 0.017088679129938722,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5497225578773697,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.16004760254004177,
+      "mean_median_diff": -0.005424960136846291,
+      "competitive_seats": 3,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.47435033345064465,
+      "county_splits": 6
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.15715014324592477,
+      "mean_median_diff": -0.0017426923383399018,
+      "competitive_seats": 3,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4495703020520234,
+      "county_splits": 5
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.1752660708379986,
+      "mean_median_diff": -0.008002721674558677,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4347872687259307,
+      "county_splits": 9
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.1639239421916029,
+      "mean_median_diff": 0.0028046407199218693,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3760226505283748,
+      "county_splits": 8
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.16008545612238528,
+      "mean_median_diff": -0.0004710601889857391,
+      "competitive_seats": 3,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3509862742276379,
+      "county_splits": 7
+    }
+  },
+  "new_york": {
+    "enacted": {
+      "efficiency_gap": -0.24139077574725917,
+      "mean_median_diff": -0.008198572461045994,
+      "competitive_seats": 15,
+      "minority_influence_seats": 11,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3239639342331928,
+      "county_splits": 41
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.22466384405906153,
+      "mean_median_diff": -0.0031223338807147005,
+      "competitive_seats": 18,
+      "minority_influence_seats": 18,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40402138192624165,
+      "county_splits": 38
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.2529796701175243,
+      "mean_median_diff": -0.005841879848960896,
+      "competitive_seats": 18,
+      "minority_influence_seats": 16,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.39226793207585536,
+      "county_splits": 40
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.2227071132000576,
+      "mean_median_diff": -0.010673133206506757,
+      "competitive_seats": 20,
+      "minority_influence_seats": 16,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3630179574376392,
+      "county_splits": 37
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.2648311886695736,
+      "mean_median_diff": -0.009442069811510745,
+      "competitive_seats": 20,
+      "minority_influence_seats": 15,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.40343250687023774,
+      "county_splits": 38
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.25673893048109014,
+      "mean_median_diff": -0.0018923285874098417,
+      "competitive_seats": 18,
+      "minority_influence_seats": 18,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.38751123235686324,
+      "county_splits": 37
+    }
+  },
+  "north_dakota": {
+    "enacted": {
+      "efficiency_gap": -0.4952501044358145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7351660905634607,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4952501044358145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7351660905634607,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.4952501044358145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7351660905634607,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4952501044358145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7351660905634607,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.4952501044358145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7351660905634607,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.4952501044358145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7351660905634607,
+      "county_splits": 0
+    }
+  },
+  "ohio": {
+    "enacted": {
+      "efficiency_gap": -0.13893387078803965,
+      "mean_median_diff": -0.005366791223984313,
+      "competitive_seats": 14,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.20847878329966224,
+      "county_splits": 35
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.09326884542024402,
+      "mean_median_diff": 0.003724255414669697,
+      "competitive_seats": 12,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3488771696043268,
+      "county_splits": 29
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.055314765204463934,
+      "mean_median_diff": 0.007225150670163827,
+      "competitive_seats": 12,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3807728620270179,
+      "county_splits": 30
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.08987150641969026,
+      "mean_median_diff": -0.007430251857498349,
+      "competitive_seats": 13,
       "minority_influence_seats": 8,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.3639060141680065,
+      "avg_compactness": 0.37993141210085224,
+      "county_splits": 28
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.04709130909798405,
+      "mean_median_diff": 0.007178977859425173,
+      "competitive_seats": 11,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3735196087905216,
+      "county_splits": 29
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.05343633439926299,
+      "mean_median_diff": 0.01323558040014483,
+      "competitive_seats": 13,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3764265643926277,
+      "county_splits": 30
+    }
+  },
+  "oklahoma": {
+    "enacted": {
+      "efficiency_gap": -0.32079482432829826,
+      "mean_median_diff": -0.00918701486266782,
+      "competitive_seats": 3,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4679521265145185,
       "county_splits": 10
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.42434050649531135,
+      "mean_median_diff": -0.005794149192866582,
+      "competitive_seats": 4,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2800309019016122,
+      "county_splits": 10
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.42434050649531135,
+      "mean_median_diff": -0.0042082811841349654,
+      "competitive_seats": 3,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.334514005579431,
+      "county_splits": 9
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.42434050649531135,
+      "mean_median_diff": -0.008441434251160285,
+      "competitive_seats": 4,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.31840174993467674,
+      "county_splits": 10
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.42434050649531135,
+      "mean_median_diff": 0.0026843565962287874,
+      "competitive_seats": 4,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35845272834736575,
+      "county_splits": 9
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.42434050649531135,
+      "mean_median_diff": 0.0011716029197731403,
+      "competitive_seats": 4,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.36640300723200775,
+      "county_splits": 9
+    }
+  },
+  "oregon": {
+    "enacted": {
+      "efficiency_gap": -0.0923170851520723,
+      "mean_median_diff": -0.00421414527275088,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4200817502467218,
+      "county_splits": 11
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.16931886763322995,
+      "mean_median_diff": 0.012559855867000147,
+      "competitive_seats": 5,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.34237776482201054,
+      "county_splits": 15
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.17855268144114303,
+      "mean_median_diff": 0.007680089163802473,
+      "competitive_seats": 5,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4159128222637054,
+      "county_splits": 12
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.1764930034105742,
+      "mean_median_diff": 0.0160340959573404,
+      "competitive_seats": 5,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35287845601240875,
+      "county_splits": 14
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.008220466252157926,
+      "mean_median_diff": 0.007764326302865832,
+      "competitive_seats": 5,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4200141240487511,
+      "county_splits": 13
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.1852924251568443,
+      "mean_median_diff": 0.012052175527779707,
+      "competitive_seats": 5,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.44396089802658584,
+      "county_splits": 12
+    }
+  },
+  "pennsylvania": {
+    "enacted": {
+      "efficiency_gap": -0.052922044983812706,
+      "mean_median_diff": -0.0030720830898935403,
+      "competitive_seats": 10,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2702156501238409,
+      "county_splits": 48
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.07456205288253386,
+      "mean_median_diff": -0.006011047623118326,
+      "competitive_seats": 14,
+      "minority_influence_seats": 9,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.30934111264670106,
+      "county_splits": 33
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.07005778436666467,
+      "mean_median_diff": -0.013021927794650057,
+      "competitive_seats": 13,
+      "minority_influence_seats": 9,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2844069906799258,
+      "county_splits": 35
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.07373100509124092,
+      "mean_median_diff": -0.006413579927103452,
+      "competitive_seats": 13,
+      "minority_influence_seats": 9,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3245182416403748,
+      "county_splits": 36
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.07357436230705035,
+      "mean_median_diff": -0.01061641486872189,
+      "competitive_seats": 13,
+      "minority_influence_seats": 9,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3341562336632054,
+      "county_splits": 32
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.06403474666358755,
+      "mean_median_diff": -0.0012151687692789626,
+      "competitive_seats": 13,
+      "minority_influence_seats": 9,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.29829735639328236,
+      "county_splits": 37
+    }
+  },
+  "rhode_island": {
+    "enacted": {
+      "efficiency_gap": -0.48322082362998553,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.42224011405340295,
+      "county_splits": 3
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.48322082362998553,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4333458780505551,
+      "county_splits": 3
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.48322082362998553,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.47306336188738474,
+      "county_splits": 3
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.48322082362998553,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5742007142912802,
+      "county_splits": 2
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.48322082362998553,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.545492373688814,
+      "county_splits": 2
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.48322082362998553,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.49744169354231443,
+      "county_splits": 3
+    }
+  },
+  "south_carolina": {
+    "enacted": {
+      "efficiency_gap": -0.11311268127986902,
+      "mean_median_diff": -0.0002705524705463591,
+      "competitive_seats": 6,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4352182938209926,
+      "county_splits": 16
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.05026162718078698,
+      "mean_median_diff": 0.0021860996958176226,
+      "competitive_seats": 7,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4478129356286459,
+      "county_splits": 15
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.042670307476791756,
+      "mean_median_diff": -0.0007325325375183711,
+      "competitive_seats": 7,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4020292245432642,
+      "county_splits": 14
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.04826795696362585,
+      "mean_median_diff": -0.0042079773877121696,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5093614067709827,
+      "county_splits": 12
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.09574997549947444,
+      "mean_median_diff": 0.013158809411748629,
+      "competitive_seats": 6,
+      "minority_influence_seats": 3,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.44751543786158965,
+      "county_splits": 13
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.0380699735010002,
+      "mean_median_diff": -0.0098480117187838,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3984104183717956,
+      "county_splits": 15
+    }
+  },
+  "south_dakota": {
+    "enacted": {
+      "efficiency_gap": 0.4894848781082196,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6376350639103234,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.4894848781082196,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6376350639103234,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.4894848781082196,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6376350639103234,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.4894848781082196,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6376350639103234,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.4894848781082196,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6376350639103234,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.4894848781082196,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.6376350639103234,
+      "county_splits": 0
+    }
+  },
+  "tennessee": {
+    "enacted": {
+      "efficiency_gap": -0.08805088338540715,
+      "mean_median_diff": 0.009203530244353608,
+      "competitive_seats": 6,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5834636345181002,
+      "county_splits": 16
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.2269133886093728,
+      "mean_median_diff": 0.0007122663966255827,
+      "competitive_seats": 6,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.22748247434274488,
+      "county_splits": 21
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.3384701575119872,
+      "mean_median_diff": 0.007973128417832487,
+      "competitive_seats": 7,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.27603738637025454,
+      "county_splits": 18
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.1158170523506187,
+      "mean_median_diff": -0.003141783677673815,
+      "competitive_seats": 6,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.22053931473111735,
+      "county_splits": 19
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.12344389144282765,
+      "mean_median_diff": 0.009926154090203143,
+      "competitive_seats": 5,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.24189905828843605,
+      "county_splits": 21
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.22289583487866227,
+      "mean_median_diff": 0.001672064343891111,
+      "competitive_seats": 6,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.20190806682238285,
+      "county_splits": 18
+    }
+  },
+  "utah": {
+    "enacted": {
+      "efficiency_gap": -0.08173086990678725,
+      "mean_median_diff": 0.0005480781344680552,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4293419139455398,
+      "county_splits": 9
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.00023406199907185805,
+      "mean_median_diff": 0.0006740647444975489,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.35146792255064124,
+      "county_splits": 9
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.24662400185898592,
+      "mean_median_diff": 0.006920695770722851,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37209107104866146,
+      "county_splits": 8
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.2521300317419144,
+      "mean_median_diff": -0.00556357659896034,
+      "competitive_seats": 4,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37273875168562925,
+      "county_splits": 11
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.007581514708753243,
+      "mean_median_diff": 0.009831015250338526,
+      "competitive_seats": 4,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.41716335425917384,
+      "county_splits": 8
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.25919039541954514,
+      "mean_median_diff": 0.014334862895212908,
+      "competitive_seats": 3,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4658167895123402,
+      "county_splits": 9
+    }
+  },
+  "vermont": {
+    "enacted": {
+      "efficiency_gap": -0.48018101024061116,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5279252148459401,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.48018101024061116,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5279252148459401,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.48018101024061116,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5279252148459401,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.48018101024061116,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5279252148459401,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.48018101024061116,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5279252148459401,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.48018101024061116,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5279252148459401,
+      "county_splits": 0
+    }
+  },
+  "virginia": {
+    "enacted": {
+      "efficiency_gap": -0.27854331482994077,
+      "mean_median_diff": -0.008430921427546423,
+      "competitive_seats": 6,
+      "minority_influence_seats": 7,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.45030167007621086,
+      "county_splits": 18
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.33278316785176304,
+      "mean_median_diff": -0.00708514517034875,
+      "competitive_seats": 7,
+      "minority_influence_seats": 10,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3513642888027842,
+      "county_splits": 20
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.32736265338186327,
+      "mean_median_diff": -0.0005089266090050337,
+      "competitive_seats": 7,
+      "minority_influence_seats": 10,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3356088555215631,
+      "county_splits": 20
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.3325827851346567,
+      "mean_median_diff": -0.009751504677393608,
+      "competitive_seats": 7,
+      "minority_influence_seats": 10,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3218412221588535,
+      "county_splits": 16
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.3369185488218838,
+      "mean_median_diff": 8.949931163648728e-05,
+      "competitive_seats": 8,
+      "minority_influence_seats": 9,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.33829585502078624,
+      "county_splits": 18
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.328323842535281,
+      "mean_median_diff": 0.002217737643220641,
+      "competitive_seats": 6,
+      "minority_influence_seats": 10,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.2706176231160933,
+      "county_splits": 18
+    }
+  },
+  "washington": {
+    "enacted": {
+      "efficiency_gap": -0.13634150225145159,
+      "mean_median_diff": -0.004071622634310046,
+      "competitive_seats": 7,
+      "minority_influence_seats": 4,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.344318450242242,
+      "county_splits": 27
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.02091048011217759,
+      "mean_median_diff": -0.0012446462720366869,
+      "competitive_seats": 8,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3293421748542005,
+      "county_splits": 24
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.06613453904491054,
+      "mean_median_diff": -0.0010316442069392417,
+      "competitive_seats": 8,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.32207802403327096,
+      "county_splits": 23
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.07602784196389778,
+      "mean_median_diff": -0.004542830986354662,
+      "competitive_seats": 9,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3078649767501823,
+      "county_splits": 22
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.07457686534739504,
+      "mean_median_diff": -0.005344173411485076,
+      "competitive_seats": 8,
+      "minority_influence_seats": 6,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.32078654148048397,
+      "county_splits": 23
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.06300423134652605,
+      "mean_median_diff": 0.0024845142834315492,
+      "competitive_seats": 9,
+      "minority_influence_seats": 5,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4107905403919062,
+      "county_splits": 19
+    }
+  },
+  "west_virginia": {
+    "enacted": {
+      "efficiency_gap": -0.4563491164219963,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.37478246929156556,
+      "county_splits": 3
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.4563491164219963,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.4110067737029215,
+      "county_splits": 3
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.4563491164219963,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3945547771243363,
+      "county_splits": 3
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.4563491164219963,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3696860845617993,
+      "county_splits": 2
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.4563491164219963,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3889211255624031,
+      "county_splits": 3
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.4563491164219963,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 2,
+      "minority_influence_seats": 2,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.3278042510921977,
+      "county_splits": 3
+    }
+  },
+  "wyoming": {
+    "enacted": {
+      "efficiency_gap": 0.48263012965058133,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7740829942146072,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.48263012965058133,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7740829942146072,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.48263012965058133,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7740829942146072,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.48263012965058133,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7740829942146072,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.48263012965058133,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7740829942146072,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.48263012965058133,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7740829942146072,
+      "county_splits": 0
+    }
+  },
+  "district_of_columbia": {
+    "enacted": {
+      "efficiency_gap": 0.47163097334261495,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7457484935842877,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.47163097334261495,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7457484935842877,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.47163097334261495,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7457484935842877,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.47163097334261495,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7457484935842877,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.47163097334261495,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7457484935842877,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.47163097334261495,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.7457484935842877,
+      "county_splits": 0
+    }
+  },
+  "puerto_rico": {
+    "enacted": {
+      "efficiency_gap": -0.49236575787934145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5816122929444819,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": -0.49236575787934145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5816122929444819,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": -0.49236575787934145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5816122929444819,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": -0.49236575787934145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5816122929444819,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": -0.49236575787934145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5816122929444819,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": -0.49236575787934145,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 1,
+      "minority_influence_seats": 0,
+      "minority_majority_seats": 0,
+      "avg_compactness": 0.5816122929444819,
+      "county_splits": 0
+    }
+  },
+  "guam": {
+    "enacted": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852465865302348,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852465865302348,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852465865302348,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852465865302348,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852465865302348,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852465865302348,
+      "county_splits": 0
+    }
+  },
+  "virgin_islands": {
+    "enacted": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7848653239205753,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7848653239205753,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7848653239205753,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7848653239205753,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7848653239205753,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7848653239205753,
+      "county_splits": 0
+    }
+  },
+  "american_samoa": {
+    "enacted": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852052712052756,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852052712052756,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852052712052756,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852052712052756,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852052712052756,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7852052712052756,
+      "county_splits": 0
+    }
+  },
+  "northern_mariana_islands": {
+    "enacted": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7851559255383472,
+      "county_splits": 0
+    },
+    "optimized_headcount": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7851559255383472,
+      "county_splits": 0
+    },
+    "optimized_age": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7851559255383472,
+      "county_splits": 0
+    },
+    "optimized_race": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7851559255383472,
+      "county_splits": 0
+    },
+    "optimized_county": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7851559255383472,
+      "county_splits": 0
+    },
+    "optimized_all": {
+      "efficiency_gap": 0.0,
+      "mean_median_diff": 0.0,
+      "competitive_seats": 0,
+      "minority_influence_seats": 1,
+      "minority_majority_seats": 1,
+      "avg_compactness": 0.7851559255383472,
+      "county_splits": 0
     }
   }
 }

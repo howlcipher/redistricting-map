@@ -29,6 +29,38 @@ def generate_state_geometries(states_file, state_name, num_districts=8, grid_siz
     and returns a connected GeoDataFrame in EPSG:3857 planar projection.
     """
     print(f"\nProcessing boundaries for {state_name}...")
+    
+    name_lower = state_name.lower().replace(' ', '_')
+    territory_coords = {
+        'guam': { 'lat': 13.4443, 'lon': 144.7937 },
+        'virgin_islands': { 'lat': 18.3358, 'lon': -64.8963 },
+        'american_samoa': { 'lat': -14.2710, 'lon': -170.1322 },
+        'northern_mariana_islands': { 'lat': 15.0979, 'lon': 145.6739 }
+    }
+    
+    if name_lower in territory_coords:
+        lat = territory_coords[name_lower]['lat']
+        lon = territory_coords[name_lower]['lon']
+        from shapely.geometry import Polygon
+        d = 0.05
+        poly = Polygon([
+            (lon - d, lat - d),
+            (lon - d, lat + d),
+            (lon + d, lat + d),
+            (lon + d, lat - d)
+        ])
+        gdf = gpd.GeoDataFrame(geometry=[poly], crs="EPSG:4326")
+        gdf_3857 = gdf.to_crs(epsg=3857)
+        gdf_3857['population'] = 50000
+        gdf_3857['voting_age_pop'] = 40000
+        gdf_3857['dem_votes'] = 15000
+        gdf_3857['rep_votes'] = 5000
+        gdf_3857['minority_pop'] = 45000
+        gdf_3857['white_pop'] = 5000
+        gdf_3857['county'] = 'County_0_0'
+        gdf_3857['enacted_district'] = 0
+        return gdf_3857
+
     states_gdf = gpd.read_file(states_file)
     state_gdf = states_gdf[states_gdf['name'].str.lower() == state_name.lower()]
     
@@ -164,12 +196,14 @@ def run_single_optimization(graph, gdf, num_districts, steps, optimize_by, pop_c
     total_balance_pop = gdf[balance_col].sum()
     ideal_balance_pop = total_balance_pop / num_districts
     
+    eps = 0.05 if num_districts > 10 else 0.03
+    
     seed_assignment = recursive_tree_part(
         graph, 
         parts=range(num_districts), 
         pop_target=ideal_balance_pop, 
         pop_col=balance_col, 
-        epsilon=0.01, 
+        epsilon=eps, 
         node_repeats=2
     )
     
@@ -179,11 +213,11 @@ def run_single_optimization(graph, gdf, num_districts, steps, optimize_by, pop_c
         recom,
         pop_col=balance_col,
         pop_target=ideal_balance_pop,
-        epsilon=0.01,
+        epsilon=eps,
         node_repeats=2
     )
     
-    compactness_bound = within_percent_of_ideal_population(initial_partition, 0.01, pop_key=balance_col)
+    compactness_bound = within_percent_of_ideal_population(initial_partition, eps, pop_key=balance_col)
     
     chain = MarkovChain(
         proposal=proposal,
@@ -281,6 +315,13 @@ def run_redistricting_pipeline_for_state(state_name, gdf, num_districts, steps, 
         {"name": "county", "optimize_by": ["county"]},
         {"name": "all", "optimize_by": ["headcount", "age", "race", "county"]}
     ]
+    
+    if num_districts == 1:
+        for config in configs:
+            name = config["name"]
+            enacted_districts_wgs84.to_file(os.path.join(output_dir, f"{state_key}_optimized_districts_{name}.geojson"), driver="GeoJSON")
+            state_metrics[f"optimized_{name}"] = state_metrics["enacted"]
+        return state_metrics
     
     for config in configs:
         name = config["name"]
@@ -388,35 +429,89 @@ def calculate_summary_metrics(df, gdf, assignment_col):
         "county_splits": int(county_splits)
     }
 
+DISTRICT_COUNTS = {
+    'alabama': 7, 'alaska': 1, 'arizona': 9, 'arkansas': 4, 'california': 52,
+    'colorado': 8, 'connecticut': 5, 'delaware': 1, 'florida': 28, 'georgia': 14,
+    'hawaii': 2, 'idaho': 2, 'illinois': 17, 'indiana': 9, 'iowa': 4,
+    'kansas': 4, 'kentucky': 6, 'louisiana': 6, 'maine': 2, 'maryland': 8,
+    'massachusetts': 9, 'michigan': 13, 'minnesota': 8, 'mississippi': 4, 'missouri': 8,
+    'montana': 2, 'nebraska': 3, 'nevada': 4, 'new_hampshire': 2, 'new_jersey': 12,
+    'new_mexico': 3, 'new_york': 26, 'north_carolina': 14, 'north_dakota': 1, 'ohio': 15,
+    'oklahoma': 5, 'oregon': 6, 'pennsylvania': 17, 'rhode_island': 2, 'south_carolina': 7,
+    'south_dakota': 1, 'tennessee': 9, 'texas': 38, 'utah': 4, 'vermont': 1,
+    'virginia': 11, 'washington': 10, 'west_virginia': 2, 'wisconsin': 8, 'wyoming': 1,
+    'district_of_columbia': 1, 'puerto_rico': 1, 'guam': 1, 'virgin_islands': 1,
+    'american_samoa': 1, 'northern_mariana_islands': 1
+}
+
+def format_state_name(key):
+    words = key.split('_')
+    formatted = []
+    for word in words:
+        if word in ['of', 'and']:
+            formatted.append(word)
+        else:
+            formatted.append(word.capitalize())
+    return ' '.join(formatted)
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="GerryChain Custom Multi-State Redistricting Pipeline")
     parser.add_argument("--steps", type=int, default=80, help="Simulation steps (default: 80)")
     parser.add_argument("--output-dir", type=str, default="data", help="Output directory")
+    parser.add_argument("--states", type=str, default="colorado,wisconsin,texas,north_carolina,maryland", 
+                        help="Comma-separated list of state keys to run, or 'all' for all 56 jurisdictions (default: showcase states)")
     
     args = parser.parse_args()
     
     # 1. Download states boundary geojson
     states_file = download_states_geojson()
     
-    # 2. Iterate through all states in leaderboard
-    target_states = [
-        {"name": "Colorado", "districts": 8},
-        {"name": "Wisconsin", "districts": 8},
-        {"name": "Texas", "districts": 8},        # Keep 8 districts for faster pipeline execution
-        {"name": "North Carolina", "districts": 8},
-        {"name": "Maryland", "districts": 8}
-    ]
+    # Determine which states to run
+    if args.states.lower() == 'all':
+        run_keys = list(DISTRICT_COUNTS.keys())
+    else:
+        run_keys = [k.strip().lower() for k in args.states.split(',') if k.strip().lower() in DISTRICT_COUNTS]
+        
+    target_states = []
+    for key in run_keys:
+        dists = DISTRICT_COUNTS[key]
+        if dists == 1:
+            grid_size = 10
+        elif dists <= 8:
+            grid_size = 20
+        elif dists <= 15:
+            grid_size = 30
+        elif dists <= 30:
+            grid_size = 40
+        else:
+            grid_size = 50
+        target_states.append({
+            "key": key,
+            "name": format_state_name(key),
+            "districts": dists,
+            "grid_size": grid_size
+        })
     
+    # Load existing metrics database if it exists to merge results
+    metrics_path = os.path.join(args.output_dir, "metrics.json")
     all_metrics = {}
+    if os.path.exists(metrics_path):
+        try:
+            with open(metrics_path, 'r') as f:
+                all_metrics = json.load(f)
+            print(f"Loaded {len(all_metrics)} existing state metrics from {metrics_path} for merging.")
+        except Exception as e:
+            print(f"Could not load existing metrics file, starting fresh: {e}")
     
     for state_info in target_states:
         name = state_info["name"]
         dists = state_info["districts"]
-        state_key = name.lower().replace(' ', '_')
+        grid_size = state_info["grid_size"]
+        state_key = state_info["key"]
         
         try:
             # Generate shape, clip to state border
-            gdf = generate_state_geometries(states_file, name, num_districts=dists, grid_size=20)
+            gdf = generate_state_geometries(states_file, name, num_districts=dists, grid_size=grid_size)
             
             # Run simulation
             state_metrics = run_redistricting_pipeline_for_state(
@@ -440,7 +535,7 @@ if __name__ == "__main__":
             traceback.print_exc()
             
     # Write combined metrics file
-    metrics_path = os.path.join(args.output_dir, "metrics.json")
+    os.makedirs(args.output_dir, exist_ok=True)
     with open(metrics_path, 'w') as f:
         json.dump(all_metrics, f, indent=2)
         
