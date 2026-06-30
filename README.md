@@ -47,23 +47,30 @@ This tool evaluates the fairness of district maps using two primary metrics:
 
 ```
 redistricting-map/
+├── .github/workflows/                       # GitHub Actions CI/CD pipelines
+│   └── deploy.yml                           # Automated Vite build & Pages deployment
 ├── data/                                    # Generated datasets (cached locally)
 │   ├── metrics.json                         # Aggregated metrics for all 50 states & territories
 │   ├── alabama_enacted_districts.geojson    # State enacted boundaries (A-Z)
-│   ├── alabama_optimized_districts_*.geojson# State optimized variants (A-Z)
-│   ├── ...                                  # Includes all 50 states
-│   └── wyoming_optimized_districts_*.geojson# State optimized variants (A-Z)
+│   └── ...                                  # Includes all optimized permutations
+├── src/                                     # ES6 Module Architecture (Frontend)
+│   ├── main.js                              # Main application entry point (Vite)
+│   ├── index.css                            # Tailwind v4 CSS directives & custom styles
+│   ├── DataService.js                       # Map caching & API state (IndexedDB)
+│   ├── worker.js                            # Web Worker for off-thread GeoJSON loading
+│   ├── MapController.js                     # Leaflet map rendering & layers
+│   └── UIController.js                      # DOM, Sliders, Charts, and Dashboard UI
+├── tests/                                   # 3-Tier Testing Architecture
+│   ├── e2e/                                 # Playwright browser snapshots
+│   ├── js/                                  # Vitest frontend unit tests
+│   └── python/                              # Pytest backend validation
 ├── generate_maps.py                         # Python Object-Oriented pipeline script
 ├── index.html                               # Dashboard layout & structure
-├── index.css                                # Leaflet custom dark theme styling
-├── src/                                     # ES6 Module Architecture (Frontend)
-│   ├── main.js                              # Main application entry point
-│   ├── DataService.js                       # Mathematical algorithms & API state
-│   ├── MapController.js                     # Leaflet map rendering & layers
-│   └── UIController.js                      # DOM, Sliders, and Dashboard UI
+├── vite.config.js                           # Vite bundler configuration
+├── package.json                             # Node.js dependencies & scripts
 ├── README.md                                # General documentation
-├── gemini.md                                # AI process log & application manual
-└── venv/                                    # Python Virtual Environment
+├── METHODOLOGY.md                           # Algorithmic and mathematical deep dive
+└── IMPROVEMENT_SUGGESTIONS.md               # Roadmap tracking and UX goals
 ```
 
 ---
