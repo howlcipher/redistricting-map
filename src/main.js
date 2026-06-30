@@ -4,13 +4,24 @@ import { DataService } from './DataService.js?v=6';
 import { MapController } from './MapController.js?v=6';
 import { UIController } from './UIController.js?v=6';
 
+/**
+ * Main application class that orchestrates data fetching, map rendering, and UI interactions.
+ * It serves as the central hub connecting the DataService, MapController, and UIController.
+ */
 class App {
+    /**
+     * Initializes the core services required for the dashboard.
+     */
     constructor() {
         this.dataService = new DataService();
         this.mapController = new MapController(this);
         this.uiController = new UIController(this);
     }
 
+    /**
+     * Bootstraps the application by initializing the map, fetching requisite data,
+     * setting up UI event listeners, and drawing the initial national view.
+     */
     async init() {
         try {
             this.mapController.initMap();

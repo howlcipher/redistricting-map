@@ -1,5 +1,10 @@
 // src/UIController.js
 
+/**
+ * UIController handles all DOM manipulations, event listeners, and state transitions
+ * for the user interface, including sidebars, tabs, sliders, and buttons.
+ * It reads from the DataService and orchestrates updates to the MapController.
+ */
 export class UIController {
     constructor(app) {
         this.app = app;

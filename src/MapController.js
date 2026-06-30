@@ -1,5 +1,10 @@
 // src/MapController.js
 
+/**
+ * MapController handles the rendering and state of the Leaflet map instance.
+ * It manages the geo-spatial layers, switching between national and state views,
+ * applying visual styles, and setting up the Side-by-Side swipe comparison tool.
+ */
 export class MapController {
     constructor(app) {
         this.app = app; // Reference to the main App instance

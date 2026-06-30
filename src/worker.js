@@ -1,8 +1,20 @@
 // src/worker.js
 
-// Import Turf.js into the worker
+/**
+ * Web Worker for Offloading Geospatial Computation
+ * 
+ * This worker runs in a separate background thread to prevent the main UI from freezing
+ * when performing heavy mathematical calculations on map geometries (using Turf.js).
+ * It handles the dynamic procedural generation of district polygons for states that do not
+ * have precomputed geometries available.
+ */
+
+// Import Turf.js into the worker context
 importScripts('https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js');
 
+/**
+ * Listens for messages from the main thread containing the state geometry and generation parameters.
+ */
 self.addEventListener('message', (e) => {
     const { action, data, msgId } = e.data;
     
@@ -10,7 +22,7 @@ self.addEventListener('message', (e) => {
         try {
             const { stateFeature, stateKey, districtCount, statePartisanBase, isSingle } = data;
             
-            // 1. Generate Districts
+            // 1. Generate procedural districts for both enacted and optimized scenarios
             const enacted = generateDynamicDistricts(stateFeature, 'enacted', stateKey, districtCount, statePartisanBase, isSingle);
             const optimized = generateDynamicDistricts(stateFeature, 'optimized', stateKey, districtCount, statePartisanBase, isSingle);
             

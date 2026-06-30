@@ -37,17 +37,11 @@ This project is built using:
 ```
 redistricting-map/
 ├── data/                                    # Generated datasets (cached locally)
-│   ├── metrics.json                         # Aggregated metrics for all states
-│   ├── colorado_enacted_districts.geojson   # Colorado enacted boundaries
-│   ├── colorado_optimized_districts_*.geojson # Colorado optimized variants
-│   ├── wisconsin_enacted_districts.geojson  # Wisconsin enacted boundaries
-│   ├── wisconsin_optimized_districts_*.geojson # Wisconsin optimized variants
-│   ├── texas_enacted_districts.geojson      # Texas enacted boundaries
-│   ├── texas_optimized_districts_*.geojson  # Texas optimized variants
-│   ├── north_carolina_enacted_districts.geojson # North Carolina enacted boundaries
-│   ├── north_carolina_optimized_districts_*.geojson # North Carolina optimized variants
-│   ├── maryland_enacted_districts.geojson   # Maryland enacted boundaries
-│   └── maryland_optimized_districts_*.geojson # Maryland optimized variants
+│   ├── metrics.json                         # Aggregated metrics for all 50 states & territories
+│   ├── alabama_enacted_districts.geojson    # State enacted boundaries (A-Z)
+│   ├── alabama_optimized_districts_*.geojson# State optimized variants (A-Z)
+│   ├── ...                                  # Includes all 50 states
+│   └── wyoming_optimized_districts_*.geojson# State optimized variants (A-Z)
 ├── generate_maps.py                         # Python Object-Oriented pipeline script
 ├── index.html                               # Dashboard layout & structure
 ├── index.css                                # Leaflet custom dark theme styling
@@ -66,17 +60,17 @@ redistricting-map/
 ## 🛠️ Getting Started
 
 ### 1. Run the Multi-State Data Pipeline
-Activate the virtual environment and execute the pipeline to pull Census boundaries, clip coordinate grids, and run ReCom chains for **Colorado, Wisconsin, Texas, North Carolina, and Maryland**:
+Activate the virtual environment and execute the pipeline to pull Census boundaries, clip coordinate grids, and run ReCom chains for **all 50 states and territories**:
 
 ```bash
 # 1. Activate virtual environment
 source venv/bin/activate
 
-# 2. Run the pipeline (e.g. 50 ReCom simulation steps per state for speed)
+# 2. Run the pipeline
 python3 generate_maps.py --steps 50
 ```
 
-*This will download `us-states.json` and populate the `data/` folder with true state-shaped district GeoJSONs for all 5 states.*
+*This will download `us-states.json` and populate the `data/` folder with true state-shaped district GeoJSONs for the entire United States.*
 
 ### 2. Run the Local Web Server
 Because browsers block fetching local files via `file://` (CORS policies), you must serve this project using a local HTTP server:
@@ -98,7 +92,7 @@ All boundary files and election metrics are built using verified open-source gov
 
 1. **U.S. State Outlines ([`us-states.json`](file:///var/home/howlcipher/redistricting-map/us-states.json)):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**. The raw source file can be viewed on GitHub: **[us-states.json on GitHub](https://github.com/PublicaMundi/MappingAPI/blob/master/data/geojson/us-states.json)**.
 2. **State-Level Precinct & Census Datasets:**
-   * Showcase states (Colorado, Wisconsin, Texas, North Carolina, Maryland) use mathematical precinct grids clipped exactly to state boundaries.
+   * All 50 states use mathematical precinct grids clipped exactly to state boundaries.
    * Partisan baseline margins (D/R vote shares) and efficiency gap ratios are calibrated using actual state election returns compiled from the **[OpenPrecincts Repository](https://openprecincts.org/)** and the **[MGGG Voting and Redistricting Data Portal](https://mggg.org/)**.
 3. **U.S. Overseas Territories Boundaries:** Geographic coordinate shapes for Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands are custom-mapped using official geospatial boundaries from the **[U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)**.
 4. **Markov Chain Monte Carlo (MCMC) Redistricting Models:** District geometry variants (optimized for headcount, race VRA compliance, compactness, and splits) are simulated and exported using the **[GerryChain Library](https://gerrychain.readthedocs.io/en/latest/)** in Python.
