@@ -55,6 +55,24 @@ class GeoDataProcessor:
         return output_path
 
     @staticmethod
+    def load_census_vtd_data(shapefile_path):
+        """
+        STUB: Ingests true Census VTD (Voting Tabulation District) shapefiles.
+        This prepares the pipeline for transitioning from synthetic grid intersections
+        to real-world census block geometries.
+        
+        Args:
+            shapefile_path (str): Path to the TIGER/Line VTD shapefile.
+            
+        Returns:
+            GeoDataFrame: Processed VTDs with joined PL94-171 demographic data.
+        """
+        # TODO: Implement actual PySAL/GeoPandas spatial join logic for real census data.
+        # gdf = gpd.read_file(shapefile_path)
+        # return gdf
+        pass
+
+    @staticmethod
     def generate_state_geometries(states_file, state_name, num_districts=8, grid_size=20):
         """
         Loads the state border polygon, clips a grid to it, filters out small islands,

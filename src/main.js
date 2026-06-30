@@ -1,8 +1,8 @@
 // src/main.js
 
-import { DataService } from './DataService.js';
-import { MapController } from './MapController.js';
-import { UIController } from './UIController.js';
+import { DataService } from './DataService.js?v=5';
+import { MapController } from './MapController.js?v=5';
+import { UIController } from './UIController.js?v=5';
 
 class App {
     constructor() {
@@ -120,6 +120,9 @@ class App {
             document.getElementById('toggle-optimized').addEventListener('click', () => this.uiController.switchMode('optimized'));
             document.getElementById('toggle-tuned').addEventListener('click', () => this.uiController.switchMode('tuned'));
             
+            document.getElementById('btn-toggle-swipe').addEventListener('click', () => {
+                this.uiController.toggleSwipe();
+            });
             document.getElementById('opt-headcount').addEventListener('click', () => this.uiController.switchCriteria('headcount'));
             document.getElementById('opt-age').addEventListener('click', () => this.uiController.switchCriteria('age'));
             document.getElementById('opt-race').addEventListener('click', () => this.uiController.switchCriteria('race'));

@@ -10,7 +10,7 @@ export class MapController {
     }
 
     initMap() {
-        const US_BOUNDS = [
+        this.US_BOUNDS = [
             [5.0, -180.0],
             [72.0, -60.0]
         ];
@@ -21,7 +21,7 @@ export class MapController {
             zoomDelta: 0.5,
             minZoom: 3,
             maxZoom: 10,
-            maxBounds: US_BOUNDS,
+            maxBounds: this.US_BOUNDS,
             maxBoundsViscosity: 1.0
         }).setView([39.8, -98.5], 4);
     }
@@ -226,19 +226,25 @@ export class MapController {
             configs.forEach((config, idx) => {
                 const geojson = datasets[idx];
                 this.layerFeatures[config] = geojson.features;
+                const myRenderer = L.canvas();
                 // @ts-ignore
                 this.layers[config] = L.geoJSON(geojson, {
+                    renderer: myRenderer,
                     style: (f) => this.getStyle(f),
                     onEachFeature: (f, l) => this.onEachFeature(f, l)
                 });
+                // Monkey patch to allow leaflet-side-by-side to access the underlying canvas DOM element
+                // @ts-ignore
+                this.layers[config].getContainer = function() { return myRenderer._container; };
             });
         } else {
             const feature = this.app.dataService.usStatesDataCache ? this.app.dataService.usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey) : null;
             
-            const enactedCollection = this.app.dataService.generateDynamicDistricts(feature, 'enacted', stateKey);
-            const optimizedCollection = this.app.dataService.generateDynamicDistricts(feature, 'optimized', stateKey);
-            
-            const stateMetrics = this.app.dataService.compileDynamicStateMetrics(enactedCollection, optimizedCollection, stateKey);
+            // Offload dynamic generation to Web Worker
+            const workerData = await this.app.dataService.generateWithWorker(feature, stateKey);
+            const enactedCollection = workerData.enactedCollection;
+            const optimizedCollection = workerData.optimizedCollection;
+            const stateMetrics = workerData.metrics;
             
             stateMetrics.enacted.efficiency_gap = data.enacted_eg;
             stateMetrics.optimized_all.efficiency_gap = data.optimized_eg;
@@ -252,11 +258,16 @@ export class MapController {
                 const isOpt = config.includes('optimized');
                 const geojson = isOpt ? optimizedCollection : enactedCollection;
                 this.layerFeatures[config] = geojson.features;
+                const myRenderer = L.canvas();
                 // @ts-ignore
                 this.layers[config] = L.geoJSON(geojson, {
+                    renderer: myRenderer,
                     style: (f) => this.getStyle(f),
                     onEachFeature: (f, l) => this.onEachFeature(f, l)
                 });
+                // Monkey patch to allow leaflet-side-by-side to access the underlying canvas DOM element
+                // @ts-ignore
+                this.layers[config].getContainer = function() { return myRenderer._container; };
             });
             
             data.enacted_eg = stateMetrics.enacted.efficiency_gap;
@@ -271,5 +282,34 @@ export class MapController {
         
         document.getElementById('detail-state-name').innerText = data.name;
         this.app.uiController.updateSummaryDashboard();
+    }
+    
+    toggleSwipeMode() {
+        if (!this.swipeControl) {
+            // Enable swipe compare
+            Object.values(this.layers).forEach(layer => this.map.removeLayer(layer));
+            
+            const leftLayer = this.layers['enacted'];
+            const rightLayer = this.layers['optimized_all'];
+            
+            leftLayer.addTo(this.map);
+            rightLayer.addTo(this.map);
+            
+            // @ts-ignore
+            this.swipeControl = L.control.sideBySide(leftLayer, rightLayer);
+            this.swipeControl.addTo(this.map);
+        } else {
+            // Disable swipe compare
+            this.map.removeControl(this.swipeControl);
+            this.swipeControl = null;
+            
+            this.map.removeLayer(this.layers['enacted']);
+            this.map.removeLayer(this.layers['optimized_all']);
+            
+            const activeKey = this.app.uiController.getActiveLayerKey();
+            if (this.layers[activeKey]) {
+                this.map.addLayer(this.layers[activeKey]);
+            }
+        }
     }
 }

@@ -94,6 +94,17 @@ export class UIController {
     }
 
     updateSummaryDashboard() {
+        // Toggle synthetic watermark
+        const watermark = document.getElementById('synthetic-watermark');
+        if (watermark) {
+            const isPrecomputed = ['colorado', 'wisconsin', 'texas', 'north_carolina', 'maryland'].includes(this.activeState);
+            if (this.activeView === 'state' && !isPrecomputed) {
+                watermark.classList.remove('hidden');
+            } else {
+                watermark.classList.add('hidden');
+            }
+        }
+
         let summarySource;
         
         if (this.activeView === 'national') {
@@ -314,7 +325,13 @@ export class UIController {
     }
 
     switchMode(mode) {
-        if (this.activeMode === mode) return;
+        if (this.activeMode === mode && !this.app.mapController.swipeControl) return;
+        
+        if (this.app.mapController.swipeControl) {
+            this.app.mapController.toggleSwipeMode();
+            const swipeBtn = document.getElementById('btn-toggle-swipe');
+            if (swipeBtn) swipeBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
+        }
         
         const enactedBtn = document.getElementById('toggle-enacted');
         const optimizedBtn = document.getElementById('toggle-optimized');
@@ -333,7 +350,6 @@ export class UIController {
             const newKey = this.getActiveLayerKey();
             if (this.app.mapController.layers[newKey]) {
                 this.app.mapController.map.addLayer(this.app.mapController.layers[newKey]);
-                this.app.mapController.layers[newKey].bringToFront();
             }
         }
         
@@ -385,7 +401,6 @@ export class UIController {
             const newKey = this.getActiveLayerKey();
             if (this.app.mapController.layers[newKey]) {
                 this.app.mapController.map.addLayer(this.app.mapController.layers[newKey]);
-                this.app.mapController.layers[newKey].bringToFront();
             }
         }
         
@@ -410,45 +425,51 @@ export class UIController {
 
     switchViewMode(view) {
         if (this.activeView === view) return;
-        
-        const natBtn = document.getElementById('btn-view-national');
-        const stateBtn = document.getElementById('btn-view-state');
-        const prevKey = this.getActiveLayerKey();
-        
         this.activeView = view;
         
+        const nationalBtn = document.getElementById('btn-view-national');
+        const stateBtn = document.getElementById('btn-view-state');
+        const swipeBtn = document.getElementById('btn-toggle-swipe');
+        
         if (view === 'national') {
-            natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
+            nationalBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
             
-            if (this.app.mapController.layers[prevKey]) this.app.mapController.map.removeLayer(this.app.mapController.layers[prevKey]);
+            if (swipeBtn) swipeBtn.classList.add('hidden');
             
-            this.app.mapController.nationalLayer.setStyle((f) => this.app.mapController.getNationalStyle(f));
-            this.app.mapController.map.setView([39.8, -98.5], 4);
-            this.switchSidebarTab('state-detail');
+            if (this.app.mapController.swipeControl) {
+                this.app.mapController.toggleSwipeMode(); // Disable swipe before switching
+            }
             
-            document.getElementById('state-select-dropdown').value = "";
+            this.app.mapController.map.flyToBounds(this.app.mapController.US_BOUNDS, {
+                duration: 1.5,
+                easeLinearity: 0.25
+            });
+            
+            Object.values(this.app.mapController.layers).forEach(layer => this.app.mapController.map.removeLayer(layer));
+            this.app.mapController.map.addLayer(this.app.mapController.nationalLayer);
         } else {
             stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-            natBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+            nationalBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
             
-            this.app.mapController.nationalLayer.setStyle((feature) => {
-                const isDark = document.body.classList.contains('dark');
-                return { fillColor: isDark ? '#0b0f19' : '#e2e8f0', weight: 1.0, opacity: 0.25, color: isDark ? '#1e293b' : '#cbd5e1', fillOpacity: 0.6 };
-            });
+            if (swipeBtn) swipeBtn.classList.remove('hidden');
+            
+            this.app.mapController.map.removeLayer(this.app.mapController.nationalLayer);
             
             const key = this.getActiveLayerKey();
             if (this.app.mapController.layers[key]) {
                 this.app.mapController.layers[key].addTo(this.app.mapController.map);
-                this.app.mapController.layers[key].bringToFront();
             }
             
             const data = this.app.dataService.stateLeaderboardData[this.activeState];
-            this.app.mapController.map.setView([data.lat, data.lon], data.zoom);
-            this.switchSidebarTab('state-detail');
+            if (data) {
+                this.app.mapController.map.setView([data.lat, data.lon], data.zoom);
+            }
             
+            this.switchSidebarTab('state-detail');
             document.getElementById('state-select-dropdown').value = this.activeState;
         }
+        
         this.updateSummaryDashboard();
         
         setTimeout(() => this.app.mapController.map.invalidateSize(), 100);
@@ -546,6 +567,38 @@ export class UIController {
         } else if (tab === 'methodology') {
             methodologyPanel.classList.remove('hidden');
             methodologyTabBtn.className = "flex-1 py-2.5 border-b-2 border-indigo-500 text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wider focus:outline-none transition-all";
+        }
+    }
+
+    toggleSwipe() {
+        if (this.activeView !== 'state') return;
+        this.app.mapController.toggleSwipeMode();
+        
+        const swipeBtn = document.getElementById('btn-toggle-swipe');
+        const enactedBtn = document.getElementById('toggle-enacted');
+        const optimizedBtn = document.getElementById('toggle-optimized');
+        const tunedBtn = document.getElementById('toggle-tuned');
+        
+        const activeClass = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md flex items-center gap-1";
+        const inactiveClass = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
+        
+        const baseClass = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300";
+        const inactiveBase = `${baseClass} text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white`;
+        
+        if (this.app.mapController.swipeControl) {
+            swipeBtn.className = activeClass;
+            [enactedBtn, optimizedBtn, tunedBtn].forEach(btn => {
+                if (btn) btn.className = inactiveBase;
+            });
+            document.getElementById('criteria-selector-container').classList.add('hidden');
+            document.getElementById('playground-slider-container').classList.add('hidden');
+        } else {
+            swipeBtn.className = inactiveClass;
+            // Restore previous mode state
+            this.activeMode = null; // force refresh
+            const mode = document.getElementById('toggle-tuned').classList.contains('bg-indigo-600') ? 'tuned' : 
+                         document.getElementById('toggle-optimized').classList.contains('bg-indigo-600') ? 'optimized' : 'enacted';
+            this.switchMode(mode);
         }
     }
 }
