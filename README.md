@@ -91,11 +91,12 @@ Now open your web browser and navigate to:
 
 All boundary files and election metrics are built using verified open-source government sources and standardized data pipelines:
 
-1. **U.S. State Outlines (`us-states.json`):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**.
+1. **U.S. State Outlines ([`us-states.json`](file:///var/home/howlcipher/redistricting-map/us-states.json)):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**. The raw source file can be viewed on GitHub: **[us-states.json on GitHub](https://github.com/PublicaMundi/MappingAPI/blob/master/data/geojson/us-states.json)**.
 2. **State-Level Precinct & Census Datasets:**
    * Showcase states (Colorado, Wisconsin, Texas, North Carolina, Maryland) use mathematical precinct grids clipped exactly to state boundaries.
-   * Partisan baseline margins (D/R vote shares) and efficiency gap ratios are calibrated using actual state election returns compiled from **[OpenPrecincts](https://openprecincts.org/)** and **[MGGG Voting and Redistricting Data](https://mggg.org/)**.
-3. **U.S. Overseas Territories Boundaries:** Geographic coordinate shapes for Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands are custom-mapped using official **[U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)**.
+   * Partisan baseline margins (D/R vote shares) and efficiency gap ratios are calibrated using actual state election returns compiled from the **[OpenPrecincts Repository](https://openprecincts.org/)** and the **[MGGG Voting and Redistricting Data Portal](https://mggg.org/)**.
+3. **U.S. Overseas Territories Boundaries:** Geographic coordinate shapes for Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands are custom-mapped using official geospatial boundaries from the **[U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)**.
+4. **Markov Chain Monte Carlo (MCMC) Redistricting Models:** District geometry variants (optimized for headcount, race VRA compliance, compactness, and splits) are simulated and exported using the **[GerryChain Library](https://gerrychain.readthedocs.io/en/latest/)** in Python.
 
 ---
 
