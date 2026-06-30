@@ -222,5 +222,8 @@ class App {
     }
 }
 
-const app = new App();
-window.addEventListener('DOMContentLoaded', () => app.init());
+window.onload = () => {
+    const app = new App();
+    window.app = app; // Expose for E2E testing
+    app.init();
+};

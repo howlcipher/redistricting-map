@@ -1,5 +1,16 @@
 {
+  "name": "redistricting-map",
+  "type": "module",
+  "scripts": {
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
+  },
   "dependencies": {
     "@turf/turf": "^7.3.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0",
+    "vitest": "^1.4.0",
+    "jsdom": "^24.0.0"
   }
 }
