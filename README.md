@@ -48,10 +48,14 @@ redistricting-map/
 │   ├── north_carolina_optimized_districts_*.geojson # North Carolina optimized variants
 │   ├── maryland_enacted_districts.geojson   # Maryland enacted boundaries
 │   └── maryland_optimized_districts_*.geojson # Maryland optimized variants
-├── generate_maps.py                         # Python data pipeline script
+├── generate_maps.py                         # Python Object-Oriented pipeline script
 ├── index.html                               # Dashboard layout & structure
 ├── index.css                                # Leaflet custom dark theme styling
-├── index.js                                 # Map interactions, animations & data toggles
+├── src/                                     # ES6 Module Architecture (Frontend)
+│   ├── main.js                              # Main application entry point
+│   ├── DataService.js                       # Mathematical algorithms & API state
+│   ├── MapController.js                     # Leaflet map rendering & layers
+│   └── UIController.js                      # DOM, Sliders, and Dashboard UI
 ├── README.md                                # General documentation
 ├── gemini.md                                # AI process log & application manual
 └── venv/                                    # Python Virtual Environment
@@ -89,7 +93,8 @@ Now open your web browser and navigate to:
 
 ## 📦 Data Sourcing & Geometries
 
-All boundary files and election metrics are built using verified open-source government sources and standardized data pipelines:
+All boundary files and election metrics are built using verified open-source government sources and standardized data pipelines. 
+**Disclaimer: For performance and demonstrative purposes in the browser, if pre-computed GeoJSON files do not exist for a state, demographic and partisan metrics are procedurally generated algorithmically over authentic geographical boundaries.**
 
 1. **U.S. State Outlines ([`us-states.json`](file:///var/home/howlcipher/redistricting-map/us-states.json)):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**. The raw source file can be viewed on GitHub: **[us-states.json on GitHub](https://github.com/PublicaMundi/MappingAPI/blob/master/data/geojson/us-states.json)**.
 2. **State-Level Precinct & Census Datasets:**
