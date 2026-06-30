@@ -57,6 +57,25 @@ redistricting-map/
 
 ---
 
+## 🧪 Testing Framework & CI/CD Validation
+
+To ensure mathematical correctness, data integrity, and UI reliability across this complex pipeline, the project leverages a rigorous 3-tier testing architecture:
+
+1. **Python Backend (`pytest`)**
+   - Validates the `RedistrictingSimulator` and `GeoDataProcessor` without hitting live Census APIs by mocking spatial data processing via a synthetic `GeoDataFrame` grid.
+   - Ensures mathematical determinism and proper handling of topological errors.
+2. **JavaScript Frontend (`vitest` + JSDOM)**
+   - Emulates the browser to test `UIController` state transitions, DOM manipulation, and asynchronous animations (loaders/timeouts).
+   - Mocks the fetch API to ensure `DataService` properly calculates standard formats (like Efficiency Gap Partisan Colors) even in extreme edge cases.
+3. **End-to-End Visual Regression (`playwright`)**
+   - Runs headless Chromium to verify full user journeys across the dashboard (Swipe Compare, Detail Panels).
+   - Generates and compares pixel-perfect UI snapshots (Visual Regression).
+   - Intercepts network routes to mock extreme gerrymandered data, proving the UI scales gracefully to statistical outliers.
+
+For detailed instructions on running these test suites, see the **[Testing README](tests/README.md)**.
+
+---
+
 ## 🛠️ Getting Started
 
 ### 1. Run the Multi-State Data Pipeline
