@@ -9,7 +9,8 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@turf/turf": "^7.3.5"
+    "@turf/turf": "^7.3.5",
+    "localforage": "^1.10.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.0",

@@ -1,4 +1,5 @@
 // src/DataService.js
+import localforage from 'localforage';
 
 /**
  * DataService handles all data operations including fetching metrics,
@@ -6,6 +7,10 @@
  */
 export class DataService {
     constructor() {
+        this.cache = localforage.createInstance({
+            name: "RedistrictingCache",
+            storeName: "geojson_data"
+        });
         this.metricsDatabase = {};
         this.globalMetrics = {};
         this.usStatesDataCache = null;
@@ -51,8 +56,24 @@ export class DataService {
 
     async init() {
         try {
-            const usStatesRes = await fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json');
-            this.usStatesDataCache = await usStatesRes.json();
+            const cacheKey = 'us-states-geojson';
+            let cachedGeoJSON = await this.cache.getItem(cacheKey);
+            
+            if (cachedGeoJSON) {
+                console.log('Loaded state geometries from IndexedDB cache');
+                this.usStatesDataCache = cachedGeoJSON;
+            } else {
+                console.log('Fetching state geometries from network...');
+                const usStatesRes = await fetch('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json');
+                this.usStatesDataCache = await usStatesRes.json();
+                
+                try {
+                    await this.cache.setItem(cacheKey, this.usStatesDataCache);
+                    console.log('Saved state geometries to IndexedDB cache');
+                } catch (e) {
+                    console.warn('Failed to save to IndexedDB cache:', e);
+                }
+            }
             
             const territoryInsets = {
                 'puerto_rico': { name: 'Puerto Rico', lat: 24.5, lon: -82.0 },
