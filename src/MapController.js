@@ -207,7 +207,7 @@ export class MapController {
         this.layers = {};
         this.layerFeatures = {};
         
-        const isPrecomputed = ['colorado', 'wisconsin', 'texas', 'north_carolina', 'maryland'].includes(stateKey);
+        const isPrecomputed = !!this.app.dataService.metricsDatabase[stateKey];
         const configs = ['enacted', 'optimized_headcount', 'optimized_age', 'optimized_race', 'optimized_county', 'optimized_all'];
         
         if (isPrecomputed) {

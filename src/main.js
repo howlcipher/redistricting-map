@@ -1,8 +1,8 @@
 // src/main.js
 
-import { DataService } from './DataService.js?v=5';
-import { MapController } from './MapController.js?v=5';
-import { UIController } from './UIController.js?v=5';
+import { DataService } from './DataService.js?v=6';
+import { MapController } from './MapController.js?v=6';
+import { UIController } from './UIController.js?v=6';
 
 class App {
     constructor() {
