@@ -1,8 +1,9 @@
 // src/main.js
 
-import { DataService } from './DataService.js?v=6';
-import { MapController } from './MapController.js?v=6';
-import { UIController } from './UIController.js?v=6';
+import './index.css';
+import { DataService } from './DataService.js';
+import { MapController } from './MapController.js';
+import { UIController } from './UIController.js';
 
 /**
  * Main application class that orchestrates data fetching, map rendering, and UI interactions.

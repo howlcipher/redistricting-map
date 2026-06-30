@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: rgba(15, 23, 42, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.2);
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.4);
+}
+
+/* Theme Design Tokens */
+:root {
+    /* Light Mode Tokens */
+    --bg-body: #f8fafc; /* slate-50 */
+    --bg-panel: rgba(255, 255, 255, 0.85); /* glassy white */
+    --bg-card: rgba(241, 245, 249, 0.7); /* slate-100 */
+    --bg-select: #ffffff;
+    --text-main: #0f172a; /* slate-900 */
+    --text-muted: #475569; /* slate-600 */
+    --border-main: rgba(226, 232, 240, 0.8); /* slate-200 */
+    --border-card: rgba(203, 213, 225, 0.6); /* slate-300 */
+    --map-bg: #f1f5f9; /* light slate map canvas */
+    --shadow-glow: 0 8px 32px 0 rgba(99, 102, 241, 0.08);
+}
+
+.dark {
+    /* Dark Mode Tokens */
+    --bg-body: #020617; /* slate-950 */
+    --bg-panel: rgba(15, 23, 42, 0.85); /* slate-900 glassy */
+    --bg-card: rgba(30, 41, 59, 0.5); /* slate-800 */
+    --bg-select: #090d16;
+    --text-main: #f1f5f9; /* slate-100 */
+    --text-muted: #94a3b8; /* slate-400 */
+    --border-main: rgba(51, 65, 85, 0.8); /* slate-700 */
+    --border-card: rgba(71, 85, 105, 0.5); /* slate-600 */
+    --map-bg: #020617; /* dark slate map canvas */
+    --shadow-glow: 0 8px 32px 0 rgba(99, 102, 241, 0.15);
+}
+
+/* Body & Structure Transitions */
+body {
+    background-color: var(--bg-body) !important;
+    color: var(--text-main) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header#app-header {
+    background-color: var(--bg-panel) !important;
+    border-color: var(--border-main) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.panel-card {
+    background-color: var(--bg-panel) !important;
+    border-color: var(--border-main) !important;
+    color: var(--text-main) !important;
+    box-shadow: var(--shadow-glow) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.stat-card, .inner-card, .hover-info-card, .hover-instructions-card {
+    background-color: var(--bg-card) !important;
+    border-color: var(--border-card) !important;
+    color: var(--text-main) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Leaflet Container Styling - Absolute Fill */
+#map {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--map-bg) !important;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+/* Form Inputs & Selects */
+.select-dropdown {
+    background-color: var(--bg-select) !important;
+    border-color: var(--border-main) !important;
+    color: var(--text-main) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Buttons, controls, and algorithm container box */
+.controls-group, .theme-btn, .collapse-btn, .algorithm-step-box {
+    background-color: var(--bg-select) !important;
+    border-color: var(--border-main) !important;
+    color: var(--text-muted) !important;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-btn:hover, .collapse-btn:hover {
+    color: var(--text-main) !important;
+}
+
+/* Typography Remappings for Clean Theme Alignment */
+h1, h2, h3, h4, th, td, .text-slate-100, .card-row-val, .section-header-title, .math-heading {
+    color: var(--text-main) !important;
+    transition: color 0.3s ease;
+}
+
+.text-slate-400, .text-slate-500, p, .card-row-label, .section-header-desc, .denom-text {
+    color: var(--text-muted) !important;
+    transition: color 0.3s ease;
+}
+
+.tab-nav button {
+    color: var(--text-muted);
+}
+.tab-nav button:hover {
+    color: var(--text-main);
+}
+
+/* Custom Leaflet Dark Controls */
+.leaflet-bar {
+    border: 1px solid var(--border-main) !important;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2) !important;
+    border-radius: 8px !important;
+    overflow: hidden;
+}
+
+.leaflet-bar a {
+    background-color: var(--bg-panel) !important;
+    color: var(--text-muted) !important;
+    border-bottom: 1px solid var(--border-main) !important;
+    transition: all 0.2s ease;
+}
+
+.leaflet-bar a:hover {
+    background-color: var(--bg-card) !important;
+    color: var(--text-main) !important;
+}
+
+/* Custom Tooltip Styling */
+.leaflet-tooltip-own {
+    background-color: var(--bg-panel) !important;
+    border: 1px solid var(--border-main) !important;
+    border-radius: 6px !important;
+    color: var(--text-main) !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Map Labels Overlay Styling */
+.state-label-class {
+    color: var(--text-muted);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}

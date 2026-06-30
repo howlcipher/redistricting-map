@@ -172,7 +172,7 @@ export class DataService {
     generateWithWorker(stateFeature, stateKey) {
         return new Promise((resolve, reject) => {
             if (!this.worker) {
-                this.worker = new Worker('src/worker.js?v=4');
+                this.worker = new Worker(new URL('./worker.js', import.meta.url));
                 this.msgId = 0;
                 this.callbacks = {};
                 
