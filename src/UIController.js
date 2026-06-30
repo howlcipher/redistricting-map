@@ -482,6 +482,7 @@ export class UIController {
             
             Object.values(this.app.mapController.layers).forEach(layer => this.app.mapController.map.removeLayer(layer));
             this.app.mapController.map.addLayer(this.app.mapController.nationalLayer);
+            this.app.mapController.nationalLayer.setStyle((f) => this.app.mapController.getNationalStyle(f));
         } else {
             stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             nationalBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
@@ -493,6 +494,7 @@ export class UIController {
             const key = this.getActiveLayerKey();
             if (this.app.mapController.layers[key]) {
                 this.app.mapController.layers[key].addTo(this.app.mapController.map);
+                this.app.mapController.layers[key].setStyle((f) => this.app.mapController.getStyle(f));
             }
             
             const data = this.app.dataService.stateLeaderboardData[this.activeState];
