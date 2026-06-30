@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@turf/turf": "^7.3.5",
+    "chart.js": "^4.5.1",
     "localforage": "^1.10.0"
   },
   "devDependencies": {

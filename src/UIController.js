@@ -1,4 +1,5 @@
 // src/UIController.js
+import Chart from 'chart.js/auto';
 
 /**
  * UIController handles all DOM manipulations, event listeners, and state transitions
@@ -12,6 +13,7 @@ export class UIController {
         this.activeCriteria = 'headcount';
         this.activeView = 'national';
         this.activeState = 'colorado';
+        this.partisanChart = null;
     }
 
     formatPercent(val) {
@@ -82,20 +84,47 @@ export class UIController {
             else if (demPct >= 0.40) counts.leanR++;
             else counts.safeR++;
         });
+
+        const ctx = document.getElementById('partisanChart');
+        if (!ctx) return;
+
+        const data = [counts.safeD, counts.leanD, counts.toss, counts.leanR, counts.safeR];
+        const isDark = document.body.classList.contains('dark');
+        const textColor = isDark ? '#94a3b8' : '#475569';
         
-        const total = features.length || 8;
-        
-        document.getElementById('bar-dist-safe-d').style.width = `${(counts.safeD / total) * 100}%`;
-        document.getElementById('bar-dist-lean-d').style.width = `${(counts.leanD / total) * 100}%`;
-        document.getElementById('bar-dist-toss').style.width = `${(counts.toss / total) * 100}%`;
-        document.getElementById('bar-dist-lean-r').style.width = `${(counts.leanR / total) * 100}%`;
-        document.getElementById('bar-dist-safe-r').style.width = `${(counts.safeR / total) * 100}%`;
-        
-        document.getElementById('lbl-dist-safe-d').innerText = counts.safeD;
-        document.getElementById('lbl-dist-lean-d').innerText = counts.leanD;
-        document.getElementById('lbl-dist-toss').innerText = counts.toss;
-        document.getElementById('lbl-dist-lean-r').innerText = counts.leanR;
-        document.getElementById('lbl-dist-safe-r').innerText = counts.safeR;
+        if (this.partisanChart) {
+            this.partisanChart.data.datasets[0].data = data;
+            this.partisanChart.options.scales.x.ticks.color = textColor;
+            this.partisanChart.update();
+        } else {
+            this.partisanChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Safe D', 'Lean D', 'Comp', 'Lean R', 'Safe R'],
+                    datasets: [{
+                        data: data,
+                        backgroundColor: ['#2563eb', '#60a5fa', '#a855f7', '#f87171', '#dc2626'],
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: true }
+                    },
+                    scales: {
+                        y: { display: false, beginAtZero: true },
+                        x: {
+                            grid: { display: false },
+                            border: { display: false },
+                            ticks: { font: { family: 'Outfit', size: 10 }, color: textColor }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     updateSummaryDashboard() {
@@ -468,7 +497,10 @@ export class UIController {
             
             const data = this.app.dataService.stateLeaderboardData[this.activeState];
             if (data) {
-                this.app.mapController.map.setView([data.lat, data.lon], data.zoom);
+                this.app.mapController.map.flyTo([data.lat, data.lon], data.zoom, {
+                    duration: 1.5,
+                    easeLinearity: 0.1
+                });
             }
             
             this.switchSidebarTab('state-detail');

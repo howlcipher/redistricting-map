@@ -201,7 +201,10 @@ export class MapController {
                 this.app.uiController.updateHoverCard(null);
             },
             click: (e) => {
-                this.map.fitBounds(e.target.getBounds());
+                this.map.flyToBounds(e.target.getBounds(), {
+                    duration: 1.5,
+                    easeLinearity: 0.1
+                });
             }
         });
     }
