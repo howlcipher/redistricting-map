@@ -34,15 +34,15 @@ export class MapController {
     getPartisanFillColor(eg, isDark) {
         if (eg < 0) {
             const absEg = Math.abs(eg);
-            if (absEg < 0.03) return isDark ? '#172554' : '#bfdbfe';
-            if (absEg < 0.07) return isDark ? '#1e40af' : '#60a5fa';
-            return isDark ? '#3b82f6' : '#3b82f6';
+            if (absEg < 0.03) return isDark ? '#1e3a8a' : '#bfdbfe'; // blue-900 : blue-200
+            if (absEg < 0.07) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
+            return isDark ? '#3b82f6' : '#2563eb';                   // blue-500 : blue-600
         } else if (eg > 0) {
-            if (eg < 0.03) return isDark ? '#450a0a' : '#fecaca';
-            if (eg < 0.07) return isDark ? '#991b1b' : '#f87171';
-            return isDark ? '#ef4444' : '#ef4444';
+            if (eg < 0.03) return isDark ? '#7f1d1d' : '#fecaca';    // red-900 : red-200
+            if (eg < 0.07) return isDark ? '#b91c1c' : '#f87171';    // red-700 : red-400
+            return isDark ? '#ef4444' : '#dc2626';                   // red-500 : red-600
         } else {
-            return isDark ? '#1e293b' : '#cbd5e1';
+            return isDark ? '#1e293b' : '#cbd5e1';                   // slate-800 : slate-300
         }
     }
 
@@ -96,17 +96,17 @@ export class MapController {
         }
     }
 
-    getDistrictColor(demPct) {
+    getDistrictColor(demPct, isDark) {
         if (demPct >= 0.55) {
-            if (demPct >= 0.65) return '#1e3a8a';
-            if (demPct >= 0.60) return '#2563eb';
-            return '#60a5fa';
+            if (demPct >= 0.65) return isDark ? '#3b82f6' : '#2563eb'; // blue-500 : blue-600
+            if (demPct >= 0.60) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
+            return isDark ? '#1e3a8a' : '#bfdbfe';                   // blue-900 : blue-200
         } else if (demPct <= 0.45) {
-            if (demPct <= 0.35) return '#7f1d1d';
-            if (demPct <= 0.40) return '#dc2626';
-            return '#f87171';
+            if (demPct <= 0.35) return isDark ? '#ef4444' : '#dc2626'; // red-500 : red-600
+            if (demPct <= 0.40) return isDark ? '#b91c1c' : '#f87171'; // red-700 : red-400
+            return isDark ? '#7f1d1d' : '#fecaca';                   // red-900 : red-200
         } else {
-            return '#a855f7';
+            return isDark ? '#1e293b' : '#cbd5e1';                   // slate-800 : slate-300
         }
     }
 
@@ -119,11 +119,11 @@ export class MapController {
         }
         const isDark = document.body.classList.contains('dark');
         return {
-            fillColor: this.getDistrictColor(demPct),
+            fillColor: this.getDistrictColor(demPct, isDark),
             weight: 1.5,
             opacity: 0.95,
-            color: isDark ? '#f8fafc' : '#334155',
-            fillOpacity: 0.70
+            color: isDark ? '#475569' : '#64748b',
+            fillOpacity: 0.80
         };
     }
 
