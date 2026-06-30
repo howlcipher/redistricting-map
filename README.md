@@ -8,6 +8,16 @@ This project is built using:
 
 ---
 
+## 🧮 Algorithm & Methodology (TL;DR)
+This tool evaluates the fairness of district maps using two primary metrics:
+1. **The ReCom Algorithm:** An advanced Markov Chain Monte Carlo (MCMC) algorithm that generates thousands of alternate "optimized" maps by cutting spanning trees of precincts to maintain equal populations.
+2. **Efficiency Gap (EG):** A formula to measure partisan gerrymandering by calculating the difference in "wasted votes" between two parties: `EG = (Wasted Dem Votes - Wasted Rep Votes) / Total Votes`.
+
+> [!NOTE]
+> For a full deep-dive breakdown of the statistical formulas, multi-objective metrics (like Polsby-Popper compactness and Mean-Median difference), and Python GerryChain code snippets, please see the comprehensive **[METHODOLOGY.md](file:///var/home/howlcipher/redistricting-map/METHODOLOGY.md)**.
+
+---
+
 ## 🚀 Core Features
 
 ### 🗳️ Projected U.S. House Control Dashboard
