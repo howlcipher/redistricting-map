@@ -3,6 +3,6 @@
 "name": "virgin_islands_enacted_districts",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "district_id": 0, "total_pop": 50000, "dem_votes_sum": 15000, "rep_votes_sum": 5000, "minority_pop_sum": 45000, "dem_pct": 0.75, "rep_pct": 0.25, "minority_pct": 0.9, "compactness": 0.78486532392057529 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -64.9463, 18.2858 ], [ -64.9463, 18.3858 ], [ -64.8463, 18.3858 ], [ -64.8463, 18.2858 ], [ -64.9463, 18.2858 ] ] ] } }
+{ "type": "Feature", "properties": { "district_id": 0, "voting_age_pop": 40000, "total_pop": 50000, "dem_votes_sum": 15000, "rep_votes_sum": 5000, "minority_pop_sum": 45000, "dem_pct": 0.75, "rep_pct": 0.25, "minority_pct": 0.9, "compactness": 0.78486532392057529 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -64.9463, 18.2858 ], [ -64.9463, 18.3858 ], [ -64.8463, 18.3858 ], [ -64.8463, 18.2858 ], [ -64.9463, 18.2858 ] ] ] } }
 ]
 }

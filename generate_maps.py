@@ -298,7 +298,8 @@ def run_redistricting_pipeline_for_state(state_name, gdf, num_districts, steps, 
     df_planar = enacted_districts.to_crs(epsg=3857)
     enacted_districts['compactness'] = [(4 * np.pi * row['geometry'].area) / (row['geometry'].length ** 2) if row['geometry'].length > 0 else 0.0 for _, row in df_planar.iterrows()]
     
-    enacted_districts.drop(columns=[pop_col, dem_col, rep_col, minority_col, vap_col], inplace=True)
+    cols_to_drop = [c for c in [pop_col, dem_col, rep_col, minority_col, vap_col] if c not in ['total_pop', 'voting_age_pop', 'district_id']]
+    enacted_districts.drop(columns=cols_to_drop, inplace=True, errors='ignore')
     
     enacted_districts_wgs84 = enacted_districts.to_crs(epsg=4326)
     enacted_districts_wgs84.to_file(os.path.join(output_dir, f"{state_key}_enacted_districts.geojson"), driver="GeoJSON")
@@ -364,7 +365,8 @@ def run_redistricting_pipeline_for_state(state_name, gdf, num_districts, steps, 
         df_planar_opt = opt_districts.to_crs(epsg=3857)
         opt_districts['compactness'] = [(4 * np.pi * row['geometry'].area) / (row['geometry'].length ** 2) if row['geometry'].length > 0 else 0.0 for _, row in df_planar_opt.iterrows()]
         
-        opt_districts.drop(columns=[pop_col, dem_col, rep_col, minority_col, vap_col], inplace=True)
+        cols_to_drop = [c for c in [pop_col, dem_col, rep_col, minority_col, vap_col] if c not in ['total_pop', 'voting_age_pop', 'district_id']]
+        opt_districts.drop(columns=cols_to_drop, inplace=True, errors='ignore')
         
         opt_districts_wgs84 = opt_districts.to_crs(epsg=4326)
         opt_districts_wgs84.to_file(os.path.join(output_dir, f"{state_key}_optimized_districts_{name}.geojson"), driver="GeoJSON")

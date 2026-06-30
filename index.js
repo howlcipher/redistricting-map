@@ -105,9 +105,11 @@ function getStyle(feature) {
 
 // Helpers
 function formatPercent(val) {
+    if (val === undefined || val === null || isNaN(val)) return '-';
     return (val * 100).toFixed(1) + '%';
 }
 function formatPop(val) {
+    if (val === undefined || val === null || isNaN(val)) return '-';
     return val.toLocaleString();
 }
 
