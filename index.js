@@ -279,6 +279,10 @@ function updateSummaryDashboard() {
         document.getElementById('national-house-control-card').classList.remove('hidden');
         
         // Dynamic Projected U.S. House Control calculation
+        const waveSlider = document.getElementById('slider-wave');
+        const waveVal = waveSlider ? parseFloat(waveSlider.value) : 0.0;
+        const waveSwing = -waveVal / 100; // Negative slider value is Dem Wave, positive is Rep Wave
+        
         const votingStates = [
             'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado', 'connecticut', 'delaware',
             'florida', 'georgia', 'hawaii', 'idaho', 'illinois', 'indiana', 'iowa', 'kansas', 'kentucky',
@@ -313,10 +317,10 @@ function updateSummaryDashboard() {
             // Baseline vote share
             const baseEg = statePartisanBaselines[s] || 0.0;
             const demVoteShare = 0.50 - baseEg;
-            totalDemVoteShareSum += (N * demVoteShare);
+            totalDemVoteShareSum += (N * (demVoteShare + waveSwing));
             
-            // Seat-vote projection: Dem seat share = vote share - efficiency gap bias
-            let stateDemSeats = Math.round(N * (demVoteShare - eg));
+            // Seat-vote projection: Dem seat share = vote share + waveSwing - efficiency gap bias
+            let stateDemSeats = Math.round(N * (demVoteShare + waveSwing - eg));
             stateDemSeats = Math.max(0, Math.min(N, stateDemSeats));
             
             demSeats += stateDemSeats;
@@ -324,7 +328,7 @@ function updateSummaryDashboard() {
         });
         
         const nationalDemVoteShare = totalDemVoteShareSum / 435; // ~50.97% Dem
-        const proportionalDemSeats = Math.round(435 * nationalDemVoteShare); // 222 seats
+        const proportionalDemSeats = Math.round(435 * nationalDemVoteShare); // ~222 seats (shifted by wave)
         
         // Gerrymander Tax: seats lost/shifted from proportional baseline
         const seatShift = proportionalDemSeats - demSeats;
@@ -1189,15 +1193,18 @@ async function loadStateGeometries(stateKey) {
     
     document.getElementById('detail-state-name').innerText = data.name;
     updateSummaryDashboard();
-}
-
-function populateLeaderboardTable() {
+function populateLeaderboardTable(searchQuery = '') {
     const tbody = document.getElementById('leaderboard-body');
     tbody.innerHTML = '';
     
-    const keys = Object.keys(stateLeaderboardData).sort((a,b) => {
+    let keys = Object.keys(stateLeaderboardData).sort((a,b) => {
         return stateLeaderboardData[a].name.localeCompare(stateLeaderboardData[b].name);
     });
+    
+    if (searchQuery) {
+        const query = searchQuery.toLowerCase().trim();
+        keys = keys.filter(key => stateLeaderboardData[key].name.toLowerCase().includes(query));
+    }
     
     keys.forEach(key => {
         const data = stateLeaderboardData[key];
@@ -1207,8 +1214,8 @@ function populateLeaderboardTable() {
         const row = document.createElement('tr');
         row.className = "border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100/50 dark:hover:bg-slate-800/25 transition-all pointer-events-auto cursor-pointer";
         row.innerHTML = `
-            <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-300">${data.name}</td>
-            <td class="py-2.5 text-center font-bold ${data.enacted_eg === 0 ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400')}">${data.enacted_eg === 0 ? '0.0%' : egPct + '% ' + egLean}</td>
+            <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-350">${data.name}</td>
+            <td class="py-2.5 text-center font-bold ${data.enacted_eg === 0 ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-600 dark:text-rose-450' : 'text-emerald-600 dark:text-emerald-450')}">${data.enacted_eg === 0 ? '0.0%' : egPct + '% ' + egLean}</td>
             <td class="py-2.5 text-center text-slate-500 dark:text-slate-400">${data.enacted_compac.toFixed(3)}</td>
             <td class="py-2.5 text-center">
                 <button onclick="selectState('${key}')" class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">
@@ -1526,6 +1533,25 @@ async function init() {
         sliderEg.addEventListener('input', updateTunedValues);
         sliderCompac.addEventListener('input', updateTunedValues);
         sliderSplits.addEventListener('input', updateTunedValues);
+        
+        // Set up wave slider input handler
+        const sliderWave = document.getElementById('slider-wave');
+        if (sliderWave) {
+            sliderWave.addEventListener('input', (e) => {
+                const waveVal = parseFloat(e.target.value);
+                const waveText = waveVal === 0.0 ? '0.0% Wave' : `${Math.abs(waveVal).toFixed(1)}% ${waveVal < 0 ? 'Dem Wave' : 'Rep Wave'}`;
+                document.getElementById('val-slider-wave').innerText = waveText;
+                updateSummaryDashboard();
+            });
+        }
+
+        // Set up leaderboard search input handler
+        const searchInput = document.getElementById('leaderboard-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                populateLeaderboardTable(e.target.value);
+            });
+        }
         
         // Start on national details view
         switchSidebarTab('state-detail');

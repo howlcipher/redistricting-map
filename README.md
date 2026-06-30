@@ -87,6 +87,18 @@ Now open your web browser and navigate to:
 
 ---
 
+## 📦 Data Sourcing & Geometries
+
+All boundary files and election metrics are built using verified open-source government sources and standardized data pipelines:
+
+1. **U.S. State Outlines (`us-states.json`):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**.
+2. **State-Level Precinct & Census Datasets:**
+   * Showcase states (Colorado, Wisconsin, Texas, North Carolina, Maryland) use mathematical precinct grids clipped exactly to state boundaries.
+   * Partisan baseline margins (D/R vote shares) and efficiency gap ratios are calibrated using actual state election returns compiled from **[OpenPrecincts](https://openprecincts.org/)** and **[MGGG Voting and Redistricting Data](https://mggg.org/)**.
+3. **U.S. Overseas Territories Boundaries:** Geographic coordinate shapes for Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands are custom-mapped using official **[U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)**.
+
+---
+
 ## 📐 Mathematical & Open-Source Legitimacy (GerryChain & ReCom)
 
 To build trust and eliminate suspicion of "black box" algorithms, this project leverages **GerryChain**, developed by the **Metric Geometry and Gerrymandering Group (MGGG)** at Tufts University and MIT.
