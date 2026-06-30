@@ -118,9 +118,14 @@ All boundary files and election metrics are built using verified open-source gov
 
 ---
 
-## 📐 Mathematical & Open-Source Legitimacy (GerryChain & ReCom)
+## 📐 Mathematical & Open-Source Legitimacy (TL;DR)
 
 To build trust and eliminate suspicion of "black box" algorithms, this project leverages **GerryChain**, developed by the **Metric Geometry and Gerrymandering Group (MGGG)** at Tufts University and MIT.
 
-* **How ReCom Works:** ReCom (Recombination) starts with a contiguous district map. In each step, it merges two adjacent districts, creates a spanning tree of all census blocks within them, and cuts a random edge that divides the population into two equal pieces within a 1% tolerance.
-* **Why it's Defensible:** By running this process 10,000+ times, researchers create a neutral "ensemble" (statistical baseline) of valid districtings. If the enacted map is a statistical outlier compared to this ensemble (e.g., having a much higher Efficiency Gap), it is evidence of intentional gerrymandering. This method has been accepted as expert testimony in US Supreme Court and state supreme court cases.
+**TL;DR on the Math:**
+* **ReCom (Recombination):** A Markov Chain Monte Carlo algorithm that merges adjacent districts, builds a spanning tree, and randomly cuts it to create a massive ensemble of valid, compact maps.
+* **Efficiency Gap (EG):** Measures partisan bias by calculating the difference in "wasted votes" between parties.
+* **Polsby-Popper:** Evaluates district compactness (area vs perimeter).
+* **Mean-Median & VRA:** Analyzes the concentration of voting power for partisan and minority groups.
+
+👉 **For a deep dive into the formulas, algorithms, and code snippets, see the full [Methodology & Mathematics Guide](METHODOLOGY.md).**
