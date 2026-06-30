@@ -46,39 +46,43 @@ class App {
                 setTimeout(() => this.mapController.map.invalidateSize(), 310);
             });
             
-            const themeToggleBtn = document.getElementById('btn-theme-toggle');
-            const themeIconMoon = document.getElementById('theme-icon-moon');
-            const themeIconSun = document.getElementById('theme-icon-sun');
+            const themeToggleBtns = [document.getElementById('btn-theme-toggle'), document.getElementById('btn-theme-toggle-mobile')];
+            const themeIconsMoon = document.querySelectorAll('.theme-icon-moon-svg');
+            const themeIconsSun = document.querySelectorAll('.theme-icon-sun-svg');
             
-            themeToggleBtn.addEventListener('click', () => {
-                const isDarkNow = document.body.classList.contains('dark');
-                if (isDarkNow) {
-                    document.body.classList.remove('dark');
-                    document.documentElement.classList.remove('dark');
-                    themeIconMoon.classList.add('hidden');
-                    themeIconSun.classList.remove('hidden');
-                } else {
-                    document.body.classList.add('dark');
-                    document.documentElement.classList.add('dark');
-                    themeIconMoon.classList.remove('hidden');
-                    themeIconSun.classList.add('hidden');
-                }
-                
-                const isDark = document.body.classList.contains('dark');
-                if (this.mapController.nationalLayer) {
-                    if (this.uiController.activeView === 'national') {
-                        this.mapController.nationalLayer.setStyle((f) => this.mapController.getNationalStyle(f));
+            themeToggleBtns.forEach(btn => {
+                if (!btn) return;
+                btn.addEventListener('click', () => {
+                    const isDarkNow = document.body.classList.contains('dark');
+                    if (isDarkNow) {
+                        document.body.classList.remove('dark');
+                        document.documentElement.classList.remove('dark');
+                        themeIconsMoon.forEach(icon => icon.classList.add('hidden'));
+                        themeIconsSun.forEach(icon => icon.classList.remove('hidden'));
                     } else {
-                        this.mapController.nationalLayer.setStyle((f) => {
-                            return { fillColor: isDark ? '#0b0f19' : '#e2e8f0', weight: 1.0, opacity: 0.25, color: isDark ? '#1e293b' : '#cbd5e1', fillOpacity: 0.6 };
-                        });
+                        document.body.classList.add('dark');
+                        document.documentElement.classList.add('dark');
+                        themeIconsMoon.forEach(icon => icon.classList.remove('hidden'));
+                        themeIconsSun.forEach(icon => icon.classList.add('hidden'));
                     }
-                }
-                
-                const activeKey = this.uiController.getActiveLayerKey();
-                if (this.mapController.layers[activeKey]) {
-                    this.mapController.layers[activeKey].setStyle((f) => this.mapController.getStyle(f));
-                }
+                    setTimeout(() => this.mapController.setDarkTheme(!isDarkNow), 50);
+                    
+                    const isDark = document.body.classList.contains('dark');
+                    if (this.mapController.nationalLayer) {
+                        if (this.uiController.activeView === 'national') {
+                            this.mapController.nationalLayer.setStyle((f) => this.mapController.getNationalStyle(f));
+                        } else {
+                            this.mapController.nationalLayer.setStyle((f) => {
+                                return { fillColor: isDark ? '#0b0f19' : '#e2e8f0', weight: 1.0, opacity: 0.25, color: isDark ? '#1e293b' : '#cbd5e1', fillOpacity: 0.6 };
+                            });
+                        }
+                    }
+                    
+                    const activeKey = this.uiController.getActiveLayerKey();
+                    if (this.mapController.layers[activeKey]) {
+                        this.mapController.layers[activeKey].setStyle((f) => this.mapController.getStyle(f));
+                    }
+                });
             });
 
             await this.dataService.init();
@@ -86,12 +90,12 @@ class App {
             const isDarkInitial = document.body.classList.contains('dark');
             if (isDarkInitial) {
                 document.documentElement.classList.add('dark');
-                themeIconMoon.classList.remove('hidden');
-                themeIconSun.classList.add('hidden');
+                themeIconsMoon.forEach(icon => icon.classList.remove('hidden'));
+                themeIconsSun.forEach(icon => icon.classList.add('hidden'));
             } else {
                 document.documentElement.classList.remove('dark');
-                themeIconMoon.classList.add('hidden');
-                themeIconSun.classList.remove('hidden');
+                themeIconsMoon.forEach(icon => icon.classList.add('hidden'));
+                themeIconsSun.forEach(icon => icon.classList.remove('hidden'));
             }
 
             // @ts-ignore
