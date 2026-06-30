@@ -3,8 +3,9 @@
 An interactive geospatial tool to analyze, visualize, and compare actual enacted legislative districts against algorithmically generated alternatives using peer-reviewed redistricting mathematics.
 
 This project is built using:
-1. **Python Data Pipeline (Phase 1):** Python 3, `GeoPandas`, and `GerryChain` (MGGG Lab) using the **ReCom (Recombination)** Markov Chain Monte Carlo algorithm.
-2. **Frontend Map Viewer (Phase 2):** HTML5, Vanilla JS, Tailwind CSS, and `Leaflet.js` to render interactive choropleths and comparative statistics.
+1. **Python Data Pipeline:** Python 3, `GeoPandas`, and `GerryChain` (MGGG Lab) using the **ReCom (Recombination)** Markov Chain Monte Carlo algorithm.
+2. **Frontend Map Viewer:** HTML5, Vanilla JS, **Vite** bundler, **Tailwind CSS v4**, `Leaflet.js`, and `Chart.js`.
+3. **Performance Infrastructure:** **IndexedDB** (`localForage`) for persistent GeoJSON caching, and **Web Workers** for non-blocking geographic data parsing.
 
 ---
 
@@ -102,15 +103,17 @@ python3 generate_maps.py --steps 50
 *This will download `us-states.json` and populate the `data/` folder with true state-shaped district GeoJSONs for the entire United States.*
 
 ### 2. Run the Local Web Server
-Because browsers block fetching local files via `file://` (CORS policies), you must serve this project using a local HTTP server:
+This project uses **Vite** for optimized frontend bundling and lightning-fast Hot Module Replacement (HMR).
 
 ```bash
-# Start a simple local server in the project directory
-python3 -m http.server 8000
+# Install Node dependencies (Vite, Chart.js, Tailwind, etc.)
+npm install
+
+# Start the Vite development server
+npm run dev
 ```
 
-Now open your web browser and navigate to:
-👉 **[http://localhost:8000](http://localhost:8000)**
+Now open your web browser and navigate to the local server URL provided by Vite (typically `http://localhost:5173`).
 
 ---
 
