@@ -49,7 +49,7 @@ This tool evaluates the fairness of district maps using two primary metrics:
 redistricting-map/
 ├── .github/workflows/                       # GitHub Actions CI/CD pipelines
 │   └── deploy.yml                           # Automated Vite build & Pages deployment
-├── data/                                    # Generated datasets (cached locally)
+├── public/data/                             # Generated datasets (cached locally)
 │   ├── metrics.json                         # Aggregated metrics for all 50 states & territories
 │   ├── alabama_enacted_districts.geojson    # State enacted boundaries (A-Z)
 │   └── ...                                  # Includes all optimized permutations
@@ -100,16 +100,20 @@ For detailed instructions on running these test suites, see the **[Testing READM
 Activate the virtual environment and execute the pipeline to pull Census boundaries, clip coordinate grids, and run ReCom chains for **all 50 states and territories**:
 
 ```bash
-# 1. Activate virtual environment
-source venv/bin/activate
+# Generate all 56 states (default)
+python generate_maps.py --states=all
 
-# 2. Run the pipeline
-python3 generate_maps.py --steps 50
+# Generate only specific states (e.g. for showcase testing)
+python generate_maps.py --states=colorado,wisconsin,texas,north_carolina,maryland
 ```
 
-*This will download `us-states.json` and populate the `data/` folder with true state-shaped district GeoJSONs for the entire United States.*
+### 2. Third-Party Data Integration
+The `RedrawUS` interactive map dynamically scans for standard election metric properties in any imported GeoJSON data. If you import custom redistricting maps or historical census data into the `public/data/` directory, simply ensure the district properties have these exact keys to flawlessly integrate:
+1. **`[party]_votes_sum`**: Total district vote headcount for the party (e.g. `dem_votes_sum`, `rep_votes_sum`, `lib_votes_sum`, `grn_votes_sum`, `con_votes_sum`, `ref_votes_sum`).
+2. **`[party]_pct`**: Decimal percentage of the district's total vote (e.g. `lib_pct`, `grn_pct`).
+*Note: The frontend map layers naturally scale partisan efficiency gradients (EG) utilizing these properties for Democrats, Republicans, Libertarians, Greens, Conservatives, and Reform.*
 
-### 2. Run the Local Web Server
+### 3. Run the Development Server
 This project uses **Vite** for optimized frontend bundling and lightning-fast Hot Module Replacement (HMR).
 
 ```bash

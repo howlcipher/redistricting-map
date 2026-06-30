@@ -114,6 +114,10 @@ class GeoDataProcessor:
             gdf_3857['voting_age_pop'] = 40000
             gdf_3857['dem_votes'] = 15000
             gdf_3857['rep_votes'] = 5000
+            gdf_3857['lib_votes'] = 1000
+            gdf_3857['grn_votes'] = 500
+            gdf_3857['con_votes'] = 500
+            gdf_3857['ref_votes'] = 200
             gdf_3857['minority_pop'] = 45000
             gdf_3857['white_pop'] = 5000
             gdf_3857['county'] = 'County_0_0'
@@ -191,8 +195,12 @@ class GeoDataProcessor:
         dem_share = dem_base * (1 - dem_mult * (distances / max_dist)) + 0.15
         dem_share = np.clip(dem_share + np.random.normal(0, 0.03, len(clipped_gdf)), 0.02, 0.98)
         
-        clipped_gdf['dem_votes'] = (clipped_gdf['population'] * dem_share * 0.65).astype(int)
-        clipped_gdf['rep_votes'] = (clipped_gdf['population'] * (1 - dem_share) * 0.65).astype(int)
+        clipped_gdf['dem_votes'] = (clipped_gdf['population'] * dem_share * 0.60).astype(int)
+        clipped_gdf['rep_votes'] = (clipped_gdf['population'] * (1 - dem_share) * 0.60).astype(int)
+        clipped_gdf['lib_votes'] = (clipped_gdf['population'] * 0.02).astype(int)
+        clipped_gdf['grn_votes'] = (clipped_gdf['population'] * 0.015).astype(int)
+        clipped_gdf['con_votes'] = (clipped_gdf['population'] * 0.01).astype(int)
+        clipped_gdf['ref_votes'] = (clipped_gdf['population'] * 0.005).astype(int)
         
         # 4. Demographics: Minority groups concentrated in urban center
         minority_base = 0.70 if name_lower == 'texas' else (0.50 if name_lower == 'maryland' else 0.40)
@@ -468,7 +476,7 @@ class PipelineManager:
     redistricting, analyzing metrics, and saving outputs.
     """
 
-    def __init__(self, steps=80, output_dir="data"):
+    def __init__(self, steps=80, output_dir="public/data"):
         """
         Initializes the pipeline manager with simulation steps and output directory.
 
@@ -501,6 +509,10 @@ class PipelineManager:
             vap_col: 'sum',
             dem_col: 'sum',
             rep_col: 'sum',
+            'lib_votes': 'sum',
+            'grn_votes': 'sum',
+            'con_votes': 'sum',
+            'ref_votes': 'sum',
             minority_col: 'sum'
         }).reset_index().rename(columns={assignment_col: 'district_id'})
         
@@ -508,11 +520,19 @@ class PipelineManager:
         districts['voting_age_pop'] = districts[vap_col]
         districts['dem_votes_sum'] = districts[dem_col]
         districts['rep_votes_sum'] = districts[rep_col]
+        districts['lib_votes_sum'] = districts['lib_votes']
+        districts['grn_votes_sum'] = districts['grn_votes']
+        districts['con_votes_sum'] = districts['con_votes']
+        districts['ref_votes_sum'] = districts['ref_votes']
         districts['minority_pop_sum'] = districts[minority_col]
         
-        total_votes_dist = districts['dem_votes_sum'] + districts['rep_votes_sum']
+        total_votes_dist = districts['dem_votes_sum'] + districts['rep_votes_sum'] + districts['lib_votes_sum'] + districts['grn_votes_sum'] + districts['con_votes_sum'] + districts['ref_votes_sum']
         districts['dem_pct'] = np.where(total_votes_dist > 0, districts['dem_votes_sum'] / total_votes_dist, 0.0)
         districts['rep_pct'] = np.where(total_votes_dist > 0, districts['rep_votes_sum'] / total_votes_dist, 0.0)
+        districts['lib_pct'] = np.where(total_votes_dist > 0, districts['lib_votes_sum'] / total_votes_dist, 0.0)
+        districts['grn_pct'] = np.where(total_votes_dist > 0, districts['grn_votes_sum'] / total_votes_dist, 0.0)
+        districts['con_pct'] = np.where(total_votes_dist > 0, districts['con_votes_sum'] / total_votes_dist, 0.0)
+        districts['ref_pct'] = np.where(total_votes_dist > 0, districts['ref_votes_sum'] / total_votes_dist, 0.0)
         districts['minority_pct'] = np.where(districts['total_pop'] > 0, districts['minority_pop_sum'] / districts['total_pop'], 0.0)
         
         df_planar = districts.to_crs(epsg=3857)
@@ -679,8 +699,8 @@ def format_state_name(key):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="GerryChain Custom Multi-State Redistricting Pipeline")
-    parser.add_argument("--steps", type=int, default=80, help="Simulation steps (default: 80)")
-    parser.add_argument("--output-dir", type=str, default="data", help="Output directory")
+    parser.add_argument("--steps", type=int, default=80, help="Number of steps for the MCMC chain")
+    parser.add_argument("--output-dir", type=str, default="public/data", help="Output directory")
     parser.add_argument("--states", type=str, default="colorado,wisconsin,texas,north_carolina,maryland", 
                         help="Comma-separated list of state keys to run, or 'all' for all 56 jurisdictions (default: showcase states)")
     
