@@ -96,30 +96,68 @@ export class MapController {
         }
     }
 
-    getDistrictColor(demPct, isDark) {
-        if (demPct >= 0.55) {
-            if (demPct >= 0.65) return isDark ? '#3b82f6' : '#2563eb'; // blue-500 : blue-600
-            if (demPct >= 0.60) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
-            return isDark ? '#1e3a8a' : '#bfdbfe';                   // blue-900 : blue-200
-        } else if (demPct <= 0.45) {
-            if (demPct <= 0.35) return isDark ? '#ef4444' : '#dc2626'; // red-500 : red-600
-            if (demPct <= 0.40) return isDark ? '#b91c1c' : '#f87171'; // red-700 : red-400
-            return isDark ? '#7f1d1d' : '#fecaca';                   // red-900 : red-200
-        } else {
-            return isDark ? '#1e293b' : '#cbd5e1';                   // slate-800 : slate-300
+    getDistrictColor(pcts, isDark) {
+        let winner = 'dem';
+        let maxPct = pcts.dem;
+        for (const [party, pct] of Object.entries(pcts)) {
+            if (pct > maxPct) {
+                maxPct = pct;
+                winner = party;
+            }
         }
+
+        if (winner === 'dem') {
+            if (maxPct >= 0.65) return isDark ? '#3b82f6' : '#2563eb'; // blue-500 : blue-600
+            if (maxPct >= 0.60) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
+            if (maxPct >= 0.55) return isDark ? '#1e3a8a' : '#bfdbfe'; // blue-900 : blue-200
+        } else if (winner === 'rep') {
+            if (maxPct >= 0.65) return isDark ? '#ef4444' : '#dc2626'; // red-500 : red-600
+            if (maxPct >= 0.60) return isDark ? '#b91c1c' : '#f87171'; // red-700 : red-400
+            if (maxPct >= 0.55) return isDark ? '#7f1d1d' : '#fecaca'; // red-900 : red-200
+        } else if (winner === 'lib') {
+            if (maxPct >= 0.65) return isDark ? '#eab308' : '#ca8a04'; // yellow-500 : yellow-600
+            if (maxPct >= 0.60) return isDark ? '#a16207' : '#facc15'; // yellow-700 : yellow-400
+            if (maxPct >= 0.55) return isDark ? '#713f12' : '#fef08a'; // yellow-900 : yellow-200
+        } else if (winner === 'grn') {
+            if (maxPct >= 0.65) return isDark ? '#22c55e' : '#16a34a'; // green-500 : green-600
+            if (maxPct >= 0.60) return isDark ? '#15803d' : '#4ade80'; // green-700 : green-400
+            if (maxPct >= 0.55) return isDark ? '#14532d' : '#bbf7d0'; // green-900 : green-200
+        } else if (winner === 'con') {
+            if (maxPct >= 0.65) return isDark ? '#d946ef' : '#c026d3'; // fuchsia-500 : fuchsia-600
+            if (maxPct >= 0.60) return isDark ? '#a21caf' : '#e879f9'; // fuchsia-700 : fuchsia-400
+            if (maxPct >= 0.55) return isDark ? '#701a75' : '#f5d0fe'; // fuchsia-900 : fuchsia-200
+        } else if (winner === 'ref') {
+            if (maxPct >= 0.65) return isDark ? '#8b5cf6' : '#7c3aed'; // violet-500 : violet-600
+            if (maxPct >= 0.60) return isDark ? '#6d28d9' : '#a78bfa'; // violet-700 : violet-400
+            if (maxPct >= 0.55) return isDark ? '#4c1d95' : '#ddd6fe'; // violet-900 : violet-200
+        }
+        return isDark ? '#1e293b' : '#cbd5e1'; // slate-800 : slate-300
     }
 
     getStyle(feature) {
-        let demPct = feature.properties.dem_pct;
+        let pcts = {
+            dem: feature.properties.dem_pct || 0,
+            rep: feature.properties.rep_pct || 0,
+            lib: feature.properties.lib_pct || 0,
+            grn: feature.properties.grn_pct || 0,
+            con: feature.properties.con_pct || 0,
+            ref: feature.properties.ref_pct || 0
+        };
+
+        if (pcts.dem === 0 && pcts.rep === 0 && feature.properties.dem_pct !== undefined) {
+             pcts.dem = feature.properties.dem_pct;
+             pcts.rep = 1 - pcts.dem;
+        }
+
         if (this.app.uiController.activeMode === 'tuned') {
             const stateData = this.app.dataService.stateLeaderboardData[this.app.uiController.activeState];
             const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
-            demPct = Math.max(0.02, Math.min(0.98, demPct - swing));
+            pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - swing));
+            pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + swing));
         }
         const isDark = document.body.classList.contains('dark');
         return {
-            fillColor: this.getDistrictColor(demPct, isDark),
+            fillColor: this.getDistrictColor(pcts, isDark),
             weight: 1.5,
             opacity: 0.95,
             color: isDark ? '#475569' : '#64748b',
