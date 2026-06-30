@@ -24,12 +24,12 @@ describe('DataService & Math Logic', () => {
         // Negative EG = Democratic bias
         expect(mapController.getPartisanFillColor(-0.01, false)).toBe('#bfdbfe'); // Light blue
         expect(mapController.getPartisanFillColor(-0.05, false)).toBe('#60a5fa'); // Medium blue
-        expect(mapController.getPartisanFillColor(-0.10, false)).toBe('#3b82f6'); // Strong blue
+        expect(mapController.getPartisanFillColor(-0.10, false)).toBe('#2563eb'); // Strong blue (light mode is #2563eb)
         
         // Positive EG = Republican bias
         expect(mapController.getPartisanFillColor(0.01, false)).toBe('#fecaca'); // Light red
         expect(mapController.getPartisanFillColor(0.05, false)).toBe('#f87171'); // Medium red
-        expect(mapController.getPartisanFillColor(0.10, false)).toBe('#ef4444'); // Strong red
+        expect(mapController.getPartisanFillColor(0.10, false)).toBe('#dc2626'); // Strong red (light mode is #dc2626)
         
         // Zero EG = Neutral
         expect(mapController.getPartisanFillColor(0.0, false)).toBe('#cbd5e1'); // Neutral light mode

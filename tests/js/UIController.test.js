@@ -77,7 +77,7 @@ describe('UIController Advanced', () => {
                 },
                 layers: {},
                 activeState: 'colorado',
-                map: { removeLayer: vi.fn(), addLayer: vi.fn(), setView: vi.fn() }
+                map: { removeLayer: vi.fn(), addLayer: vi.fn(), setView: vi.fn(), flyTo: vi.fn(), flyToBounds: vi.fn() }
             },
             uiController: {}
         };

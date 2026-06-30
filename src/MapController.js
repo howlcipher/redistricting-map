@@ -110,26 +110,32 @@ export class MapController {
             if (maxPct >= 0.65) return isDark ? '#3b82f6' : '#2563eb'; // blue-500 : blue-600
             if (maxPct >= 0.60) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
             if (maxPct >= 0.55) return isDark ? '#1e3a8a' : '#bfdbfe'; // blue-900 : blue-200
+            if (maxPct > 0.50) return isDark ? '#172554' : '#eff6ff'; // blue-950 : blue-50
         } else if (winner === 'rep') {
             if (maxPct >= 0.65) return isDark ? '#ef4444' : '#dc2626'; // red-500 : red-600
             if (maxPct >= 0.60) return isDark ? '#b91c1c' : '#f87171'; // red-700 : red-400
             if (maxPct >= 0.55) return isDark ? '#7f1d1d' : '#fecaca'; // red-900 : red-200
+            if (maxPct > 0.50) return isDark ? '#450a0a' : '#fef2f2'; // red-950 : red-50
         } else if (winner === 'lib') {
             if (maxPct >= 0.65) return isDark ? '#eab308' : '#ca8a04'; // yellow-500 : yellow-600
             if (maxPct >= 0.60) return isDark ? '#a16207' : '#facc15'; // yellow-700 : yellow-400
             if (maxPct >= 0.55) return isDark ? '#713f12' : '#fef08a'; // yellow-900 : yellow-200
+            if (maxPct > 0.50) return isDark ? '#422006' : '#fefce8'; // yellow-950 : yellow-50
         } else if (winner === 'grn') {
             if (maxPct >= 0.65) return isDark ? '#22c55e' : '#16a34a'; // green-500 : green-600
             if (maxPct >= 0.60) return isDark ? '#15803d' : '#4ade80'; // green-700 : green-400
             if (maxPct >= 0.55) return isDark ? '#14532d' : '#bbf7d0'; // green-900 : green-200
+            if (maxPct > 0.50) return isDark ? '#052e16' : '#f0fdf4'; // green-950 : green-50
         } else if (winner === 'con') {
             if (maxPct >= 0.65) return isDark ? '#d946ef' : '#c026d3'; // fuchsia-500 : fuchsia-600
             if (maxPct >= 0.60) return isDark ? '#a21caf' : '#e879f9'; // fuchsia-700 : fuchsia-400
             if (maxPct >= 0.55) return isDark ? '#701a75' : '#f5d0fe'; // fuchsia-900 : fuchsia-200
+            if (maxPct > 0.50) return isDark ? '#4a044e' : '#fdf4ff'; // fuchsia-950 : fuchsia-50
         } else if (winner === 'ref') {
             if (maxPct >= 0.65) return isDark ? '#8b5cf6' : '#7c3aed'; // violet-500 : violet-600
             if (maxPct >= 0.60) return isDark ? '#6d28d9' : '#a78bfa'; // violet-700 : violet-400
             if (maxPct >= 0.55) return isDark ? '#4c1d95' : '#ddd6fe'; // violet-900 : violet-200
+            if (maxPct > 0.50) return isDark ? '#2e1065' : '#f5f3ff'; // violet-950 : violet-50
         }
         return isDark ? '#1e293b' : '#cbd5e1'; // slate-800 : slate-300
     }
@@ -249,6 +255,14 @@ export class MapController {
 
     async loadStateGeometries(stateKey) {
         const data = this.app.dataService.getOrGenerateStateData(stateKey, this.app.dataService.formatStateName(stateKey));
+        
+        if (this.layers) {
+            Object.values(this.layers).forEach(layer => {
+                if (this.map.hasLayer(layer)) {
+                    this.map.removeLayer(layer);
+                }
+            });
+        }
         
         this.layers = {};
         this.layerFeatures = {};
