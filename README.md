@@ -183,3 +183,11 @@ To build trust and eliminate suspicion of "black box" algorithms, this project l
 * **Mean-Median & VRA:** Analyzes the concentration of voting power for partisan and minority groups.
 
 👉 **For a deep dive into the formulas, algorithms, and code snippets, see the full [Methodology & Mathematics Guide](METHODOLOGY.md).**
+
+---
+
+## 💖 Support This Project
+
+If you like this project, please don't buy me a coffee—make a donation instead! You can donate at the link below:
+
+**[https://arizzofoundation.org/donate](https://arizzofoundation.org/donate)**
