@@ -46,6 +46,21 @@ class App {
                 restoreBtn.classList.remove('scale-100', 'opacity-100');
                 setTimeout(() => this.mapController.map.invalidateSize(), 310);
             });
+            // Auto-minimize sidebar on mobile view to save space
+            if (window.innerWidth < 640) {
+                sidebarContainer.classList.add('translate-y-[150%]', 'sm:translate-y-0', 'sm:-translate-x-[444px]');
+                restoreBtn.classList.remove('scale-0', 'opacity-0');
+                restoreBtn.classList.add('scale-100', 'opacity-100');
+            }
+
+            const hamburgerBtn = document.getElementById('btn-hamburger');
+            const mobileMenu = document.getElementById('mobile-menu-collapse');
+            if (hamburgerBtn && mobileMenu) {
+                hamburgerBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('hidden');
+                    mobileMenu.classList.toggle('flex');
+                });
+            }
             
             const themeToggleBtns = [document.getElementById('btn-theme-toggle'), document.getElementById('btn-theme-toggle-mobile')];
             const themeIconsMoon = document.querySelectorAll('.theme-icon-moon-svg');
