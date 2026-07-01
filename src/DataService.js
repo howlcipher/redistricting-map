@@ -91,18 +91,48 @@ export class DataService {
 
     applyHistoricalData(dateStr) {
         this.activeDate = dateStr;
-        let activeBlock = this.historicalData[0]; // Default newest
-        for (const block of this.historicalData) {
+        let beforeBlock = null;
+        let afterBlock = null;
+        
+        // historicalData is assumed to be sorted by date descending (newest first)
+        for (let i = 0; i < this.historicalData.length; i++) {
+            const block = this.historicalData[i];
             if (dateStr >= block.date) {
-                activeBlock = block;
+                beforeBlock = block;
+                afterBlock = i > 0 ? this.historicalData[i - 1] : block;
                 break;
             }
         }
         
-        // Deep copy so we don't mutate the raw config block
-        this.districtCounts = JSON.parse(JSON.stringify(activeBlock.district_counts || {}));
-        this.statePartisanBaselines = JSON.parse(JSON.stringify(activeBlock.state_partisan_baselines || {}));
-        this.stateLeaderboardData = JSON.parse(JSON.stringify(activeBlock.state_leaderboard_data || {}));
+        if (!beforeBlock) {
+            beforeBlock = this.historicalData[this.historicalData.length - 1];
+            afterBlock = beforeBlock;
+        }
+
+        // Deep copy the base structure
+        this.districtCounts = JSON.parse(JSON.stringify(beforeBlock.district_counts || {}));
+        this.statePartisanBaselines = JSON.parse(JSON.stringify(beforeBlock.state_partisan_baselines || {}));
+        this.stateLeaderboardData = JSON.parse(JSON.stringify(beforeBlock.state_leaderboard_data || {}));
+
+        // Interpolate partisan baselines if between two blocks
+        if (beforeBlock !== afterBlock && beforeBlock.date !== afterBlock.date) {
+            const t1 = new Date(beforeBlock.date).getTime();
+            const t2 = new Date(afterBlock.date).getTime();
+            const t = new Date(dateStr).getTime();
+            const ratio = Math.max(0, Math.min(1, (t - t1) / (t2 - t1)));
+            
+            Object.keys(this.statePartisanBaselines).forEach(state => {
+                const val1 = beforeBlock.state_partisan_baselines[state] || 0.0;
+                const val2 = afterBlock.state_partisan_baselines[state] !== undefined ? afterBlock.state_partisan_baselines[state] : val1;
+                this.statePartisanBaselines[state] = val1 + (val2 - val1) * ratio;
+                
+                if (this.stateLeaderboardData[state] && afterBlock.state_leaderboard_data && afterBlock.state_leaderboard_data[state]) {
+                    const eg1 = this.stateLeaderboardData[state].enacted_eg || 0.0;
+                    const eg2 = afterBlock.state_leaderboard_data[state].enacted_eg !== undefined ? afterBlock.state_leaderboard_data[state].enacted_eg : eg1;
+                    this.stateLeaderboardData[state].enacted_eg = eg1 + (eg2 - eg1) * ratio;
+                }
+            });
+        }
         
         // Ensure all state data structures exist
         Object.keys(this.districtCounts).forEach(key => {
