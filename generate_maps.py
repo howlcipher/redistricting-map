@@ -32,6 +32,21 @@ DISTRICT_COUNTS = {
     'american_samoa': 1, 'northern_mariana_islands': 1
 }
 
+STATE_PROFILES = {
+    'colorado': {'dem_base': 0.50, 'dem_mult': 0.40, 'minority_base': 0.40},
+    'wisconsin': {'dem_base': 0.45, 'dem_mult': 0.45, 'minority_base': 0.40},
+    'texas': {'dem_base': 0.35, 'dem_mult': 0.45, 'minority_base': 0.70},
+    'north_carolina': {'dem_base': 0.42, 'dem_mult': 0.43, 'minority_base': 0.40},
+    'maryland': {'dem_base': 0.60, 'dem_mult': 0.35, 'minority_base': 0.50},
+    'default': {'dem_base': 0.45, 'dem_mult': 0.45, 'minority_base': 0.40}
+}
+
+TERRITORY_COORDS = {
+    'guam': { 'lat': 13.4443, 'lon': 144.7937 },
+    'virgin_islands': { 'lat': 18.3358, 'lon': -64.8963 },
+    'american_samoa': { 'lat': -14.2710, 'lon': -170.1322 },
+    'northern_mariana_islands': { 'lat': 15.0979, 'lon': 145.6739 }
+}
 class GeoDataProcessor:
     """
     Handles geographical data processing, including downloading boundary data,
@@ -91,16 +106,9 @@ class GeoDataProcessor:
         print(f"\nProcessing boundaries for {state_name}...")
         
         name_lower = state_name.lower().replace(' ', '_')
-        territory_coords = {
-            'guam': { 'lat': 13.4443, 'lon': 144.7937 },
-            'virgin_islands': { 'lat': 18.3358, 'lon': -64.8963 },
-            'american_samoa': { 'lat': -14.2710, 'lon': -170.1322 },
-            'northern_mariana_islands': { 'lat': 15.0979, 'lon': 145.6739 }
-        }
-        
-        if name_lower in territory_coords:
-            lat = territory_coords[name_lower]['lat']
-            lon = territory_coords[name_lower]['lon']
+        if name_lower in TERRITORY_COORDS:
+            lat = TERRITORY_COORDS[name_lower]['lat']
+            lon = TERRITORY_COORDS[name_lower]['lon']
             d = 0.05
             poly = Polygon([
                 (lon - d, lat - d),
@@ -178,19 +186,11 @@ class GeoDataProcessor:
         clipped_gdf['voting_age_pop'] = (clipped_gdf['population'] * vap_ratio).astype(int)
         
         # 3. Partisan Vote Share: Dem concentrated in urban center, Rep in rural
-        name_lower = state_name.lower()
-        if name_lower == 'colorado':
-            dem_base, dem_mult = 0.50, 0.40  # Muted lean
-        elif name_lower == 'wisconsin':
-            dem_base, dem_mult = 0.45, 0.45  # Highly split
-        elif name_lower == 'texas':
-            dem_base, dem_mult = 0.35, 0.45  # Rep lean
-        elif name_lower == 'north carolina':
-            dem_base, dem_mult = 0.42, 0.43  # Muted Rep lean
-        elif name_lower == 'maryland':
-            dem_base, dem_mult = 0.60, 0.35  # Dem lean
-        else:
-            dem_base, dem_mult = 0.45, 0.45
+        state_key = state_name.lower().replace(' ', '_')
+        profile = STATE_PROFILES.get(state_key, STATE_PROFILES['default'])
+        
+        dem_base = profile['dem_base']
+        dem_mult = profile['dem_mult']
             
         dem_share = dem_base * (1 - dem_mult * (distances / max_dist)) + 0.15
         dem_share = np.clip(dem_share + np.random.normal(0, 0.03, len(clipped_gdf)), 0.02, 0.98)
@@ -203,7 +203,7 @@ class GeoDataProcessor:
         clipped_gdf['ref_votes'] = (clipped_gdf['population'] * 0.005).astype(int)
         
         # 4. Demographics: Minority groups concentrated in urban center
-        minority_base = 0.70 if name_lower == 'texas' else (0.50 if name_lower == 'maryland' else 0.40)
+        minority_base = profile['minority_base']
         minority_share = minority_base * (1 - 0.85 * (distances / max_dist)) + 0.05
         minority_share = np.clip(minority_share + np.random.normal(0, 0.02, len(clipped_gdf)), 0.0, 1.0)
         clipped_gdf['minority_pop'] = (clipped_gdf['population'] * minority_share).astype(int)
