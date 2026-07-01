@@ -186,6 +186,28 @@ To build trust and eliminate suspicion of "black box" algorithms, this project l
 
 ---
 
+## ⚠️ Potential Pitfalls & Limitations
+
+Algorithmic redistricting is a powerful tool, but it is not a silver bullet. Here are the primary vulnerabilities of this platform and mathematical redistricting as a whole, along with how we try to combat them:
+
+1. **"Garbage In, Garbage Out" Data Problem**
+   - **The Pitfall:** Algorithms rely on merging voting precinct data with Census block populations, which rarely align perfectly. Furthermore, census undercounts and linear interpolations can skew mathematical baselines.
+   - **The Mitigation:** We utilize high-resolution crosswalk data from OpenPrecincts to map votes to census blocks as accurately as mathematically possible. For historical data, we provide a transparency dashboard highlighting the margin of error in our interpolations.
+
+2. **The Illusion of a Single "Perfect" Map**
+   - **The Pitfall:** Optimizing for one metric often hurts another. Creating perfectly proportional partisan maps (0% Efficiency Gap) usually requires drawing ugly, sprawling districts that destroy compactness. Conversely, maximizing compactness often inadvertently packs urban voters, heavily skewing partisan outcomes.
+   - **The Mitigation:** We offer a multi-objective optimizer (the "Sandbox Playground") so users can experiment with the sliders themselves and visually understand that redistricting is a balancing act of trade-offs, not a simple math equation.
+
+3. **Blindness to "Communities of Interest"**
+   - **The Pitfall:** Algorithms only see numbers, not culture. They can easily draw a mathematically perfect line straight down the middle of a tight-knit neighborhood, a Native American reservation, or a cultural district, destroying their unified voting voice.
+   - **The Mitigation:** Future iterations of this tool aim to incorporate predefined "Community of Interest" polygons that the algorithm is heavily penalized for splitting. 
+
+4. **Legal and Constitutional Realities**
+   - **The Pitfall:** In some states, it is actively illegal to use partisan data to draw maps. An algorithm optimizing for a 0% Efficiency Gap would therefore produce an unconstitutional map in those jurisdictions. 
+   - **The Mitigation:** We clearly label algorithmic layers as "Optimized" or "Synthetic" rather than "Legal." The tool allows users to completely disable partisan optimization and only run compactness and population equality constraints.
+
+---
+
 ## 💖 Support This Project
 
 If you like this project, please don't buy me a coffee—make a donation instead! You can donate at the link below:
