@@ -47,6 +47,45 @@ TERRITORY_COORDS = {
     'american_samoa': { 'lat': -14.2710, 'lon': -170.1322 },
     'northern_mariana_islands': { 'lat': 15.0979, 'lon': 145.6739 }
 }
+
+TERRITORY_DEMOGRAPHICS = {
+    'population': 50000,
+    'voting_age_pop': 40000,
+    'dem_votes': 15000,
+    'rep_votes': 5000,
+    'lib_votes': 1000,
+    'grn_votes': 500,
+    'con_votes': 500,
+    'ref_votes': 200,
+    'minority_pop': 45000,
+    'white_pop': 5000,
+    'county': 'County_0_0',
+    'enacted_district': 0
+}
+
+THIRD_PARTY_SHARES = {
+    'lib': 0.02,
+    'grn': 0.015,
+    'con': 0.01,
+    'ref': 0.005
+}
+
+SIMULATION_PARAMS = {
+    'pop_base': 10000,
+    'pop_decay': 0.7,
+    'vap_base': 0.80,
+    'vap_decay': 0.10,
+    'dem_offset': 0.15,
+    'dem_noise': 0.03,
+    'dem_min': 0.02,
+    'dem_max': 0.98,
+    'two_party_turnout': 0.60,
+    'minority_decay': 0.85,
+    'minority_offset': 0.05,
+    'minority_noise': 0.02,
+    'wiggle_low_pct': 0.4,
+    'wiggle_high_pct': 0.6
+}
 class GeoDataProcessor:
     """
     Handles geographical data processing, including downloading boundary data,
@@ -118,18 +157,8 @@ class GeoDataProcessor:
             ])
             gdf = gpd.GeoDataFrame(geometry=[poly], crs="EPSG:4326")
             gdf_3857 = gdf.to_crs(epsg=3857)
-            gdf_3857['population'] = 50000
-            gdf_3857['voting_age_pop'] = 40000
-            gdf_3857['dem_votes'] = 15000
-            gdf_3857['rep_votes'] = 5000
-            gdf_3857['lib_votes'] = 1000
-            gdf_3857['grn_votes'] = 500
-            gdf_3857['con_votes'] = 500
-            gdf_3857['ref_votes'] = 200
-            gdf_3857['minority_pop'] = 45000
-            gdf_3857['white_pop'] = 5000
-            gdf_3857['county'] = 'County_0_0'
-            gdf_3857['enacted_district'] = 0
+            for key, value in TERRITORY_DEMOGRAPHICS.items():
+                gdf_3857[key] = value
             return gdf_3857
 
         states_gdf = gpd.read_file(states_file)
@@ -179,10 +208,10 @@ class GeoDataProcessor:
         max_dist = distances.max() if distances.max() > 0 else 1.0
         
         # 1. Population: Higher in center, lower at edges
-        clipped_gdf['population'] = (10000 * (1 - 0.7 * (distances / max_dist))).astype(int)
+        clipped_gdf['population'] = (SIMULATION_PARAMS['pop_base'] * (1 - SIMULATION_PARAMS['pop_decay'] * (distances / max_dist))).astype(int)
         
         # 2. Voting Age Pop
-        vap_ratio = 0.80 - 0.10 * (distances / max_dist)
+        vap_ratio = SIMULATION_PARAMS['vap_base'] - SIMULATION_PARAMS['vap_decay'] * (distances / max_dist)
         clipped_gdf['voting_age_pop'] = (clipped_gdf['population'] * vap_ratio).astype(int)
         
         # 3. Partisan Vote Share: Dem concentrated in urban center, Rep in rural
@@ -192,20 +221,18 @@ class GeoDataProcessor:
         dem_base = profile['dem_base']
         dem_mult = profile['dem_mult']
             
-        dem_share = dem_base * (1 - dem_mult * (distances / max_dist)) + 0.15
-        dem_share = np.clip(dem_share + np.random.normal(0, 0.03, len(clipped_gdf)), 0.02, 0.98)
+        dem_share = dem_base * (1 - dem_mult * (distances / max_dist)) + SIMULATION_PARAMS['dem_offset']
+        dem_share = np.clip(dem_share + np.random.normal(0, SIMULATION_PARAMS['dem_noise'], len(clipped_gdf)), SIMULATION_PARAMS['dem_min'], SIMULATION_PARAMS['dem_max'])
         
-        clipped_gdf['dem_votes'] = (clipped_gdf['population'] * dem_share * 0.60).astype(int)
-        clipped_gdf['rep_votes'] = (clipped_gdf['population'] * (1 - dem_share) * 0.60).astype(int)
-        clipped_gdf['lib_votes'] = (clipped_gdf['population'] * 0.02).astype(int)
-        clipped_gdf['grn_votes'] = (clipped_gdf['population'] * 0.015).astype(int)
-        clipped_gdf['con_votes'] = (clipped_gdf['population'] * 0.01).astype(int)
-        clipped_gdf['ref_votes'] = (clipped_gdf['population'] * 0.005).astype(int)
+        clipped_gdf['dem_votes'] = (clipped_gdf['population'] * dem_share * SIMULATION_PARAMS['two_party_turnout']).astype(int)
+        clipped_gdf['rep_votes'] = (clipped_gdf['population'] * (1 - dem_share) * SIMULATION_PARAMS['two_party_turnout']).astype(int)
+        for party, share in THIRD_PARTY_SHARES.items():
+            clipped_gdf[f'{party}_votes'] = (clipped_gdf['population'] * share).astype(int)
         
         # 4. Demographics: Minority groups concentrated in urban center
         minority_base = profile['minority_base']
-        minority_share = minority_base * (1 - 0.85 * (distances / max_dist)) + 0.05
-        minority_share = np.clip(minority_share + np.random.normal(0, 0.02, len(clipped_gdf)), 0.0, 1.0)
+        minority_share = minority_base * (1 - SIMULATION_PARAMS['minority_decay'] * (distances / max_dist)) + SIMULATION_PARAMS['minority_offset']
+        minority_share = np.clip(minority_share + np.random.normal(0, SIMULATION_PARAMS['minority_noise'], len(clipped_gdf)), 0.0, 1.0)
         clipped_gdf['minority_pop'] = (clipped_gdf['population'] * minority_share).astype(int)
         clipped_gdf['white_pop'] = clipped_gdf['population'] - clipped_gdf['minority_pop']
         
@@ -223,8 +250,8 @@ class GeoDataProcessor:
         # Add a squiggle in the middle vertical band
         miny_p = clipped_gdf.geometry.centroid.y.min()
         maxy_p = clipped_gdf.geometry.centroid.y.max()
-        midy_low = miny_p + (maxy_p - miny_p) * 0.4
-        midy_high = miny_p + (maxy_p - miny_p) * 0.6
+        midy_low = miny_p + (maxy_p - miny_p) * SIMULATION_PARAMS['wiggle_low_pct']
+        midy_high = miny_p + (maxy_p - miny_p) * SIMULATION_PARAMS['wiggle_high_pct']
         
         mask_wiggle = (clipped_gdf.geometry.centroid.y >= midy_low) & (clipped_gdf.geometry.centroid.y <= midy_high)
         clipped_gdf.loc[mask_wiggle & (clipped_gdf['enacted_district'] == 3), 'enacted_district'] = 4
