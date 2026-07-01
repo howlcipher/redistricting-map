@@ -135,6 +135,7 @@ class App {
             document.getElementById('toggle-enacted').addEventListener('click', () => this.uiController.switchMode('enacted'));
             document.getElementById('toggle-optimized').addEventListener('click', () => this.uiController.switchMode('optimized'));
             document.getElementById('toggle-tuned').addEventListener('click', () => this.uiController.switchMode('tuned'));
+            document.getElementById('toggle-historical').addEventListener('click', () => this.uiController.switchMode('historical'));
             
             const datePicker = document.getElementById('history-date-picker');
             if (datePicker) {

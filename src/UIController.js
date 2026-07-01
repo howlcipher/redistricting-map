@@ -27,7 +27,7 @@ export class UIController {
     }
 
     getActiveLayerKey() {
-        if (this.activeMode === 'enacted') return 'enacted';
+        if (this.activeMode === 'enacted' || this.activeMode === 'historical') return 'enacted';
         if (this.activeMode === 'tuned') return 'optimized_all';
         return `optimized_${this.activeCriteria}`;
     }
@@ -175,7 +175,7 @@ export class UIController {
                 let eg = 0.0;
                 const baseEg = this.app.dataService.statePartisanBaselines[s] || 0.0;
                 
-                if (this.activeMode === 'enacted') {
+                if (this.activeMode === 'enacted' || this.activeMode === 'historical') {
                     eg = baseEg;
                 } else {
                     const stateMetrics = this.app.dataService.metricsDatabase[s];
@@ -266,8 +266,8 @@ export class UIController {
         
         const statusPill = document.getElementById('map-status-pill');
         const prefixLabel = this.activeView === 'national' ? 'USA Summary: ' : '';
-        if (this.activeMode === 'enacted') {
-            statusPill.innerText = `${prefixLabel}Enacted Reality`;
+        if (this.activeMode === 'enacted' || this.activeMode === 'historical') {
+            statusPill.innerText = `${prefixLabel}${this.activeMode === 'historical' ? 'Historical Enacted' : 'Enacted Reality'}`;
             statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 mb-2';
         } else {
             const criteriaLabel = {
@@ -370,11 +370,14 @@ export class UIController {
         const enactedBtn = document.getElementById('toggle-enacted');
         const optimizedBtn = document.getElementById('toggle-optimized');
         const tunedBtn = document.getElementById('toggle-tuned');
+        const historicalBtn = document.getElementById('toggle-historical');
         
         const criteriaPanel = document.getElementById('criteria-selector-container');
         const playgroundPanel = document.getElementById('playground-slider-container');
+        const historicalDateContainer = document.getElementById('historical-date-container');
         
         const prevKey = this.getActiveLayerKey();
+        const wasHistorical = this.activeMode === 'historical';
         this.activeMode = mode;
         
         if (this.activeView === 'national') {
@@ -387,9 +390,19 @@ export class UIController {
             }
         }
         
-        [enactedBtn, optimizedBtn, tunedBtn].forEach(btn => {
+        [enactedBtn, optimizedBtn, tunedBtn, historicalBtn].forEach(btn => {
             if (btn) btn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
         });
+        
+        if (historicalDateContainer) historicalDateContainer.classList.add('hidden');
+        
+        if (mode !== 'historical' && wasHistorical) {
+            const today = new Date().toISOString().split('T')[0];
+            if (this.app.dataService.activeDate !== today) {
+                this.app.dataService.applyHistoricalData(today);
+                this.populateLeaderboardTable();
+            }
+        }
         
         if (mode === 'enacted') {
             if (enactedBtn) enactedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
@@ -404,6 +417,16 @@ export class UIController {
             criteriaPanel.classList.add('hidden');
             playgroundPanel.classList.remove('hidden');
             this.syncSlidersToActiveState();
+        } else if (mode === 'historical') {
+            if (historicalBtn) historicalBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
+            criteriaPanel.classList.add('hidden');
+            playgroundPanel.classList.add('hidden');
+            if (historicalDateContainer) historicalDateContainer.classList.remove('hidden');
+            const datePicker = document.getElementById('history-date-picker');
+            if (datePicker && datePicker.value) {
+                this.app.dataService.applyHistoricalData(datePicker.value);
+                this.populateLeaderboardTable();
+            }
         }
         
         this.updateSummaryDashboard();
