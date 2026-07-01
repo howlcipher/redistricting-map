@@ -18,7 +18,8 @@ class TestGenerateMaps:
 
     def test_district_counts_constant(self):
         # Verify the constants are accessible and correct
-        from generate_maps import DISTRICT_COUNTS
-        assert DISTRICT_COUNTS['colorado'] == 8
-        assert DISTRICT_COUNTS['california'] == 52
-        assert 'district_of_columbia' in DISTRICT_COUNTS
+        from generate_maps import CONFIG
+        district_counts = CONFIG["historical_data"][0]["district_counts"]
+        assert district_counts['colorado'] == 8
+        assert district_counts['california'] == 52
+        assert 'district_of_columbia' in district_counts

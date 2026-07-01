@@ -15,47 +15,20 @@ export class DataService {
         this.globalMetrics = {};
         this.usStatesDataCache = null;
         
-        this.districtCounts = {
-            'alabama': 7, 'alaska': 1, 'arizona': 9, 'arkansas': 4, 'california': 52,
-            'colorado': 8, 'connecticut': 5, 'delaware': 1, 'florida': 28, 'georgia': 14,
-            'hawaii': 2, 'idaho': 2, 'illinois': 17, 'indiana': 9, 'iowa': 4,
-            'kansas': 4, 'kentucky': 6, 'louisiana': 6, 'maine': 2, 'maryland': 8,
-            'massachusetts': 9, 'michigan': 13, 'minnesota': 8, 'mississippi': 4, 'missouri': 8,
-            'montana': 2, 'nebraska': 3, 'nevada': 4, 'new_hampshire': 2, 'new_jersey': 12,
-            'new_mexico': 3, 'new_york': 26, 'north_carolina': 14, 'north_dakota': 1, 'ohio': 15,
-            'oklahoma': 5, 'oregon': 6, 'pennsylvania': 17, 'rhode_island': 2, 'south_carolina': 7,
-            'south_dakota': 1, 'tennessee': 9, 'texas': 38, 'utah': 4, 'vermont': 1,
-            'virginia': 11, 'washington': 10, 'west_virginia': 2, 'wisconsin': 8, 'wyoming': 1,
-            'district_of_columbia': 1, 'puerto_rico': 1, 'guam': 1, 'virgin_islands': 1,
-            'american_samoa': 1, 'northern_mariana_islands': 1
-        };
-
-        this.statePartisanBaselines = {
-            'alabama': 0.082, 'alaska': 0.0, 'arizona': 0.021, 'arkansas': 0.091, 'california': -0.068,
-            'colorado': -0.065, 'connecticut': -0.058, 'delaware': 0.0, 'florida': 0.074, 'georgia': 0.061,
-            'hawaii': -0.088, 'idaho': 0.115, 'illinois': -0.092, 'indiana': 0.072, 'iowa': 0.048,
-            'kansas': 0.076, 'kentucky': 0.088, 'louisiana': 0.068, 'maine': -0.025, 'maryland': -0.078,
-            'massachusetts': -0.084, 'michigan': 0.012, 'minnesota': -0.018, 'mississippi': 0.059, 'missouri': 0.077,
-            'montana': 0.038, 'nebraska': 0.075, 'nevada': 0.014, 'new_hampshire': 0.011, 'new_jersey': -0.036,
-            'new_mexico': -0.038, 'new_york': -0.052, 'north_carolina': 0.104, 'north_dakota': 0.0, 'ohio': 0.083,
-            'oklahoma': 0.108, 'oregon': -0.046, 'pennsylvania': 0.018, 'rhode_island': -0.035, 'south_carolina': 0.079,
-            'south_dakota': 0.0, 'tennessee': 0.095, 'texas': 0.089, 'utah': 0.098, 'vermont': 0.0,
-            'virginia': -0.014, 'washington': -0.042, 'west_virginia': 0.087, 'wisconsin': 0.116, 'wyoming': 0.0,
-            'district_of_columbia': 0.0, 'puerto_rico': 0.0, 'guam': 0.0, 'virgin_islands': 0.0,
-            'american_samoa': 0.0, 'northern_mariana_islands': 0.0
-        };
-
-        this.stateLeaderboardData = {
-            'colorado': { name: 'Colorado', enacted_eg: -0.065, enacted_comp: 2, enacted_compac: 0.246, optimized_eg: -0.126, optimized_comp: 2, optimized_compac: 0.358, enacted_min_inf: 8, enacted_min_maj: 4, optimized_min_inf: 8, optimized_min_maj: 2, enacted_mmd: 0.045, optimized_mmd: 0.004, enacted_splits: 22, optimized_splits: 16, lat: 40.2, lon: -104.8, zoom: 7.5 },
-            'wisconsin': { name: 'Wisconsin', enacted_eg: 0.116, enacted_comp: 1, enacted_compac: 0.211, optimized_eg: -0.012, optimized_comp: 4, optimized_compac: 0.385, enacted_min_inf: 1, enacted_min_maj: 1, optimized_min_inf: 2, optimized_min_maj: 1, enacted_mmd: 0.082, optimized_mmd: 0.005, enacted_splits: 21, optimized_splits: 14, lat: 44.5, lon: -89.5, zoom: 7.2 },
-            'north_carolina': { name: 'North Carolina', enacted_eg: 0.104, enacted_comp: 2, enacted_compac: 0.198, optimized_eg: -0.008, optimized_comp: 5, optimized_compac: 0.372, enacted_min_inf: 3, enacted_min_maj: 1, optimized_min_inf: 4, optimized_min_maj: 2, enacted_mmd: 0.061, optimized_mmd: 0.004, enacted_splits: 28, optimized_splits: 16, lat: 35.5, lon: -80.0, zoom: 7.0 },
-            'texas': { name: 'Texas', enacted_eg: 0.089, enacted_comp: 3, enacted_compac: 0.185, optimized_eg: 0.005, optimized_comp: 8, optimized_compac: 0.354, enacted_min_inf: 12, enacted_min_maj: 8, optimized_min_inf: 15, optimized_min_maj: 10, enacted_mmd: 0.054, optimized_mmd: 0.003, enacted_splits: 42, optimized_splits: 28, lat: 31.5, lon: -99.5, zoom: 6.0 },
-            'maryland': { name: 'Maryland', enacted_eg: -0.078, enacted_comp: 1, enacted_compac: 0.174, optimized_eg: -0.002, optimized_comp: 3, optimized_compac: 0.361, enacted_min_inf: 4, enacted_min_maj: 2, optimized_min_inf: 5, optimized_min_maj: 3, enacted_mmd: -0.048, optimized_mmd: -0.002, enacted_splits: 19, optimized_splits: 12, lat: 39.0, lon: -76.8, zoom: 8.0 }
-        };
+        this.districtCounts = {};
+        this.statePartisanBaselines = {};
+        this.stateLeaderboardData = {};
+        this.historicalData = [];
+        this.activeDate = new Date().toISOString().split('T')[0];
     }
 
     async init() {
         try {
+            const configRes = await fetch('./config.json');
+            const config = await configRes.json();
+            this.historicalData = config.historical_data;
+            this.applyHistoricalData(this.activeDate);
+            
             const cacheKey = 'us-states-geojson';
             let cachedGeoJSON = await this.cache.getItem(cacheKey);
             
@@ -111,19 +84,38 @@ export class DataService {
             const metricsRes = await fetch('./data/metrics.json').catch(() => ({ json: async () => ({}) }));
             this.metricsDatabase = await metricsRes.json();
             
-            Object.keys(this.districtCounts).forEach(key => {
-                this.getOrGenerateStateData(key, this.formatStateName(key));
-            });
-
-            Object.keys(this.stateLeaderboardData).forEach(key => {
-                const data = this.stateLeaderboardData[key];
-                data.tuned_eg = data.optimized_eg;
-                data.tuned_compac = data.optimized_compac;
-                data.tuned_splits = data.optimized_splits;
-            });
         } catch (err) {
             console.error('Failed to initialize DataService:', err);
         }
+    }
+
+    applyHistoricalData(dateStr) {
+        this.activeDate = dateStr;
+        let activeBlock = this.historicalData[0]; // Default newest
+        for (const block of this.historicalData) {
+            if (dateStr >= block.date) {
+                activeBlock = block;
+                break;
+            }
+        }
+        
+        // Deep copy so we don't mutate the raw config block
+        this.districtCounts = JSON.parse(JSON.stringify(activeBlock.district_counts || {}));
+        this.statePartisanBaselines = JSON.parse(JSON.stringify(activeBlock.state_partisan_baselines || {}));
+        this.stateLeaderboardData = JSON.parse(JSON.stringify(activeBlock.state_leaderboard_data || {}));
+        
+        // Ensure all state data structures exist
+        Object.keys(this.districtCounts).forEach(key => {
+            this.getOrGenerateStateData(key, this.formatStateName(key));
+        });
+
+        // Initialize tuned properties
+        Object.keys(this.stateLeaderboardData).forEach(key => {
+            const data = this.stateLeaderboardData[key];
+            data.tuned_eg = data.optimized_eg;
+            data.tuned_compac = data.optimized_compac;
+            data.tuned_splits = data.optimized_splits;
+        });
     }
 
     formatStateName(key) {

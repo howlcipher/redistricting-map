@@ -136,6 +136,25 @@ class App {
             document.getElementById('toggle-optimized').addEventListener('click', () => this.uiController.switchMode('optimized'));
             document.getElementById('toggle-tuned').addEventListener('click', () => this.uiController.switchMode('tuned'));
             
+            const datePicker = document.getElementById('history-date-picker');
+            if (datePicker) {
+                // @ts-ignore
+                datePicker.value = this.dataService.activeDate;
+                datePicker.addEventListener('change', (e) => {
+                    // @ts-ignore
+                    const newDate = e.target.value;
+                    if (newDate) {
+                        this.dataService.applyHistoricalData(newDate);
+                        this.uiController.populateLeaderboardTable();
+                        this.uiController.updateSummaryDashboard();
+                        
+                        if (this.uiController.activeView === 'national' && this.mapController.nationalLayer) {
+                            this.mapController.nationalLayer.setStyle((f) => this.mapController.getNationalStyle(f));
+                        }
+                    }
+                });
+            }
+
             document.getElementById('btn-toggle-swipe').addEventListener('click', () => {
                 this.uiController.toggleSwipe();
             });

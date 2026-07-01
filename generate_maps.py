@@ -14,14 +14,13 @@ from gerrychain.tree import recursive_tree_part
 import networkx as nx
 from functools import partial
 
-# Load configuration from config.json
-config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+# Load configuration from public/config.json
+config_path = os.path.join(os.path.dirname(__file__), 'public', 'config.json')
 with open(config_path, 'r') as f:
     CONFIG = json.load(f)
 
+# The pipeline script will extract the active profile from CONFIG["historical_data"] dynamically
 STATES_URL = CONFIG["urls"]["states_geojson"]
-DISTRICT_COUNTS = CONFIG["district_counts"]
-STATE_PROFILES = CONFIG["state_profiles"]
 TERRITORY_COORDS = CONFIG["territory_coords"]
 TERRITORY_DEMOGRAPHICS = CONFIG["territory_demographics"]
 THIRD_PARTY_SHARES = CONFIG["third_party_shares"]
@@ -693,6 +692,7 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", type=str, default="public/data", help="Output directory")
     parser.add_argument("--states", type=str, default="colorado,wisconsin,texas,north_carolina,maryland", 
                         help="Comma-separated list of state keys to run, or 'all' for all 56 jurisdictions (default: showcase states)")
+    parser.add_argument("--date", type=str, default=None, help="YYYY-MM-DD date to run historical simulation for")
     parser.add_argument("--grid-size", type=int, default=None, help="Override default grid resolution")
     parser.add_argument("--comp-min", type=float, default=None, help="Override competitive seat min threshold")
     parser.add_argument("--comp-max", type=float, default=None, help="Override competitive seat max threshold")
@@ -705,15 +705,26 @@ if __name__ == "__main__":
     # Download states boundary geojson
     states_file = GeoDataProcessor.download_states_geojson()
     
+    # Select correct historical configuration block
+    active_history = CONFIG["historical_data"][0] # Default to newest/first
+    if args.date:
+        # Simple string comparison assumes dates are YYYY-MM-DD and sorted in config
+        for block in CONFIG["historical_data"]:
+            if args.date >= block["date"]:
+                active_history = block
+                break
+                
+    district_counts = active_history["district_counts"]
+    
     # Determine which states to run
     if args.states.lower() == 'all':
-        run_keys = list(DISTRICT_COUNTS.keys())
+        run_keys = list(district_counts.keys())
     else:
-        run_keys = [k.strip().lower() for k in args.states.split(',') if k.strip().lower() in DISTRICT_COUNTS]
+        run_keys = [k.strip().lower() for k in args.states.split(',') if k.strip().lower() in district_counts]
         
     target_states = []
     for key in run_keys:
-        dists = DISTRICT_COUNTS[key]
+        dists = district_counts[key]
         if dists == 1:
             grid_size = 10
         elif dists <= 8:
