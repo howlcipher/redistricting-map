@@ -14,78 +14,18 @@ from gerrychain.tree import recursive_tree_part
 import networkx as nx
 from functools import partial
 
-# Constants for USA States data source
-STATES_URL = "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
+# Load configuration from config.json
+config_path = os.path.join(os.path.dirname(__file__), 'config.json')
+with open(config_path, 'r') as f:
+    CONFIG = json.load(f)
 
-DISTRICT_COUNTS = {
-    'alabama': 7, 'alaska': 1, 'arizona': 9, 'arkansas': 4, 'california': 52,
-    'colorado': 8, 'connecticut': 5, 'delaware': 1, 'florida': 28, 'georgia': 14,
-    'hawaii': 2, 'idaho': 2, 'illinois': 17, 'indiana': 9, 'iowa': 4,
-    'kansas': 4, 'kentucky': 6, 'louisiana': 6, 'maine': 2, 'maryland': 8,
-    'massachusetts': 9, 'michigan': 13, 'minnesota': 8, 'mississippi': 4, 'missouri': 8,
-    'montana': 2, 'nebraska': 3, 'nevada': 4, 'new_hampshire': 2, 'new_jersey': 12,
-    'new_mexico': 3, 'new_york': 26, 'north_carolina': 14, 'north_dakota': 1, 'ohio': 15,
-    'oklahoma': 5, 'oregon': 6, 'pennsylvania': 17, 'rhode_island': 2, 'south_carolina': 7,
-    'south_dakota': 1, 'tennessee': 9, 'texas': 38, 'utah': 4, 'vermont': 1,
-    'virginia': 11, 'washington': 10, 'west_virginia': 2, 'wisconsin': 8, 'wyoming': 1,
-    'district_of_columbia': 1, 'puerto_rico': 1, 'guam': 1, 'virgin_islands': 1,
-    'american_samoa': 1, 'northern_mariana_islands': 1
-}
-
-STATE_PROFILES = {
-    'colorado': {'dem_base': 0.50, 'dem_mult': 0.40, 'minority_base': 0.40},
-    'wisconsin': {'dem_base': 0.45, 'dem_mult': 0.45, 'minority_base': 0.40},
-    'texas': {'dem_base': 0.35, 'dem_mult': 0.45, 'minority_base': 0.70},
-    'north_carolina': {'dem_base': 0.42, 'dem_mult': 0.43, 'minority_base': 0.40},
-    'maryland': {'dem_base': 0.60, 'dem_mult': 0.35, 'minority_base': 0.50},
-    'default': {'dem_base': 0.45, 'dem_mult': 0.45, 'minority_base': 0.40}
-}
-
-TERRITORY_COORDS = {
-    'guam': { 'lat': 13.4443, 'lon': 144.7937 },
-    'virgin_islands': { 'lat': 18.3358, 'lon': -64.8963 },
-    'american_samoa': { 'lat': -14.2710, 'lon': -170.1322 },
-    'northern_mariana_islands': { 'lat': 15.0979, 'lon': 145.6739 }
-}
-
-TERRITORY_DEMOGRAPHICS = {
-    'population': 50000,
-    'voting_age_pop': 40000,
-    'dem_votes': 15000,
-    'rep_votes': 5000,
-    'lib_votes': 1000,
-    'grn_votes': 500,
-    'con_votes': 500,
-    'ref_votes': 200,
-    'minority_pop': 45000,
-    'white_pop': 5000,
-    'county': 'County_0_0',
-    'enacted_district': 0
-}
-
-THIRD_PARTY_SHARES = {
-    'lib': 0.02,
-    'grn': 0.015,
-    'con': 0.01,
-    'ref': 0.005
-}
-
-SIMULATION_PARAMS = {
-    'pop_base': 10000,
-    'pop_decay': 0.7,
-    'vap_base': 0.80,
-    'vap_decay': 0.10,
-    'dem_offset': 0.15,
-    'dem_noise': 0.03,
-    'dem_min': 0.02,
-    'dem_max': 0.98,
-    'two_party_turnout': 0.60,
-    'minority_decay': 0.85,
-    'minority_offset': 0.05,
-    'minority_noise': 0.02,
-    'wiggle_low_pct': 0.4,
-    'wiggle_high_pct': 0.6
-}
+STATES_URL = CONFIG["urls"]["states_geojson"]
+DISTRICT_COUNTS = CONFIG["district_counts"]
+STATE_PROFILES = CONFIG["state_profiles"]
+TERRITORY_COORDS = CONFIG["territory_coords"]
+TERRITORY_DEMOGRAPHICS = CONFIG["territory_demographics"]
+THIRD_PARTY_SHARES = CONFIG["third_party_shares"]
+SIMULATION_PARAMS = CONFIG["simulation_params"]
 class GeoDataProcessor:
     """
     Handles geographical data processing, including downloading boundary data,
@@ -93,7 +33,7 @@ class GeoDataProcessor:
     """
 
     @staticmethod
-    def download_states_geojson(output_path="us-states.json"):
+    def download_states_geojson(output_path=None):
         """
         Downloads the U.S. states GeoJSON file if it doesn't already exist.
 
@@ -103,6 +43,8 @@ class GeoDataProcessor:
         Returns:
             str: The output path of the downloaded file.
         """
+        if output_path is None:
+            output_path = CONFIG["files"]["states_geojson"]
         if not os.path.exists(output_path):
             print(f"Downloading U.S. state boundaries from {STATES_URL}...")
             urllib.request.urlretrieve(STATES_URL, output_path)
@@ -127,11 +69,12 @@ class GeoDataProcessor:
         pass
 
     @staticmethod
-    def generate_state_geometries(states_file, state_name, num_districts=8, grid_size=20):
+    def generate_state_geometries(states_file, state_name, num_districts=None, grid_size=None):
         """
         Loads the state border polygon, clips a grid to it, filters out small islands,
         and returns a connected GeoDataFrame in EPSG:3857 planar projection with synthesized
         demographic and partisan data.
+
 
         Args:
             states_file (str): Path to the GeoJSON file containing state boundaries.
@@ -142,6 +85,11 @@ class GeoDataProcessor:
         Returns:
             GeoDataFrame: The processed grid intersections with the state boundary.
         """
+        if num_districts is None:
+            num_districts = CONFIG["default_args"]["num_districts"]
+        if grid_size is None:
+            grid_size = CONFIG["default_args"]["grid_size"]
+            
         print(f"\nProcessing boundaries for {state_name}...")
         
         name_lower = state_name.lower().replace(' ', '_')
@@ -396,7 +344,7 @@ class MetricsAnalyzer:
     """
 
     @staticmethod
-    def count_county_splits(gdf, partition_assignment, county_col='county'):
+    def count_county_splits(gdf, partition_assignment, county_col=None):
         """
         Counts the number of times a county is split across multiple districts.
 
@@ -408,6 +356,9 @@ class MetricsAnalyzer:
         Returns:
             int: Total number of county splits.
         """
+        if county_col is None:
+            county_col = CONFIG["default_args"]["split_county_col"]
+            
         if isinstance(partition_assignment, str):
             assignment_series = gdf[partition_assignment]
         elif isinstance(partition_assignment, dict):
@@ -423,7 +374,7 @@ class MetricsAnalyzer:
         return int(splits)
 
     @staticmethod
-    def calculate_summary_metrics(df, gdf, assignment_col):
+    def calculate_summary_metrics(df, gdf, assignment_col, thresholds=None):
         """
         Calculates summary metrics for a given redistricting plan, including
         the efficiency gap, competitive seats, minority representation, and compactness.
@@ -432,10 +383,20 @@ class MetricsAnalyzer:
             df (DataFrame): Aggregated district-level dataframe.
             gdf (GeoDataFrame): Node-level geography dataframe.
             assignment_col (str): The column name for district assignments.
+            thresholds (dict): Thresholds for metrics calculations.
 
         Returns:
             dict: Summary metrics.
         """
+        if thresholds is None:
+            # Fallback to defaults
+            thresholds = {
+                "competitive_min": 0.45,
+                "competitive_max": 0.55,
+                "minority_influence": 0.30,
+                "minority_majority": 0.50,
+                "wasted_votes_divisor": 2.0
+            }
         total_votes = df['dem_votes_sum'].sum() + df['rep_votes_sum'].sum()
         
         wasted_dem = 0
@@ -454,22 +415,22 @@ class MetricsAnalyzer:
             
             dem_share = dem / tot if tot > 0 else 0.0
             dem_shares.append(dem_share)
-            if 0.45 <= dem_share <= 0.55:
+            if thresholds["competitive_min"] <= dem_share <= thresholds["competitive_max"]:
                 competitive_seats += 1
                 
             if dem > rep:
-                w_dem = dem - (tot / 2.0)
+                w_dem = dem - (tot / thresholds["wasted_votes_divisor"])
                 w_rep = rep
             else:
                 w_dem = dem
-                w_rep = rep - (tot / 2.0)
+                w_rep = rep - (tot / thresholds["wasted_votes_divisor"])
             wasted_dem += w_dem
             wasted_rep += w_rep
             
             min_pct = minority / pop if pop > 0 else 0.0
-            if min_pct >= 0.30:
+            if min_pct >= thresholds["minority_influence"]:
                 minority_influence_seats += 1
-            if min_pct >= 0.50:
+            if min_pct >= thresholds["minority_majority"]:
                 minority_majority_seats += 1
                 
         # Efficiency gap: A mathematical measure of partisan gerrymandering.
@@ -503,16 +464,18 @@ class PipelineManager:
     redistricting, analyzing metrics, and saving outputs.
     """
 
-    def __init__(self, steps=80, output_dir="public/data"):
+    def __init__(self, steps=80, output_dir="public/data", thresholds=None):
         """
         Initializes the pipeline manager with simulation steps and output directory.
 
         Args:
             steps (int): Number of steps to run the Markov chain.
             output_dir (str): Output directory for geojson and metrics.
+            thresholds (dict): Thresholds for metrics calculations.
         """
         self.steps = steps
         self.output_dir = output_dir
+        self.thresholds = thresholds
 
     @staticmethod
     def _create_district_features(gdf, assignment_col, pop_col, vap_col, dem_col, rep_col, minority_col):
@@ -607,7 +570,7 @@ class PipelineManager:
         enacted_districts_wgs84.to_file(os.path.join(self.output_dir, f"{state_key}_enacted_districts.geojson"), driver="GeoJSON")
         
         state_metrics = {
-            "enacted": MetricsAnalyzer.calculate_summary_metrics(enacted_districts, gdf, 'enacted_district')
+            "enacted": MetricsAnalyzer.calculate_summary_metrics(enacted_districts, gdf, 'enacted_district', self.thresholds)
         }
         
         # 2. Run Optimization Configs
@@ -651,7 +614,7 @@ class PipelineManager:
             opt_districts_wgs84 = opt_districts.to_crs(epsg=4326)
             opt_districts_wgs84.to_file(os.path.join(self.output_dir, f"{state_key}_optimized_districts_{name}.geojson"), driver="GeoJSON")
             
-            state_metrics[f"optimized_{name}"] = MetricsAnalyzer.calculate_summary_metrics(opt_districts, gdf, assignment_col_name)
+            state_metrics[f"optimized_{name}"] = MetricsAnalyzer.calculate_summary_metrics(opt_districts, gdf, assignment_col_name, self.thresholds)
             
         return state_metrics
 
@@ -730,6 +693,12 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", type=str, default="public/data", help="Output directory")
     parser.add_argument("--states", type=str, default="colorado,wisconsin,texas,north_carolina,maryland", 
                         help="Comma-separated list of state keys to run, or 'all' for all 56 jurisdictions (default: showcase states)")
+    parser.add_argument("--grid-size", type=int, default=None, help="Override default grid resolution")
+    parser.add_argument("--comp-min", type=float, default=None, help="Override competitive seat min threshold")
+    parser.add_argument("--comp-max", type=float, default=None, help="Override competitive seat max threshold")
+    parser.add_argument("--min-infl", type=float, default=None, help="Override minority influence threshold")
+    parser.add_argument("--min-maj", type=float, default=None, help="Override minority majority threshold")
+    parser.add_argument("--wasted-div", type=float, default=None, help="Override wasted votes divisor")
     
     args = parser.parse_args()
     
@@ -755,6 +724,9 @@ if __name__ == "__main__":
             grid_size = 40
         else:
             grid_size = 50
+        if args.grid_size is not None:
+            grid_size = args.grid_size
+            
         target_states.append({
             "key": key,
             "name": format_state_name(key),
@@ -762,5 +734,12 @@ if __name__ == "__main__":
             "grid_size": grid_size
         })
         
-    pipeline = PipelineManager(steps=args.steps, output_dir=args.output_dir)
+    thresholds = CONFIG["analytical_thresholds"].copy()
+    if args.comp_min is not None: thresholds["competitive_min"] = args.comp_min
+    if args.comp_max is not None: thresholds["competitive_max"] = args.comp_max
+    if args.min_infl is not None: thresholds["minority_influence"] = args.min_infl
+    if args.min_maj is not None: thresholds["minority_majority"] = args.min_maj
+    if args.wasted_div is not None: thresholds["wasted_votes_divisor"] = args.wasted_div
+        
+    pipeline = PipelineManager(steps=args.steps, output_dir=args.output_dir, thresholds=thresholds)
     pipeline.run_all(target_states, states_file)

@@ -1,0 +1,85 @@
+{
+  "urls": {
+    "states_geojson": "https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json"
+  },
+  "files": {
+    "states_geojson": "us-states.json",
+    "metrics_output": "metrics.json"
+  },
+  "district_counts": {
+    "alabama": 7, "alaska": 1, "arizona": 9, "arkansas": 4, "california": 52,
+    "colorado": 8, "connecticut": 5, "delaware": 1, "florida": 28, "georgia": 14,
+    "hawaii": 2, "idaho": 2, "illinois": 17, "indiana": 9, "iowa": 4,
+    "kansas": 4, "kentucky": 6, "louisiana": 6, "maine": 2, "maryland": 8,
+    "massachusetts": 9, "michigan": 13, "minnesota": 8, "mississippi": 4, "missouri": 8,
+    "montana": 2, "nebraska": 3, "nevada": 4, "new_hampshire": 2, "new_jersey": 12,
+    "new_mexico": 3, "new_york": 26, "north_carolina": 14, "north_dakota": 1, "ohio": 15,
+    "oklahoma": 5, "oregon": 6, "pennsylvania": 17, "rhode_island": 2, "south_carolina": 7,
+    "south_dakota": 1, "tennessee": 9, "texas": 38, "utah": 4, "vermont": 1,
+    "virginia": 11, "washington": 10, "west_virginia": 2, "wisconsin": 8, "wyoming": 1,
+    "district_of_columbia": 1, "puerto_rico": 1, "guam": 1, "virgin_islands": 1,
+    "american_samoa": 1, "northern_mariana_islands": 1
+  },
+  "state_profiles": {
+    "colorado": {"dem_base": 0.50, "dem_mult": 0.40, "minority_base": 0.40},
+    "wisconsin": {"dem_base": 0.45, "dem_mult": 0.45, "minority_base": 0.40},
+    "texas": {"dem_base": 0.35, "dem_mult": 0.45, "minority_base": 0.70},
+    "north_carolina": {"dem_base": 0.42, "dem_mult": 0.43, "minority_base": 0.40},
+    "maryland": {"dem_base": 0.60, "dem_mult": 0.35, "minority_base": 0.50},
+    "default": {"dem_base": 0.45, "dem_mult": 0.45, "minority_base": 0.40}
+  },
+  "territory_coords": {
+    "guam": { "lat": 13.4443, "lon": 144.7937 },
+    "virgin_islands": { "lat": 18.3358, "lon": -64.8963 },
+    "american_samoa": { "lat": -14.2710, "lon": -170.1322 },
+    "northern_mariana_islands": { "lat": 15.0979, "lon": 145.6739 }
+  },
+  "territory_demographics": {
+    "population": 50000,
+    "voting_age_pop": 40000,
+    "dem_votes": 15000,
+    "rep_votes": 5000,
+    "lib_votes": 1000,
+    "grn_votes": 500,
+    "con_votes": 500,
+    "ref_votes": 200,
+    "minority_pop": 45000,
+    "white_pop": 5000,
+    "county": "County_0_0",
+    "enacted_district": 0
+  },
+  "third_party_shares": {
+    "lib": 0.02,
+    "grn": 0.015,
+    "con": 0.01,
+    "ref": 0.005
+  },
+  "simulation_params": {
+    "pop_base": 10000,
+    "pop_decay": 0.7,
+    "vap_base": 0.80,
+    "vap_decay": 0.10,
+    "dem_offset": 0.15,
+    "dem_noise": 0.03,
+    "dem_min": 0.02,
+    "dem_max": 0.98,
+    "two_party_turnout": 0.60,
+    "minority_decay": 0.85,
+    "minority_offset": 0.05,
+    "minority_noise": 0.02,
+    "wiggle_low_pct": 0.4,
+    "wiggle_high_pct": 0.6
+  },
+  "analytical_thresholds": {
+    "competitive_min": 0.45,
+    "competitive_max": 0.55,
+    "minority_influence": 0.30,
+    "minority_majority": 0.50,
+    "wasted_votes_divisor": 2.0
+  },
+  "default_args": {
+    "grid_size": 20,
+    "split_county_col": "county",
+    "num_districts": 8
+  }
+}
