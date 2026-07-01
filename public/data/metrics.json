@@ -1,58 +1,58 @@
 {
   "colorado": {
     "enacted": {
-      "efficiency_gap": -0.19111465987062437,
-      "mean_median_diff": -0.002759992945615908,
-      "competitive_seats": 4,
+      "efficiency_gap": -0.19277307370417132,
+      "mean_median_diff": -0.004017336704969954,
+      "competitive_seats": 8,
       "minority_influence_seats": 4,
       "minority_majority_seats": 0,
       "avg_compactness": 0.3802807793956842,
       "county_splits": 21
     },
     "optimized_headcount": {
-      "efficiency_gap": -0.3974812809038443,
-      "mean_median_diff": 0.010047341785009656,
-      "competitive_seats": 5,
-      "minority_influence_seats": 3,
+      "efficiency_gap": -0.39914104600014144,
+      "mean_median_diff": 0.009455498849924027,
+      "competitive_seats": 7,
+      "minority_influence_seats": 2,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.40819931342383176,
-      "county_splits": 15
+      "avg_compactness": 0.45522996977960284,
+      "county_splits": 18
     },
     "optimized_age": {
-      "efficiency_gap": -0.3974812809038443,
-      "mean_median_diff": 0.005733523592457046,
-      "competitive_seats": 4,
-      "minority_influence_seats": 4,
+      "efficiency_gap": -0.39914104600014144,
+      "mean_median_diff": 0.0036342657447764326,
+      "competitive_seats": 7,
+      "minority_influence_seats": 3,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.4687744273244406,
+      "avg_compactness": 0.45191486517570956,
       "county_splits": 16
     },
     "optimized_race": {
-      "efficiency_gap": -0.3974812809038443,
-      "mean_median_diff": 0.005657712508960189,
-      "competitive_seats": 4,
+      "efficiency_gap": -0.39914104600014144,
+      "mean_median_diff": 0.0016657762630868378,
+      "competitive_seats": 7,
       "minority_influence_seats": 4,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.444865491027555,
-      "county_splits": 14
+      "avg_compactness": 0.4771122251551504,
+      "county_splits": 12
     },
     "optimized_county": {
-      "efficiency_gap": -0.3974812809038443,
-      "mean_median_diff": 0.002721411551601216,
-      "competitive_seats": 4,
-      "minority_influence_seats": 4,
+      "efficiency_gap": -0.39914104600014144,
+      "mean_median_diff": 0.005568427788332553,
+      "competitive_seats": 8,
+      "minority_influence_seats": 3,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.4361304371654753,
+      "avg_compactness": 0.4422764248730052,
       "county_splits": 15
     },
     "optimized_all": {
-      "efficiency_gap": -0.3974812809038443,
-      "mean_median_diff": 0.0008897235810554349,
-      "competitive_seats": 4,
+      "efficiency_gap": -0.2675276803436091,
+      "mean_median_diff": 0.0015647335579095367,
+      "competitive_seats": 8,
       "minority_influence_seats": 3,
       "minority_majority_seats": 0,
-      "avg_compactness": 0.5025258212822792,
-      "county_splits": 14
+      "avg_compactness": 0.46957389928706394,
+      "county_splits": 13
     }
   },
   "wisconsin": {

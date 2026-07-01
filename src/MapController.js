@@ -32,17 +32,28 @@ export class MapController {
     }
 
     getPartisanFillColor(eg, isDark) {
-        if (eg < 0) {
-            const absEg = Math.abs(eg);
-            if (absEg < 0.03) return isDark ? '#1e3a8a' : '#bfdbfe'; // blue-900 : blue-200
-            if (absEg < 0.07) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
-            return isDark ? '#3b82f6' : '#2563eb';                   // blue-500 : blue-600
-        } else if (eg > 0) {
-            if (eg < 0.03) return isDark ? '#7f1d1d' : '#fecaca';    // red-900 : red-200
-            if (eg < 0.07) return isDark ? '#b91c1c' : '#f87171';    // red-700 : red-400
-            return isDark ? '#ef4444' : '#dc2626';                   // red-500 : red-600
+        const interpolateHex = (hex1, hex2, factor) => {
+            const r1 = parseInt(hex1.slice(1, 3), 16), g1 = parseInt(hex1.slice(3, 5), 16), b1 = parseInt(hex1.slice(5, 7), 16);
+            const r2 = parseInt(hex2.slice(1, 3), 16), g2 = parseInt(hex2.slice(3, 5), 16), b2 = parseInt(hex2.slice(5, 7), 16);
+            const r = Math.round(r1 + factor * (r2 - r1));
+            const g = Math.round(g1 + factor * (g2 - g1));
+            const b = Math.round(b1 + factor * (b2 - b1));
+            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+        };
+
+        const absEg = Math.abs(eg);
+        const intensity = Math.min(1.0, absEg / 0.15); // Cap intensity at 15% EG
+        
+        const neutralColor = isDark ? '#1e293b' : '#cbd5e1'; 
+        const maxDemColor = isDark ? '#3b82f6' : '#2563eb';
+        const maxRepColor = isDark ? '#ef4444' : '#dc2626';
+
+        if (eg < -0.001) {
+            return interpolateHex(neutralColor, maxDemColor, intensity);
+        } else if (eg > 0.001) {
+            return interpolateHex(neutralColor, maxRepColor, intensity);
         } else {
-            return isDark ? '#1e293b' : '#cbd5e1';                   // slate-800 : slate-300
+            return neutralColor;
         }
     }
 
@@ -106,16 +117,25 @@ export class MapController {
             }
         }
 
+        const interpolateHex = (hex1, hex2, factor) => {
+            const r1 = parseInt(hex1.slice(1, 3), 16), g1 = parseInt(hex1.slice(3, 5), 16), b1 = parseInt(hex1.slice(5, 7), 16);
+            const r2 = parseInt(hex2.slice(1, 3), 16), g2 = parseInt(hex2.slice(3, 5), 16), b2 = parseInt(hex2.slice(5, 7), 16);
+            const r = Math.round(r1 + factor * (r2 - r1));
+            const g = Math.round(g1 + factor * (g2 - g1));
+            const b = Math.round(b1 + factor * (b2 - b1));
+            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+        };
+
+        const factor = Math.min(1.0, Math.max(0.0, (maxPct - 0.5) / 0.15)); // 50% to 65% is the gradient
+
         if (winner === 'dem') {
-            if (maxPct >= 0.65) return isDark ? '#3b82f6' : '#2563eb'; // blue-500 : blue-600
-            if (maxPct >= 0.60) return isDark ? '#1d4ed8' : '#60a5fa'; // blue-700 : blue-400
-            if (maxPct >= 0.55) return isDark ? '#1e3a8a' : '#bfdbfe'; // blue-900 : blue-200
-            if (maxPct > 0.50) return isDark ? '#172554' : '#eff6ff'; // blue-950 : blue-50
+            const minColor = isDark ? '#172554' : '#eff6ff'; // blue-950 : blue-50
+            const maxColor = isDark ? '#3b82f6' : '#2563eb'; // blue-500 : blue-600
+            return interpolateHex(minColor, maxColor, factor);
         } else if (winner === 'rep') {
-            if (maxPct >= 0.65) return isDark ? '#ef4444' : '#dc2626'; // red-500 : red-600
-            if (maxPct >= 0.60) return isDark ? '#b91c1c' : '#f87171'; // red-700 : red-400
-            if (maxPct >= 0.55) return isDark ? '#7f1d1d' : '#fecaca'; // red-900 : red-200
-            if (maxPct > 0.50) return isDark ? '#450a0a' : '#fef2f2'; // red-950 : red-50
+            const minColor = isDark ? '#450a0a' : '#fef2f2'; // red-950 : red-50
+            const maxColor = isDark ? '#ef4444' : '#dc2626'; // red-500 : red-600
+            return interpolateHex(minColor, maxColor, factor);
         } else if (winner === 'lib') {
             if (maxPct >= 0.65) return isDark ? '#eab308' : '#ca8a04'; // yellow-500 : yellow-600
             if (maxPct >= 0.60) return isDark ? '#a16207' : '#facc15'; // yellow-700 : yellow-400
