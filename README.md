@@ -27,10 +27,16 @@ This tool evaluates the fairness of district maps using two primary metrics:
 * **Gerrymander Tax Seat Count:** Displays how many seats are shifted/biased away from a perfectly proportional split (e.g. `R +8 Seat Bias`).
 * **Seat-to-Vote Bias Margin:** Computes the overall percentage deviation of congressional representation from the national popular vote.
 
+### 📅 Dynamic Historical Date Picker & Interpolation
+* **Time-Series Analysis:** A fully interactive date picker that allows you to traverse through historical census and election cycles.
+* **Continuous Mathematical Interpolation:** As you select dates that fall between recorded historical blocks (e.g. between 2010 and 2024), the application performs smooth linear interpolation on all state partisan baselines.
+* **Synchronized Dashboard:** The progressive projected House seats, Efficiency Gaps, and UI metrics instantly update in real-time as you glide across history.
+
 ### 🎨 Progressive Partisan Color Gradient Scale
-* **Bi-directional Partisan Gradients:** Replaces flat categorizations with a continuous color gradient representing the partisan efficiency gap (EG).
-  * **Democratic Bias:** Light pastel blue (`#bfdbfe`) for minor leans up to strong royal blue (`#3b82f6`) for heavy leans.
-  * **Republican Bias:** Light pastel red (`#fecaca`) for minor leans up to strong crimson red (`#ef4444`) for heavy leans.
+* **Continuous Linear Color Gradients:** Replaces flat categorizations with a mathematically continuous color interpolation gradient. Even a fractional fractional shift in the partisan baseline instantly produces a perceptible, continuous shift in the map's shading.
+* **Bi-directional Partisan Gradients:**
+  * **Democratic Bias:** Light pastel blue (`#eff6ff`) for minor leans up to strong royal blue (`#2563eb`) for heavy leans.
+  * **Republican Bias:** Light pastel red (`#fef2f2`) for minor leans up to strong crimson red (`#dc2626`) for heavy leans.
   * **Neutral/Highly Competitive/Single District:** Soft slate grey (`#cbd5e1` in light mode, `#1e293b` in dark mode) reserved for single-representative states (e.g., Wyoming, Alaska, Vermont), non-partisan territories, or highly competitive districts where no party secures more than 50% of the vote.
 
 ### 🗺️ Clickable US Territory Insets
