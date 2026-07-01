@@ -20,7 +20,7 @@ However, as the application scales to support all 50 states and thousands of com
 * **Current State:** When Leaflet/Turf parses a complex 5MB GeoJSON file, the main JavaScript thread is temporarily blocked, which can cause momentary UI stutter.
 * **Suggestion:** Move the heavy data parsing and metric calculation into a **Web Worker**. The worker processes the geometry in the background and simply passes the lightweight vector tile data back to the main thread, keeping the UI silky smooth 100% of the time.
 
-### 4. Automated Data Pipeline (FastAPI / GitHub Actions)
+### 4. Automated Data Pipeline (![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat-square&logo=fastapi) / ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=flat-square&logo=githubactions&logoColor=white))
 * **Current State:** The Python pipeline (`generate_maps.py`) is run manually via the CLI.
 * **Suggestion:** If this project grows to consume live election/census data, we should either wrap the Python logic in a **FastAPI** backend to generate maps on demand, or create a **GitHub Action** that runs the pipeline on a cron schedule and automatically commits the resulting JSON data to the repository.
 

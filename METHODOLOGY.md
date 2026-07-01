@@ -17,7 +17,7 @@ Instead of moving single precincts (which leads to jagged, non-compact districts
 4. **Cut**: Randomly cut a single edge in the spanning tree that divides the population into two equal pieces (within a $\pm 1\%$ tolerance).
 5. **Yield**: Accept the new map and repeat the process to build a massive "ensemble" of valid maps.
 
-### Python Implementation (GerryChain)
+### Python Implementation ![Python](https://img.shields.io/badge/python-3670A0?style=flat-square&logo=python&logoColor=ffdd54) (GerryChain)
 ```python
 from gerrychain import MarkovChain, constraints, accept
 from gerrychain.proposals import recom

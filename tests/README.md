@@ -2,7 +2,7 @@
 
 This repository uses a comprehensive 3-tier testing framework to validate the Python spatial math engine, the JavaScript interactive UI, and the End-to-End user journeys.
 
-## 1. Python Backend Validation (`pytest`)
+## 1. Python Backend Validation ![Pytest](https://img.shields.io/badge/pytest-%23ffffff.svg?style=flat-square&logo=pytest&logoColor=2f9fe3)
 
 The Python pipeline is responsible for heavy spatial computations and GerryChain ReCom tree partitioning. 
 Tests are located in `tests/python/`.
@@ -21,7 +21,7 @@ source venv/bin/activate
 pytest tests/python/
 ```
 
-## 2. JavaScript UI Validation (`vitest` + JSDOM)
+## 2. JavaScript UI Validation ![Vitest](https://img.shields.io/badge/-Vitest-252529?style=flat-square&logo=vitest&logoColor=FCC72B)
 
 The frontend is built in Vanilla JS and relies heavily on complex DOM interactions. Tests are located in `tests/js/`.
 
@@ -39,7 +39,7 @@ npm run test:unit
 npx vitest run
 ```
 
-## 3. End-to-End Browser Journeys (`playwright`)
+## 3. End-to-End Browser Journeys ![Playwright](https://img.shields.io/badge/-playwright-%232EAD33?style=flat-square&logo=playwright&logoColor=white)
 
 To guarantee the user experience does not break, Playwright spins up headless Chromium instances to execute real interactions. Tests are located in `tests/e2e/`.
 
