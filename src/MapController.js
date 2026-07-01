@@ -61,7 +61,7 @@ export class MapController {
             
             if (stateData || (this.app.dataService.metricsDatabase && this.app.dataService.metricsDatabase[name])) {
                 let eg = 0.0;
-                if (this.app.uiController.activeMode === 'enacted') {
+                if (this.app.uiController.activeMode === 'enacted' || this.app.uiController.activeMode === 'historical') {
                     eg = baseEg;
                 } else {
                     const stateMetrics = this.app.dataService.metricsDatabase ? this.app.dataService.metricsDatabase[name] : null;
@@ -193,12 +193,13 @@ export class MapController {
                 document.getElementById('hover-pop').innerText = `${this.app.dataService.districtCounts[key] || 1} Congressional Districts`;
                 document.getElementById('hover-vap').innerText = 'Detailed metrics enabled';
                 
-                let eg = this.app.uiController.activeMode === 'enacted' ? data.enacted_eg : data.optimized_eg;
-                let compactness = this.app.uiController.activeMode === 'enacted' ? data.enacted_compac : data.optimized_compac;
-                let splits = this.app.uiController.activeMode === 'enacted' ? data.enacted_splits : data.optimized_splits;
+                const isEnacted = (this.app.uiController.activeMode === 'enacted' || this.app.uiController.activeMode === 'historical');
+                let eg = isEnacted ? data.enacted_eg : data.optimized_eg;
+                let compactness = isEnacted ? data.enacted_compac : data.optimized_compac;
+                let splits = isEnacted ? data.enacted_splits : data.optimized_splits;
                 
                 if (stateMetrics) {
-                    const k = this.app.uiController.activeMode === 'enacted' ? 'enacted' : `optimized_${this.app.uiController.activeCriteria}`;
+                    const k = isEnacted ? 'enacted' : `optimized_${this.app.uiController.activeCriteria}`;
                     if (stateMetrics[k]) {
                         eg = stateMetrics[k].efficiency_gap;
                         compactness = stateMetrics[k].avg_compactness;
