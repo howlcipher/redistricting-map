@@ -65,6 +65,7 @@ redistricting-map/
 │   ├── js/                                  # Vitest frontend unit tests
 │   └── python/                              # Pytest backend validation
 ├── generate_maps.py                         # Python Object-Oriented pipeline script
+├── config.json                              # Global thresholds, constants, and parameters
 ├── index.html                               # Dashboard layout & structure
 ├── vite.config.js                           # Vite bundler configuration
 ├── package.json                             # Node.js dependencies & scripts
@@ -105,6 +106,16 @@ python generate_maps.py --states=all
 
 # Generate only specific states (e.g. for showcase testing)
 python generate_maps.py --states=colorado,wisconsin,texas,north_carolina,maryland
+```
+
+#### Configuration & CLI Overrides
+All analytical thresholds (e.g., competitive bounds, minority influence minimums), default grid resolutions, file paths, and external download URLs are decoupled from the code and managed inside **`config.json`**. 
+
+You can seamlessly adjust logic by editing the JSON, or you can dynamically override mathematical thresholds at runtime for rapid testing without altering the config:
+
+```bash
+# Override partisan competition boundaries and grid size at runtime
+python generate_maps.py --states=colorado --comp-min=0.4 --comp-max=0.6 --grid-size=30
 ```
 
 ### 2. Third-Party Data Integration
