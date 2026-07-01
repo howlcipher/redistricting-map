@@ -19,12 +19,13 @@ config_path = os.path.join(os.path.dirname(__file__), 'public', 'config.json')
 with open(config_path, 'r') as f:
     CONFIG = json.load(f)
 
-# The pipeline script will extract the active profile from CONFIG["historical_data"] dynamically
+# Default to newest historical data
+ACTIVE_HISTORY = CONFIG["historical_data"][0]
+
+# Static un-versioned config
 STATES_URL = CONFIG["urls"]["states_geojson"]
 TERRITORY_COORDS = CONFIG["territory_coords"]
-TERRITORY_DEMOGRAPHICS = CONFIG["territory_demographics"]
-THIRD_PARTY_SHARES = CONFIG["third_party_shares"]
-SIMULATION_PARAMS = CONFIG["simulation_params"]
+
 class GeoDataProcessor:
     """
     Handles geographical data processing, including downloading boundary data,
@@ -91,10 +92,12 @@ class GeoDataProcessor:
             
         print(f"\nProcessing boundaries for {state_name}...")
         
-        name_lower = state_name.lower().replace(' ', '_')
-        if name_lower in TERRITORY_COORDS:
-            lat = TERRITORY_COORDS[name_lower]['lat']
-            lon = TERRITORY_COORDS[name_lower]['lon']
+        state_key = state_name.lower().replace(' ', '_')
+        if state_key in TERRITORY_COORDS:
+            coords = TERRITORY_COORDS[state_key]
+            demographics = ACTIVE_HISTORY["territory_demographics"]
+            lat = coords['lat']
+            lon = coords['lon']
             d = 0.05
             poly = Polygon([
                 (lon - d, lat - d),
@@ -104,7 +107,7 @@ class GeoDataProcessor:
             ])
             gdf = gpd.GeoDataFrame(geometry=[poly], crs="EPSG:4326")
             gdf_3857 = gdf.to_crs(epsg=3857)
-            for key, value in TERRITORY_DEMOGRAPHICS.items():
+            for key, value in demographics.items():
                 gdf_3857[key] = value
             return gdf_3857
 
@@ -154,11 +157,12 @@ class GeoDataProcessor:
         distances = np.sqrt((gdf_wgs84['x_coord'] - center_x)**2 + (gdf_wgs84['y_coord'] - center_y)**2)
         max_dist = distances.max() if distances.max() > 0 else 1.0
         
+        sim_params = ACTIVE_HISTORY['simulation_params']
         # 1. Population: Higher in center, lower at edges
-        clipped_gdf['population'] = (SIMULATION_PARAMS['pop_base'] * (1 - SIMULATION_PARAMS['pop_decay'] * (distances / max_dist))).astype(int)
+        clipped_gdf['population'] = (sim_params['pop_base'] * (1 - sim_params['pop_decay'] * (distances / max_dist))).astype(int)
         
         # 2. Voting Age Pop
-        vap_ratio = SIMULATION_PARAMS['vap_base'] - SIMULATION_PARAMS['vap_decay'] * (distances / max_dist)
+        vap_ratio = sim_params['vap_base'] - sim_params['vap_decay'] * (distances / max_dist)
         clipped_gdf['voting_age_pop'] = (clipped_gdf['population'] * vap_ratio).astype(int)
         
         # 3. Partisan Vote Share: Dem concentrated in urban center, Rep in rural
@@ -168,18 +172,18 @@ class GeoDataProcessor:
         dem_base = profile['dem_base']
         dem_mult = profile['dem_mult']
             
-        dem_share = dem_base * (1 - dem_mult * (distances / max_dist)) + SIMULATION_PARAMS['dem_offset']
-        dem_share = np.clip(dem_share + np.random.normal(0, SIMULATION_PARAMS['dem_noise'], len(clipped_gdf)), SIMULATION_PARAMS['dem_min'], SIMULATION_PARAMS['dem_max'])
+        dem_share = dem_base * (1 - dem_mult * (distances / max_dist)) + sim_params['dem_offset']
+        dem_share = np.clip(dem_share + np.random.normal(0, sim_params['dem_noise'], len(clipped_gdf)), sim_params['dem_min'], sim_params['dem_max'])
         
-        clipped_gdf['dem_votes'] = (clipped_gdf['population'] * dem_share * SIMULATION_PARAMS['two_party_turnout']).astype(int)
-        clipped_gdf['rep_votes'] = (clipped_gdf['population'] * (1 - dem_share) * SIMULATION_PARAMS['two_party_turnout']).astype(int)
-        for party, share in THIRD_PARTY_SHARES.items():
+        clipped_gdf['dem_votes'] = (clipped_gdf['population'] * dem_share * sim_params['two_party_turnout']).astype(int)
+        clipped_gdf['rep_votes'] = (clipped_gdf['population'] * (1 - dem_share) * sim_params['two_party_turnout']).astype(int)
+        for party, share in ACTIVE_HISTORY['third_party_shares'].items():
             clipped_gdf[f'{party}_votes'] = (clipped_gdf['population'] * share).astype(int)
         
         # 4. Demographics: Minority groups concentrated in urban center
         minority_base = profile['minority_base']
-        minority_share = minority_base * (1 - SIMULATION_PARAMS['minority_decay'] * (distances / max_dist)) + SIMULATION_PARAMS['minority_offset']
-        minority_share = np.clip(minority_share + np.random.normal(0, SIMULATION_PARAMS['minority_noise'], len(clipped_gdf)), 0.0, 1.0)
+        minority_share = minority_base * (1 - sim_params['minority_decay'] * (distances / max_dist)) + sim_params['minority_offset']
+        minority_share = np.clip(minority_share + np.random.normal(0, sim_params['minority_noise'], len(clipped_gdf)), 0.0, 1.0)
         clipped_gdf['minority_pop'] = (clipped_gdf['population'] * minority_share).astype(int)
         clipped_gdf['white_pop'] = clipped_gdf['population'] - clipped_gdf['minority_pop']
         
@@ -197,8 +201,8 @@ class GeoDataProcessor:
         # Add a squiggle in the middle vertical band
         miny_p = clipped_gdf.geometry.centroid.y.min()
         maxy_p = clipped_gdf.geometry.centroid.y.max()
-        midy_low = miny_p + (maxy_p - miny_p) * SIMULATION_PARAMS['wiggle_low_pct']
-        midy_high = miny_p + (maxy_p - miny_p) * SIMULATION_PARAMS['wiggle_high_pct']
+        midy_low = miny_p + (maxy_p - miny_p) * sim_params['wiggle_low_pct']
+        midy_high = miny_p + (maxy_p - miny_p) * sim_params['wiggle_high_pct']
         
         mask_wiggle = (clipped_gdf.geometry.centroid.y >= midy_low) & (clipped_gdf.geometry.centroid.y <= midy_high)
         clipped_gdf.loc[mask_wiggle & (clipped_gdf['enacted_district'] == 3), 'enacted_district'] = 4
@@ -714,6 +718,7 @@ if __name__ == "__main__":
                 active_history = block
                 break
                 
+    ACTIVE_HISTORY = active_history
     district_counts = active_history["district_counts"]
     
     # Determine which states to run
@@ -745,7 +750,8 @@ if __name__ == "__main__":
             "grid_size": grid_size
         })
         
-    thresholds = CONFIG["analytical_thresholds"].copy()
+    # Allow threshold overrides via CLI or fallback to historical config
+    thresholds = ACTIVE_HISTORY["analytical_thresholds"].copy()
     if args.comp_min is not None: thresholds["competitive_min"] = args.comp_min
     if args.comp_max is not None: thresholds["competitive_max"] = args.comp_max
     if args.min_infl is not None: thresholds["minority_influence"] = args.min_infl

@@ -24,49 +24,6 @@
       "lon": 145.6739
     }
   },
-  "territory_demographics": {
-    "population": 50000,
-    "voting_age_pop": 40000,
-    "dem_votes": 15000,
-    "rep_votes": 5000,
-    "lib_votes": 1000,
-    "grn_votes": 500,
-    "con_votes": 500,
-    "ref_votes": 200,
-    "minority_pop": 45000,
-    "white_pop": 5000,
-    "county": "County_0_0",
-    "enacted_district": 0
-  },
-  "third_party_shares": {
-    "lib": 0.02,
-    "grn": 0.015,
-    "con": 0.01,
-    "ref": 0.005
-  },
-  "simulation_params": {
-    "pop_base": 10000,
-    "pop_decay": 0.7,
-    "vap_base": 0.8,
-    "vap_decay": 0.1,
-    "dem_offset": 0.15,
-    "dem_noise": 0.03,
-    "dem_min": 0.02,
-    "dem_max": 0.98,
-    "two_party_turnout": 0.6,
-    "minority_decay": 0.85,
-    "minority_offset": 0.05,
-    "minority_noise": 0.02,
-    "wiggle_low_pct": 0.4,
-    "wiggle_high_pct": 0.6
-  },
-  "analytical_thresholds": {
-    "competitive_min": 0.45,
-    "competitive_max": 0.55,
-    "minority_influence": 0.3,
-    "minority_majority": 0.5,
-    "wasted_votes_divisor": 2.0
-  },
   "default_args": {
     "grid_size": 20,
     "split_county_col": "county",
@@ -324,6 +281,49 @@
           "lon": -76.8,
           "zoom": 8.0
         }
+      },
+      "territory_demographics": {
+        "population": 50000,
+        "voting_age_pop": 40000,
+        "dem_votes": 15000,
+        "rep_votes": 5000,
+        "lib_votes": 1000,
+        "grn_votes": 500,
+        "con_votes": 500,
+        "ref_votes": 200,
+        "minority_pop": 45000,
+        "white_pop": 5000,
+        "county": "County_0_0",
+        "enacted_district": 0
+      },
+      "third_party_shares": {
+        "lib": 0.02,
+        "grn": 0.015,
+        "con": 0.01,
+        "ref": 0.005
+      },
+      "simulation_params": {
+        "pop_base": 10000,
+        "pop_decay": 0.7,
+        "vap_base": 0.8,
+        "vap_decay": 0.1,
+        "dem_offset": 0.15,
+        "dem_noise": 0.03,
+        "dem_min": 0.02,
+        "dem_max": 0.98,
+        "two_party_turnout": 0.6,
+        "minority_decay": 0.85,
+        "minority_offset": 0.05,
+        "minority_noise": 0.02,
+        "wiggle_low_pct": 0.4,
+        "wiggle_high_pct": 0.6
+      },
+      "analytical_thresholds": {
+        "competitive_min": 0.45,
+        "competitive_max": 0.55,
+        "minority_influence": 0.3,
+        "minority_majority": 0.5,
+        "wasted_votes_divisor": 2.0
       }
     },
     {
@@ -577,6 +577,49 @@
           "lon": -76.8,
           "zoom": 8.0
         }
+      },
+      "territory_demographics": {
+        "population": 50000,
+        "voting_age_pop": 40000,
+        "dem_votes": 15000,
+        "rep_votes": 5000,
+        "lib_votes": 1000,
+        "grn_votes": 500,
+        "con_votes": 500,
+        "ref_votes": 200,
+        "minority_pop": 45000,
+        "white_pop": 5000,
+        "county": "County_0_0",
+        "enacted_district": 0
+      },
+      "third_party_shares": {
+        "lib": 0.02,
+        "grn": 0.015,
+        "con": 0.01,
+        "ref": 0.005
+      },
+      "simulation_params": {
+        "pop_base": 10000,
+        "pop_decay": 0.7,
+        "vap_base": 0.8,
+        "vap_decay": 0.1,
+        "dem_offset": 0.15,
+        "dem_noise": 0.03,
+        "dem_min": 0.02,
+        "dem_max": 0.98,
+        "two_party_turnout": 0.6,
+        "minority_decay": 0.85,
+        "minority_offset": 0.05,
+        "minority_noise": 0.02,
+        "wiggle_low_pct": 0.4,
+        "wiggle_high_pct": 0.6
+      },
+      "analytical_thresholds": {
+        "competitive_min": 0.45,
+        "competitive_max": 0.55,
+        "minority_influence": 0.3,
+        "minority_majority": 0.5,
+        "wasted_votes_divisor": 2.0
       }
     }
   ]
