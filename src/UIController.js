@@ -50,10 +50,20 @@ export class UIController {
         document.getElementById('hover-vap').innerText = this.formatPop(properties.voting_age_pop);
         
         let demPct = properties.dem_pct;
+        let historicalSwing = 0.0;
+        if (this.activeMode === 'historical') {
+            const staticMetrics = this.app.dataService.metricsDatabase[this.activeState];
+            const originalEg = staticMetrics && staticMetrics.enacted ? staticMetrics.enacted.efficiency_gap : 0.0;
+            const currentEg = this.app.dataService.statePartisanBaselines[this.activeState] !== undefined ? this.app.dataService.statePartisanBaselines[this.activeState] : originalEg;
+            historicalSwing = currentEg - originalEg;
+        }
+        
         if (this.activeMode === 'tuned') {
             const stateData = this.app.dataService.stateLeaderboardData[this.activeState];
             const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
             demPct = Math.max(0.02, Math.min(0.98, demPct - swing));
+        } else if (historicalSwing !== 0.0) {
+            demPct = Math.max(0.02, Math.min(0.98, demPct - historicalSwing));
         }
         const repPct = 1 - demPct;
         const leanText = demPct > 0.55 ? 'Dem Lean' : (demPct < 0.45 ? 'Rep Lean' : 'Competitive Tossup');
@@ -75,9 +85,25 @@ export class UIController {
         const features = this.app.mapController.layerFeatures[key];
         if (!features) return;
         
+        let historicalSwing = 0.0;
+        let tunedSwing = 0.0;
+        
+        if (this.activeMode === 'historical') {
+            const staticMetrics = this.app.dataService.metricsDatabase[this.activeState];
+            const originalEg = staticMetrics && staticMetrics.enacted ? staticMetrics.enacted.efficiency_gap : 0.0;
+            const currentEg = this.app.dataService.statePartisanBaselines[this.activeState] !== undefined ? this.app.dataService.statePartisanBaselines[this.activeState] : originalEg;
+            historicalSwing = currentEg - originalEg;
+        } else if (this.activeMode === 'tuned') {
+            const stateData = this.app.dataService.stateLeaderboardData[this.activeState];
+            tunedSwing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
+        }
+        
         let counts = { safeD: 0, leanD: 0, toss: 0, leanR: 0, safeR: 0 };
         features.forEach(f => {
-            const demPct = f.properties.dem_pct;
+            let demPct = f.properties.dem_pct;
+            if (this.activeMode === 'tuned') demPct = Math.max(0.02, Math.min(0.98, demPct - tunedSwing));
+            else if (this.activeMode === 'historical') demPct = Math.max(0.02, Math.min(0.98, demPct - historicalSwing));
+            
             if (demPct >= 0.60) counts.safeD++;
             else if (demPct >= 0.55) counts.leanD++;
             else if (demPct >= 0.45) counts.toss++;

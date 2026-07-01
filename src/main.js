@@ -151,6 +151,12 @@ class App {
                         
                         if (this.uiController.activeView === 'national' && this.mapController.nationalLayer) {
                             this.mapController.nationalLayer.setStyle((f) => this.mapController.getNationalStyle(f));
+                        } else if (this.uiController.activeView === 'state') {
+                            const layerKey = this.uiController.getActiveLayerKey();
+                            const activeLayer = this.mapController.layers[layerKey];
+                            if (activeLayer) {
+                                activeLayer.setStyle((f) => this.mapController.getStyle(f));
+                            }
                         }
                     }
                 });

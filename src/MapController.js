@@ -155,11 +155,22 @@ export class MapController {
              pcts.rep = 1 - pcts.dem;
         }
 
+        let historicalSwing = 0.0;
+        if (this.app.uiController.activeMode === 'historical') {
+            const staticMetrics = this.app.dataService.metricsDatabase[this.app.uiController.activeState];
+            const originalEg = staticMetrics && staticMetrics.enacted ? staticMetrics.enacted.efficiency_gap : 0.0;
+            const currentEg = this.app.dataService.statePartisanBaselines[this.app.uiController.activeState] !== undefined ? this.app.dataService.statePartisanBaselines[this.app.uiController.activeState] : originalEg;
+            historicalSwing = currentEg - originalEg;
+        }
+
         if (this.app.uiController.activeMode === 'tuned') {
             const stateData = this.app.dataService.stateLeaderboardData[this.app.uiController.activeState];
             const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
             pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - swing));
             pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + swing));
+        } else if (historicalSwing !== 0.0) {
+            pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - historicalSwing));
+            pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + historicalSwing));
         }
         const isDark = document.body.classList.contains('dark');
         return {
