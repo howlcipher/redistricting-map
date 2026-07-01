@@ -266,7 +266,9 @@ export class DataService {
     }
 
     calculateUsaSummaryStats() {
-        const states = Object.keys(this.districtCounts);
+        const states = Object.keys(this.districtCounts).filter(s => 
+            !['district_of_columbia', 'puerto_rico', 'guam', 'virgin_islands', 'american_samoa', 'northern_mariana_islands'].includes(s)
+        );
         const configs = ['enacted', 'optimized_headcount', 'optimized_age', 'optimized_race', 'optimized_county', 'optimized_all'];
         
         let summary = {};

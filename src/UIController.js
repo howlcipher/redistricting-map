@@ -194,6 +194,8 @@ export class UIController {
             let totalDemVoteShareSum = 0;
             
             votingStates.forEach(s => {
+                if (['district_of_columbia', 'puerto_rico', 'guam', 'virgin_islands', 'american_samoa', 'northern_mariana_islands'].includes(s)) return;
+                
                 const N = this.app.dataService.districtCounts[s] || 1;
                 const data = this.app.dataService.stateLeaderboardData[s];
                 if (!data) return;
