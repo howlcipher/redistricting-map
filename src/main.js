@@ -150,32 +150,6 @@ class App {
             document.getElementById('toggle-enacted').addEventListener('click', () => this.uiController.switchMode('enacted'));
             document.getElementById('toggle-optimized').addEventListener('click', () => this.uiController.switchMode('optimized'));
             document.getElementById('toggle-tuned').addEventListener('click', () => this.uiController.switchMode('tuned'));
-            document.getElementById('toggle-historical').addEventListener('click', () => this.uiController.switchMode('historical'));
-            
-            const datePicker = document.getElementById('history-date-picker');
-            if (datePicker) {
-                // @ts-ignore
-                datePicker.value = this.dataService.activeDate;
-                datePicker.addEventListener('change', (e) => {
-                    // @ts-ignore
-                    const newDate = e.target.value;
-                    if (newDate) {
-                        this.dataService.applyHistoricalData(newDate);
-                        this.uiController.populateLeaderboardTable();
-                        this.uiController.updateSummaryDashboard();
-                        
-                        if (this.uiController.activeView === 'national' && this.mapController.nationalLayer) {
-                            this.mapController.nationalLayer.setStyle((f) => this.mapController.getNationalStyle(f));
-                        } else if (this.uiController.activeView === 'state') {
-                            const layerKey = this.uiController.getActiveLayerKey();
-                            const activeLayer = this.mapController.layers[layerKey];
-                            if (activeLayer) {
-                                activeLayer.setStyle((f) => this.mapController.getStyle(f));
-                            }
-                        }
-                    }
-                });
-            }
 
             document.getElementById('btn-toggle-swipe').addEventListener('click', () => {
                 this.uiController.toggleSwipe();

@@ -27,7 +27,7 @@ export class UIController {
     }
 
     getActiveLayerKey() {
-        if (this.activeMode === 'enacted' || this.activeMode === 'historical') return 'enacted';
+        if (this.activeMode === 'enacted') return 'enacted';
         if (this.activeMode === 'tuned') return 'optimized_all';
         return `optimized_${this.activeCriteria}`;
     }
@@ -50,20 +50,10 @@ export class UIController {
         document.getElementById('hover-vap').innerText = this.formatPop(properties.voting_age_pop);
         
         let demPct = properties.dem_pct;
-        let historicalSwing = 0.0;
-        if (this.activeMode === 'historical') {
-            const staticMetrics = this.app.dataService.metricsDatabase[this.activeState];
-            const originalEg = staticMetrics && staticMetrics.enacted ? staticMetrics.enacted.efficiency_gap : 0.0;
-            const currentEg = this.app.dataService.statePartisanBaselines[this.activeState] !== undefined ? this.app.dataService.statePartisanBaselines[this.activeState] : originalEg;
-            historicalSwing = currentEg - originalEg;
-        }
-        
         if (this.activeMode === 'tuned') {
             const stateData = this.app.dataService.stateLeaderboardData[this.activeState];
             const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
             demPct = Math.max(0.02, Math.min(0.98, demPct - swing));
-        } else if (historicalSwing !== 0.0) {
-            demPct = Math.max(0.02, Math.min(0.98, demPct - historicalSwing));
         }
         const repPct = 1 - demPct;
         const leanText = demPct > 0.55 ? 'Dem Lean' : (demPct < 0.45 ? 'Rep Lean' : 'Competitive Tossup');
@@ -85,15 +75,9 @@ export class UIController {
         const features = this.app.mapController.layerFeatures[key];
         if (!features) return;
         
-        let historicalSwing = 0.0;
         let tunedSwing = 0.0;
         
-        if (this.activeMode === 'historical') {
-            const staticMetrics = this.app.dataService.metricsDatabase[this.activeState];
-            const originalEg = staticMetrics && staticMetrics.enacted ? staticMetrics.enacted.efficiency_gap : 0.0;
-            const currentEg = this.app.dataService.statePartisanBaselines[this.activeState] !== undefined ? this.app.dataService.statePartisanBaselines[this.activeState] : originalEg;
-            historicalSwing = currentEg - originalEg;
-        } else if (this.activeMode === 'tuned') {
+        if (this.activeMode === 'tuned') {
             const stateData = this.app.dataService.stateLeaderboardData[this.activeState];
             tunedSwing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
         }
@@ -102,7 +86,6 @@ export class UIController {
         features.forEach(f => {
             let demPct = f.properties.dem_pct;
             if (this.activeMode === 'tuned') demPct = Math.max(0.02, Math.min(0.98, demPct - tunedSwing));
-            else if (this.activeMode === 'historical') demPct = Math.max(0.02, Math.min(0.98, demPct - historicalSwing));
             
             if (demPct >= 0.60) counts.safeD++;
             else if (demPct >= 0.55) counts.leanD++;
@@ -203,7 +186,7 @@ export class UIController {
                 let eg = 0.0;
                 const baseEg = this.app.dataService.statePartisanBaselines[s] || 0.0;
                 
-                if (this.activeMode === 'enacted' || this.activeMode === 'historical') {
+                if (this.activeMode === 'enacted') {
                     eg = baseEg;
                 } else {
                     const stateMetrics = this.app.dataService.metricsDatabase[s];
@@ -294,9 +277,9 @@ export class UIController {
         
         const statusPill = document.getElementById('map-status-pill');
         const prefixLabel = this.activeView === 'national' ? 'USA Summary: ' : '';
-        if (this.activeMode === 'enacted' || this.activeMode === 'historical') {
-            statusPill.innerText = `${prefixLabel}${this.activeMode === 'historical' ? 'Historical Enacted' : 'Enacted Reality'}`;
-            statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 mb-2';
+        if (this.activeMode === 'enacted') {
+            statusPill.innerText = `${prefixLabel}Enacted Reality`;
+            statusPill.className = "inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800/50 mt-1 sm:mt-0";
         } else {
             const criteriaLabel = {
                 'headcount': 'Headcount Balanced',
@@ -387,25 +370,17 @@ export class UIController {
     }
 
     switchMode(mode) {
-        if (this.activeMode === mode && !this.app.mapController.swipeControl) return;
-        
-        if (this.app.mapController.swipeControl) {
-            this.app.mapController.toggleSwipeMode();
-            const swipeBtn = document.getElementById('btn-toggle-swipe');
-            if (swipeBtn) swipeBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
-        }
+        if (mode === this.activeMode) return;
         
         const enactedBtn = document.getElementById('toggle-enacted');
         const optimizedBtn = document.getElementById('toggle-optimized');
         const tunedBtn = document.getElementById('toggle-tuned');
-        const historicalBtn = document.getElementById('toggle-historical');
         
-        const criteriaPanel = document.getElementById('criteria-selector-container');
-        const playgroundPanel = document.getElementById('playground-slider-container');
-        const historicalDateContainer = document.getElementById('historical-date-container');
+        [enactedBtn, optimizedBtn, tunedBtn].forEach(btn => {
+            if (btn) btn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        });
         
         const prevKey = this.getActiveLayerKey();
-        const wasHistorical = this.activeMode === 'historical';
         this.activeMode = mode;
         
         if (this.activeView === 'national') {
@@ -418,43 +393,33 @@ export class UIController {
             }
         }
         
-        [enactedBtn, optimizedBtn, tunedBtn, historicalBtn].forEach(btn => {
-            if (btn) btn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
-        });
-        
-        if (historicalDateContainer) historicalDateContainer.classList.add('hidden');
-        
-        if (mode !== 'historical' && wasHistorical) {
-            const today = new Date().toISOString().split('T')[0];
-            if (this.app.dataService.activeDate !== today) {
-                this.app.dataService.applyHistoricalData(today);
-                this.populateLeaderboardTable();
-            }
+        if (mode === 'enacted') {
+            if (enactedBtn) enactedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
+        } else if (mode === 'optimized') {
+            if (optimizedBtn) optimizedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
+        } else if (mode === 'tuned') {
+            if (tunedBtn) tunedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         }
         
+        if (this.app.mapController.swipeControl) {
+            this.app.mapController.toggleSwipeMode();
+            const swipeBtn = document.getElementById('btn-toggle-swipe');
+            if (swipeBtn) swipeBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
+        }
+        
+        const criteriaPanel = document.getElementById('criteria-selector-container');
+        const playgroundPanel = document.getElementById('playground-slider-container');
+        
         if (mode === 'enacted') {
-            if (enactedBtn) enactedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             criteriaPanel.classList.add('hidden');
             playgroundPanel.classList.add('hidden');
         } else if (mode === 'optimized') {
-            if (optimizedBtn) optimizedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             criteriaPanel.classList.remove('hidden');
             playgroundPanel.classList.add('hidden');
         } else if (mode === 'tuned') {
-            if (tunedBtn) tunedBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             criteriaPanel.classList.add('hidden');
             playgroundPanel.classList.remove('hidden');
             this.syncSlidersToActiveState();
-        } else if (mode === 'historical') {
-            if (historicalBtn) historicalBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-            criteriaPanel.classList.add('hidden');
-            playgroundPanel.classList.add('hidden');
-            if (historicalDateContainer) historicalDateContainer.classList.remove('hidden');
-            const datePicker = document.getElementById('history-date-picker');
-            if (datePicker && datePicker.value) {
-                this.app.dataService.applyHistoricalData(datePicker.value);
-                this.populateLeaderboardTable();
-            }
         }
         
         this.updateSummaryDashboard();

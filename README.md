@@ -35,10 +35,6 @@ This tool evaluates the fairness of district maps using two primary metrics:
 * **Gerrymander Tax Seat Count:** Displays how many seats are shifted/biased away from a perfectly proportional split (e.g. `R +8 Seat Bias`).
 * **Seat-to-Vote Bias Margin:** Computes the overall percentage deviation of congressional representation from the national popular vote.
 
-### 📅 Dynamic Historical Date Picker & Interpolation
-* **Time-Series Analysis:** A fully interactive date picker that allows you to traverse through historical census and election cycles.
-* **Continuous Mathematical Interpolation:** As you select dates that fall between recorded historical blocks (e.g. between 2010 and 2024), the application performs smooth linear interpolation on all state partisan baselines.
-* **Synchronized Dashboard:** The progressive projected House seats, Efficiency Gaps, and UI metrics instantly update in real-time as you glide across history.
 
 ### 🎨 Progressive Partisan Color Gradient Scale
 * **Continuous Linear Color Gradients:** Replaces flat categorizations with a mathematically continuous color interpolation gradient. Even a fractional fractional shift in the partisan baseline instantly produces a perceptible, continuous shift in the map's shading.
@@ -192,7 +188,7 @@ Algorithmic redistricting is a powerful tool, but it is not a silver bullet. Her
 
 1. **"Garbage In, Garbage Out" Data Problem**
    - **The Pitfall:** Algorithms rely on merging voting precinct data with Census block populations, which rarely align perfectly. Furthermore, census undercounts and linear interpolations can skew mathematical baselines.
-   - **The Mitigation:** We utilize high-resolution crosswalk data from OpenPrecincts to map votes to census blocks as accurately as mathematically possible. For historical data, we provide a transparency dashboard highlighting the margin of error in our interpolations.
+   - **The Mitigation:** We utilize high-resolution crosswalk data from OpenPrecincts to map votes to census blocks as accurately as mathematically possible.
 
 2. **The Illusion of a Single "Perfect" Map**
    - **The Pitfall:** Optimizing for one metric often hurts another. Creating perfectly proportional partisan maps (0% Efficiency Gap) usually requires drawing ugly, sprawling districts that destroy compactness. Conversely, maximizing compactness often inadvertently packs urban voters, heavily skewing partisan outcomes.

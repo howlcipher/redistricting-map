@@ -72,7 +72,7 @@ export class MapController {
             
             if (stateData || (this.app.dataService.metricsDatabase && this.app.dataService.metricsDatabase[name])) {
                 let eg = 0.0;
-                if (this.app.uiController.activeMode === 'enacted' || this.app.uiController.activeMode === 'historical') {
+                if (this.app.uiController.activeMode === 'enacted') {
                     eg = baseEg;
                 } else {
                     const stateMetrics = this.app.dataService.metricsDatabase ? this.app.dataService.metricsDatabase[name] : null;
@@ -175,22 +175,11 @@ export class MapController {
              pcts.rep = 1 - pcts.dem;
         }
 
-        let historicalSwing = 0.0;
-        if (this.app.uiController.activeMode === 'historical') {
-            const staticMetrics = this.app.dataService.metricsDatabase[this.app.uiController.activeState];
-            const originalEg = staticMetrics && staticMetrics.enacted ? staticMetrics.enacted.efficiency_gap : 0.0;
-            const currentEg = this.app.dataService.statePartisanBaselines[this.app.uiController.activeState] !== undefined ? this.app.dataService.statePartisanBaselines[this.app.uiController.activeState] : originalEg;
-            historicalSwing = currentEg - originalEg;
-        }
-
         if (this.app.uiController.activeMode === 'tuned') {
             const stateData = this.app.dataService.stateLeaderboardData[this.app.uiController.activeState];
             const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
             pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - swing));
             pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + swing));
-        } else if (historicalSwing !== 0.0) {
-            pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - historicalSwing));
-            pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + historicalSwing));
         }
         const isDark = document.body.classList.contains('dark');
         return {
@@ -224,7 +213,7 @@ export class MapController {
                 document.getElementById('hover-pop').innerText = `${this.app.dataService.districtCounts[key] || 1} Congressional Districts`;
                 document.getElementById('hover-vap').innerText = 'Detailed metrics enabled';
                 
-                const isEnacted = (this.app.uiController.activeMode === 'enacted' || this.app.uiController.activeMode === 'historical');
+                const isEnacted = (this.app.uiController.activeMode === 'enacted');
                 let eg = isEnacted ? data.enacted_eg : data.optimized_eg;
                 let compactness = isEnacted ? data.enacted_compac : data.optimized_compac;
                 let splits = isEnacted ? data.enacted_splits : data.optimized_splits;
