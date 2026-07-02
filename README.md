@@ -2,6 +2,8 @@
 
 An interactive geospatial tool to analyze, visualize, and compare actual enacted legislative districts against algorithmically generated alternatives using peer-reviewed redistricting mathematics.
 
+[📖 View the Changelog](CHANGELOG.md)
+
 ## 🛠️ Built With
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
@@ -102,7 +104,7 @@ To ensure mathematical correctness, data integrity, and UI reliability across th
    - Emulates the browser to test `UIController` state transitions, DOM manipulation, and asynchronous animations (loaders/timeouts).
    - Mocks the fetch API to ensure `DataService` properly calculates standard formats (like Efficiency Gap Partisan Colors) even in extreme edge cases.
 3. **End-to-End Visual Regression (`playwright`)**
-   - Runs headless Chromium to verify full user journeys across the dashboard (Swipe Compare, Detail Panels).
+   - Runs headless Chromium to verify full user journeys across the dashboard (National Dashboard, Detail Panels).
    - Generates and compares pixel-perfect UI snapshots (Visual Regression).
    - Intercepts network routes to mock extreme gerrymandered data, proving the UI scales gracefully to statistical outliers.
 
@@ -192,7 +194,7 @@ Algorithmic redistricting is a powerful tool, but it is not a silver bullet. Her
 
 2. **The Illusion of a Single "Perfect" Map**
    - **The Pitfall:** Optimizing for one metric often hurts another. Creating perfectly proportional partisan maps (0% Efficiency Gap) usually requires drawing ugly, sprawling districts that destroy compactness. Conversely, maximizing compactness often inadvertently packs urban voters, heavily skewing partisan outcomes.
-   - **The Mitigation:** We offer a multi-objective optimizer (the "Sandbox Playground") so users can experiment with the sliders themselves and visually understand that redistricting is a balancing act of trade-offs, not a simple math equation.
+   - **The Mitigation:** We offer a clean "Optimized Map" view alongside an "Enacted Reality" view so users can visually understand that redistricting is a balancing act of trade-offs, not a simple math equation.
 
 3. **Blindness to "Communities of Interest"**
    - **The Pitfall:** Algorithms only see numbers, not culture. They can easily draw a mathematically perfect line straight down the middle of a tight-knit neighborhood, a Native American reservation, or a cultural district, destroying their unified voting voice.
