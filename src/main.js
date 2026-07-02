@@ -149,60 +149,7 @@ class App {
             document.getElementById('btn-view-state').addEventListener('click', () => this.uiController.switchViewMode('state'));
             document.getElementById('toggle-enacted').addEventListener('click', () => this.uiController.switchMode('enacted'));
             document.getElementById('toggle-optimized').addEventListener('click', () => this.uiController.switchMode('optimized'));
-            document.getElementById('toggle-tuned').addEventListener('click', () => this.uiController.switchMode('tuned'));
 
-
-            const sliderEg = document.getElementById('slider-eg');
-            const sliderCompac = document.getElementById('slider-compac');
-            const sliderSplits = document.getElementById('slider-splits');
-            
-            const updateTunedValues = () => {
-                // @ts-ignore
-                const egVal = parseFloat(sliderEg.value) / 100;
-                // @ts-ignore
-                const compacVal = parseFloat(sliderCompac.value) / 1000;
-                // @ts-ignore
-                const splitsVal = parseInt(sliderSplits.value);
-                
-                document.getElementById('val-slider-eg').innerText = egVal === 0.0 ? '0.0% Neutral' : `${Math.abs(egVal * 100).toFixed(1)}% ${egVal > 0 ? 'Rep Lean' : 'Dem Lean'}`;
-                document.getElementById('val-slider-compac').innerText = compacVal.toFixed(3);
-                document.getElementById('val-slider-splits').innerText = `${splitsVal} splits`;
-                
-                const stateData = this.dataService.stateLeaderboardData[this.uiController.activeState];
-                if (stateData) {
-                    stateData.tuned_eg = egVal;
-                    stateData.tuned_compac = compacVal;
-                    stateData.tuned_splits = splitsVal;
-                    
-                    if (!this.dataService.metricsDatabase[this.uiController.activeState]) {
-                        this.dataService.metricsDatabase[this.uiController.activeState] = {};
-                    }
-                    this.dataService.metricsDatabase[this.uiController.activeState]['tuned'] = {
-                        efficiency_gap: egVal,
-                        mean_median_diff: egVal * 0.6,
-                        competitive_seats: Math.max(0, Math.round((this.dataService.districtCounts[this.uiController.activeState] || 8) * (compacVal * 1.5))),
-                        avg_compactness: compacVal,
-                        county_splits: splitsVal,
-                        minority_influence_seats: Math.round((this.dataService.districtCounts[this.uiController.activeState] || 8) * 0.3),
-                        minority_majority_seats: Math.round((this.dataService.districtCounts[this.uiController.activeState] || 8) * 0.1)
-                    };
-                }
-                
-                if (this.uiController.activeView === 'national' && this.mapController.nationalLayer) {
-                    this.mapController.nationalLayer.setStyle((f) => this.mapController.getNationalStyle(f));
-                }
-                
-                const key = this.uiController.getActiveLayerKey();
-                if (this.uiController.activeView === 'state' && this.mapController.layers[key]) {
-                    this.mapController.layers[key].setStyle((f) => this.mapController.getStyle(f));
-                }
-                
-                this.uiController.updateSummaryDashboard();
-            };
-            
-            sliderEg.addEventListener('input', updateTunedValues);
-            sliderCompac.addEventListener('input', updateTunedValues);
-            sliderSplits.addEventListener('input', updateTunedValues);
             
             const sliderWave = document.getElementById('slider-wave');
             if (sliderWave) {

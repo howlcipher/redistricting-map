@@ -81,21 +81,16 @@ export class MapController {
                 if (this.app.uiController.activeMode === 'enacted') {
                     eg = baseEg;
                 } else {
-                    const stateMetrics = this.app.dataService.metricsDatabase ? this.app.dataService.metricsDatabase[name] : null;
                     if (stateMetrics) {
-                        let key;
-                        if (this.app.uiController.activeMode === 'tuned') key = 'tuned';
-                        else key = 'optimized_all';
+                        const key = 'optimized_all';
                         
                         if (stateMetrics[key] && !stateMetrics[key].note) {
                             eg = stateMetrics[key].efficiency_gap;
                         } else if (stateData) {
-                            if (this.app.uiController.activeMode === 'tuned') eg = stateData.tuned_eg;
-                            else eg = stateData.optimized_eg;
+                            eg = stateData.optimized_eg;
                         }
                     } else if (stateData) {
-                        if (this.app.uiController.activeMode === 'tuned') eg = stateData.tuned_eg;
-                        else eg = stateData.optimized_eg;
+                        eg = stateData.optimized_eg;
                     }
                 }
                 
@@ -173,12 +168,6 @@ export class MapController {
              pcts.rep = 1 - pcts.dem;
         }
 
-        if (this.app.uiController.activeMode === 'tuned') {
-            const stateData = this.app.dataService.stateLeaderboardData[this.app.uiController.activeState];
-            const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
-            pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - swing));
-            pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + swing));
-        }
         const isDark = this.isDark;
         return {
             fillColor: this.getDistrictColor(pcts, isDark),

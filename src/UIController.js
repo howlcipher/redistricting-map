@@ -28,7 +28,6 @@ export class UIController {
 
     getActiveLayerKey() {
         if (this.activeMode === 'enacted') return 'enacted';
-        if (this.activeMode === 'tuned') return 'tuned';
         return 'optimized_all';
     }
 
@@ -50,11 +49,6 @@ export class UIController {
         document.getElementById('hover-vap').innerText = this.formatPop(properties.voting_age_pop);
         
         let demPct = properties.dem_pct;
-        if (this.activeMode === 'tuned') {
-            const stateData = this.app.dataService.stateLeaderboardData[this.activeState];
-            const swing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
-            demPct = Math.max(0.02, Math.min(0.98, demPct - swing));
-        }
         const repPct = 1 - demPct;
         const leanText = demPct > 0.55 ? 'Dem Lean' : (demPct < 0.45 ? 'Rep Lean' : 'Competitive Tossup');
         
@@ -75,17 +69,9 @@ export class UIController {
         const features = this.app.mapController.layerFeatures[key];
         if (!features) return;
         
-        let tunedSwing = 0.0;
-        
-        if (this.activeMode === 'tuned') {
-            const stateData = this.app.dataService.stateLeaderboardData[this.activeState];
-            tunedSwing = stateData ? (stateData.tuned_eg - stateData.optimized_eg) : 0.0;
-        }
-        
         let counts = { safeD: 0, leanD: 0, toss: 0, leanR: 0, safeR: 0 };
         features.forEach(f => {
             let demPct = f.properties.dem_pct;
-            if (this.activeMode === 'tuned') demPct = Math.max(0.02, Math.min(0.98, demPct - tunedSwing));
             
             if (demPct >= 0.60) counts.safeD++;
             else if (demPct >= 0.55) counts.leanD++;
@@ -392,9 +378,8 @@ export class UIController {
         
         const enactedBtn = document.getElementById('toggle-enacted');
         const optimizedBtn = document.getElementById('toggle-optimized');
-        const tunedBtn = document.getElementById('toggle-tuned');
         
-        [enactedBtn, optimizedBtn, tunedBtn].forEach(btn => {
+        [enactedBtn, optimizedBtn].forEach(btn => {
             if (btn) btn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
         });
         
@@ -415,35 +400,9 @@ export class UIController {
             if (enactedBtn) enactedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         } else if (mode === 'optimized') {
             if (optimizedBtn) optimizedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        } else if (mode === 'tuned') {
-            if (tunedBtn) tunedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
-        }
-        
-        const playgroundPanel = document.getElementById('playground-slider-container');
-        
-        if (mode === 'enacted') {
-            playgroundPanel.classList.add('hidden');
-        } else if (mode === 'optimized') {
-            playgroundPanel.classList.add('hidden');
-        } else if (mode === 'tuned') {
-            playgroundPanel.classList.remove('hidden');
-            this.syncSlidersToActiveState();
         }
         
         this.updateSummaryDashboard();
-    }
-
-    syncSlidersToActiveState() {
-        const data = this.app.dataService.stateLeaderboardData[this.activeState];
-        if (data) {
-            document.getElementById('slider-eg').value = (data.tuned_eg * 100).toFixed(1);
-            document.getElementById('slider-compac').value = Math.round(data.tuned_compac * 1000);
-            document.getElementById('slider-splits').value = data.tuned_splits;
-            
-            document.getElementById('val-slider-eg').innerText = data.tuned_eg === 0.0 ? '0.0% Neutral' : `${Math.abs(data.tuned_eg * 100).toFixed(1)}% ${data.tuned_eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
-            document.getElementById('val-slider-compac').innerText = data.tuned_compac.toFixed(3);
-            document.getElementById('val-slider-splits').innerText = `${data.tuned_splits} splits`;
-        }
     }
 
 
@@ -522,7 +481,13 @@ export class UIController {
             document.getElementById('btn-view-state').innerText = `${name.length > 15 ? name.slice(0, 12) + '...' : name} Detail`;
             this.switchViewMode('state');
             
-            setTimeout(() => this.app.mapController.map.invalidateSize(), 100);
+            setTimeout(() => {
+                this.app.mapController.map.invalidateSize();
+                const stateData = this.app.dataService.stateLeaderboardData[stateKey];
+                if (stateData && stateData.lat !== undefined && stateData.lon !== undefined && stateData.zoom !== undefined) {
+                    this.app.mapController.map.flyTo([stateData.lat, stateData.lon], stateData.zoom, { duration: 1.5, easeLinearity: 0.25 });
+                }
+            }, 100);
         }, 2000);
     }
 

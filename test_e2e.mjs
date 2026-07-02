@@ -27,13 +27,32 @@ const testMapFeatures = async () => {
         console.log('Navigating to http://localhost:4173');
         await page.goto('http://localhost:4173', { waitUntil: 'networkidle0' });
         
+        console.log('Fetching initial map center...');
+        const initialCenter = await page.evaluate(() => {
+            const center = window.app.mapController.map.getCenter();
+            return { lat: center.lat, lng: center.lng };
+        });
+
         console.log('Selecting Colorado...');
         await page.evaluate(() => {
             window.app.uiController.selectState('colorado');
         });
         
-        // Wait for state to load
-        await new Promise(r => setTimeout(r, 4000));
+        // Wait for state to load and map to fly
+        await new Promise(r => setTimeout(r, 4500));
+        
+        console.log('Verifying map zoomed to Colorado...');
+        const newCenter = await page.evaluate(() => {
+            const center = window.app.mapController.map.getCenter();
+            return { lat: center.lat, lng: center.lng };
+        });
+
+        if (Math.abs(initialCenter.lat - newCenter.lat) < 0.1 && Math.abs(initialCenter.lng - newCenter.lng) < 0.1) {
+            console.error('Test Failed: Map did not pan/zoom to the selected state!');
+            errors.push(new Error('Map did not pan to state'));
+        } else {
+            console.log('Check passed: Map successfully zoomed to state bounds.');
+        }
         
         console.log('Clicking Optimized Map button...');
         await page.screenshot({ path: 'before_click_optimized.png' });
