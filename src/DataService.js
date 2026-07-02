@@ -20,15 +20,38 @@ export class DataService {
         this.stateLeaderboardData = {};
         this.historicalData = [];
         this.activeDate = new Date().toISOString().split('T')[0];
+        
+        // Will be populated dynamically via API
+        this.currentHouseMakeup = { dem: 212, rep: 218, ind: 1, vac: 4 };
     }
 
     async init() {
         try {
-            const configRes = await fetch('./config.json');
+            const configRes = await fetch('./config.json?v=2');
             const config = await configRes.json();
             this.districtCounts = JSON.parse(JSON.stringify(config.historical_data[0].district_counts || {}));
             this.statePartisanBaselines = JSON.parse(JSON.stringify(config.historical_data[0].state_partisan_baselines || {}));
             this.stateLeaderboardData = JSON.parse(JSON.stringify(config.historical_data[0].state_leaderboard_data || {}));
+            
+            // Dynamically fetch live congressional house balance
+            try {
+                const govRes = await fetch('https://www.govtrack.us/api/v2/role?current=true&role_type=representative&limit=500');
+                const govData = await govRes.json();
+                let dem = 0, rep = 0, ind = 0, vac = 0;
+                govData.objects.forEach(obj => {
+                    const s = obj.state;
+                    if (s !== 'DC' && s !== 'PR' && s !== 'GU' && s !== 'VI' && s !== 'AS' && s !== 'MP') {
+                        if (obj.party === 'Democrat') dem++;
+                        else if (obj.party === 'Republican') rep++;
+                        else if (obj.party === 'Independent') ind++;
+                    }
+                });
+                vac = 435 - (dem + rep + ind);
+                this.currentHouseMakeup = { dem, rep, ind, vac };
+                console.log('Dynamically loaded real-world House composition:', this.currentHouseMakeup);
+            } catch (e) {
+                console.warn('Failed to load GovTrack data, using fallback House composition', e);
+            }
             
             const cacheKey = 'us-states-geojson';
             let cachedGeoJSON = await this.cache.getItem(cacheKey);
@@ -82,7 +105,7 @@ export class DataService {
                 }
             });
 
-            const metricsRes = await fetch('./data/metrics.json').catch(() => ({ json: async () => ({}) }));
+            const metricsRes = await fetch('./data/metrics.json?v=2').catch(() => ({ json: async () => ({}) }));
             this.metricsDatabase = await metricsRes.json();
             
             // Ensure all state data structures exist
@@ -224,7 +247,7 @@ export class DataService {
         const states = Object.keys(this.districtCounts).filter(s => 
             !['district_of_columbia', 'puerto_rico', 'guam', 'virgin_islands', 'american_samoa', 'northern_mariana_islands'].includes(s)
         );
-        const configs = ['enacted', 'optimized_headcount', 'optimized_age', 'optimized_race', 'optimized_county', 'optimized_all'];
+        const configs = ['enacted', 'optimized_all'];
         
         let summary = {};
         configs.forEach(c => {

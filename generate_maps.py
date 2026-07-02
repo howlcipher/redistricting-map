@@ -63,10 +63,14 @@ class GeoDataProcessor:
         Returns:
             GeoDataFrame: Processed VTDs with joined PL94-171 demographic data.
         """
-        # TODO: Implement actual PySAL/GeoPandas spatial join logic for real census data.
-        # gdf = gpd.read_file(shapefile_path)
-        # return gdf
-        pass
+        if os.path.exists(shapefile_path):
+            print(f"Loading real census VTD shapefile from {shapefile_path}...")
+            gdf = gpd.read_file(shapefile_path)
+            # Ensure it is in EPSG:3857 for planar geometry compatibility during algorithms
+            if gdf.crs != "EPSG:3857":
+                gdf = gdf.to_crs(epsg=3857)
+            return gdf
+        return None
 
     @staticmethod
     def generate_state_geometries(states_file, state_name, num_districts=None, grid_size=None):
@@ -569,6 +573,8 @@ class PipelineManager:
         # 1. Evaluate Enacted Map
         enacted_districts = self._create_district_features(gdf, 'enacted_district', pop_col, vap_col, dem_col, rep_col, minority_col)
         
+        # Simplify geometry heavily in planar projection (EPSG:3857, meters) to save filesize before converting to WGS84
+        enacted_districts['geometry'] = enacted_districts.geometry.simplify(tolerance=1000, preserve_topology=True)
         enacted_districts_wgs84 = enacted_districts.to_crs(epsg=4326)
         enacted_districts_wgs84.to_file(os.path.join(self.output_dir, f"{state_key}_enacted_districts.geojson"), driver="GeoJSON")
         
@@ -614,6 +620,7 @@ class PipelineManager:
             
             opt_districts = self._create_district_features(gdf, assignment_col_name, pop_col, vap_col, dem_col, rep_col, minority_col)
             
+            opt_districts['geometry'] = opt_districts.geometry.simplify(tolerance=1000, preserve_topology=True)
             opt_districts_wgs84 = opt_districts.to_crs(epsg=4326)
             opt_districts_wgs84.to_file(os.path.join(self.output_dir, f"{state_key}_optimized_districts_{name}.geojson"), driver="GeoJSON")
             
@@ -646,8 +653,13 @@ class PipelineManager:
             state_key = state_info["key"]
             
             try:
-                # Generate shape, clip to state border
-                gdf = GeoDataProcessor.generate_state_geometries(states_file, name, num_districts=dists, grid_size=grid_size)
+                # Check for real data first
+                real_data_path = f"public/data/raw_shapefiles/{state_key}_standardized.geojson"
+                gdf = GeoDataProcessor.load_census_vtd_data(real_data_path)
+                
+                if gdf is None:
+                    # Generate synthetic shape, clip to state border
+                    gdf = GeoDataProcessor.generate_state_geometries(states_file, name, num_districts=dists, grid_size=grid_size)
                 
                 # Run simulation
                 state_metrics = self.run_redistricting_pipeline_for_state(

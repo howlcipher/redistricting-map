@@ -123,70 +123,70 @@
         }
       },
       "state_partisan_baselines": {
-        "alabama": 0.082,
-        "alaska": 0.0,
-        "arizona": 0.021,
-        "arkansas": 0.091,
-        "california": -0.068,
-        "colorado": -0.065,
-        "connecticut": -0.058,
-        "delaware": 0.0,
-        "florida": 0.074,
-        "georgia": 0.061,
-        "hawaii": -0.088,
-        "idaho": 0.115,
-        "illinois": -0.092,
-        "indiana": 0.072,
-        "iowa": 0.048,
-        "kansas": 0.076,
-        "kentucky": 0.088,
-        "louisiana": 0.068,
-        "maine": -0.025,
-        "maryland": -0.078,
-        "massachusetts": -0.084,
-        "michigan": 0.012,
-        "minnesota": -0.018,
-        "mississippi": 0.059,
-        "missouri": 0.077,
-        "montana": 0.038,
-        "nebraska": 0.075,
-        "nevada": 0.014,
-        "new_hampshire": 0.011,
-        "new_jersey": -0.036,
-        "new_mexico": -0.038,
-        "new_york": -0.052,
-        "north_carolina": 0.104,
-        "north_dakota": 0.0,
-        "ohio": 0.083,
-        "oklahoma": 0.108,
-        "oregon": -0.046,
-        "pennsylvania": 0.018,
-        "rhode_island": -0.035,
-        "south_carolina": 0.079,
-        "south_dakota": 0.0,
-        "tennessee": 0.095,
-        "texas": 0.089,
-        "utah": 0.098,
-        "vermont": 0.0,
-        "virginia": -0.014,
-        "washington": -0.042,
-        "west_virginia": 0.087,
-        "wisconsin": 0.116,
-        "wyoming": 0.0,
-        "district_of_columbia": 0.0,
-        "puerto_rico": 0.0,
-        "guam": 0.0,
-        "virgin_islands": 0.0,
-        "american_samoa": 0.0,
-        "northern_mariana_islands": 0.0
+        "alabama": 0.35714285714285715,
+        "alaska": 0.5,
+        "arizona": 0.16666666666666669,
+        "arkansas": 0.5,
+        "california": -0.34615384615384615,
+        "colorado": -0.125,
+        "connecticut": -0.5,
+        "delaware": -0.5,
+        "florida": 0.14285714285714285,
+        "georgia": 0.14285714285714285,
+        "hawaii": -0.5,
+        "idaho": 0.5,
+        "illinois": -0.32352941176470584,
+        "indiana": 0.2777777777777778,
+        "iowa": 0.5,
+        "kansas": 0.5,
+        "kentucky": 0.33333333333333337,
+        "louisiana": 0.33333333333333337,
+        "maine": 0,
+        "maryland": -0.375,
+        "massachusetts": -0.5,
+        "michigan": -0.11538461538461542,
+        "minnesota": 0,
+        "mississippi": 0.25,
+        "missouri": 0.25,
+        "montana": 0.5,
+        "nebraska": 0.5,
+        "nevada": -0.25,
+        "new_hampshire": 0,
+        "new_jersey": -0.25,
+        "new_mexico": -0.5,
+        "new_york": -0.3846153846153846,
+        "north_carolina": 0,
+        "north_dakota": 0.5,
+        "ohio": 0.16666666666666669,
+        "oklahoma": 0.5,
+        "oregon": -0.33333333333333337,
+        "pennsylvania": -0.08823529411764708,
+        "rhode_island": -0.5,
+        "south_carolina": 0.35714285714285715,
+        "south_dakota": 0.5,
+        "tennessee": 0.3888888888888889,
+        "texas": 0.13157894736842107,
+        "utah": 0.5,
+        "vermont": -0.5,
+        "virginia": -0.13636363636363635,
+        "washington": 0.5,
+        "west_virginia": 0.5,
+        "wisconsin": 0.125,
+        "wyoming": 0.5,
+        "district_of_columbia": 0,
+        "puerto_rico": 0,
+        "guam": 0,
+        "virgin_islands": 0,
+        "american_samoa": 0,
+        "northern_mariana_islands": 0
       },
       "state_leaderboard_data": {
         "colorado": {
           "name": "Colorado",
-          "enacted_eg": -0.065,
+          "enacted_eg": -0.125,
           "enacted_comp": 2,
           "enacted_compac": 0.246,
-          "optimized_eg": -0.126,
+          "optimized_eg": 0,
           "optimized_comp": 2,
           "optimized_compac": 0.358,
           "enacted_min_inf": 8,
@@ -199,14 +199,17 @@
           "optimized_splits": 16,
           "lat": 40.2,
           "lon": -104.8,
-          "zoom": 7.5
+          "zoom": 7.5,
+          "tuned_eg": 0,
+          "enacted_dem_seats": 5,
+          "optimized_dem_seats": 4
         },
         "wisconsin": {
           "name": "Wisconsin",
-          "enacted_eg": 0.116,
+          "enacted_eg": 0.125,
           "enacted_comp": 1,
           "enacted_compac": 0.211,
-          "optimized_eg": -0.012,
+          "optimized_eg": 0.25,
           "optimized_comp": 4,
           "optimized_compac": 0.385,
           "enacted_min_inf": 1,
@@ -219,14 +222,17 @@
           "optimized_splits": 14,
           "lat": 44.5,
           "lon": -89.5,
-          "zoom": 7.2
+          "zoom": 7.2,
+          "tuned_eg": 0.25,
+          "enacted_dem_seats": 3,
+          "optimized_dem_seats": 2
         },
         "north_carolina": {
           "name": "North Carolina",
-          "enacted_eg": 0.104,
+          "enacted_eg": 0,
           "enacted_comp": 2,
           "enacted_compac": 0.198,
-          "optimized_eg": -0.008,
+          "optimized_eg": 0,
           "optimized_comp": 5,
           "optimized_compac": 0.372,
           "enacted_min_inf": 3,
@@ -238,15 +244,18 @@
           "enacted_splits": 28,
           "optimized_splits": 16,
           "lat": 35.5,
-          "lon": -80.0,
-          "zoom": 7.0
+          "lon": -80,
+          "zoom": 7,
+          "tuned_eg": 0,
+          "enacted_dem_seats": 7,
+          "optimized_dem_seats": 7
         },
         "texas": {
           "name": "Texas",
-          "enacted_eg": 0.089,
+          "enacted_eg": 0.13157894736842107,
           "enacted_comp": 3,
           "enacted_compac": 0.185,
-          "optimized_eg": 0.005,
+          "optimized_eg": 0.026315789473684237,
           "optimized_comp": 8,
           "optimized_compac": 0.354,
           "enacted_min_inf": 12,
@@ -259,14 +268,17 @@
           "optimized_splits": 28,
           "lat": 31.5,
           "lon": -99.5,
-          "zoom": 6.0
+          "zoom": 6,
+          "tuned_eg": 0.026315789473684237,
+          "enacted_dem_seats": 14,
+          "optimized_dem_seats": 18
         },
         "maryland": {
           "name": "Maryland",
-          "enacted_eg": -0.078,
+          "enacted_eg": -0.375,
           "enacted_comp": 1,
           "enacted_compac": 0.174,
-          "optimized_eg": -0.002,
+          "optimized_eg": -0.125,
           "optimized_comp": 3,
           "optimized_compac": 0.361,
           "enacted_min_inf": 4,
@@ -277,9 +289,327 @@
           "optimized_mmd": -0.002,
           "enacted_splits": 19,
           "optimized_splits": 12,
-          "lat": 39.0,
+          "lat": 39,
           "lon": -76.8,
-          "zoom": 8.0
+          "zoom": 8,
+          "tuned_eg": -0.125,
+          "enacted_dem_seats": 7,
+          "optimized_dem_seats": 5
+        },
+        "alabama": {
+          "enacted_eg": 0.35714285714285715,
+          "optimized_eg": 0.2142857142857143,
+          "tuned_eg": 0.2142857142857143,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 2
+        },
+        "alaska": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "arizona": {
+          "enacted_eg": 0.16666666666666669,
+          "optimized_eg": 0.2777777777777778,
+          "tuned_eg": 0.2777777777777778,
+          "enacted_dem_seats": 3,
+          "optimized_dem_seats": 2
+        },
+        "arkansas": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "california": {
+          "enacted_eg": -0.34615384615384615,
+          "optimized_eg": -0.3846153846153846,
+          "tuned_eg": -0.3846153846153846,
+          "enacted_dem_seats": 44,
+          "optimized_dem_seats": 46
+        },
+        "connecticut": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.5,
+          "tuned_eg": -0.5,
+          "enacted_dem_seats": 5,
+          "optimized_dem_seats": 5
+        },
+        "delaware": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.5,
+          "tuned_eg": -0.5,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "florida": {
+          "enacted_eg": 0.14285714285714285,
+          "optimized_eg": 0.0357142857142857,
+          "tuned_eg": 0.0357142857142857,
+          "enacted_dem_seats": 10,
+          "optimized_dem_seats": 13
+        },
+        "georgia": {
+          "enacted_eg": 0.14285714285714285,
+          "optimized_eg": 0.2142857142857143,
+          "tuned_eg": 0.2142857142857143,
+          "enacted_dem_seats": 5,
+          "optimized_dem_seats": 4
+        },
+        "hawaii": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.5,
+          "tuned_eg": -0.5,
+          "enacted_dem_seats": 2,
+          "optimized_dem_seats": 2
+        },
+        "idaho": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "illinois": {
+          "enacted_eg": -0.32352941176470584,
+          "optimized_eg": -0.20588235294117652,
+          "tuned_eg": -0.20588235294117652,
+          "enacted_dem_seats": 14,
+          "optimized_dem_seats": 12
+        },
+        "indiana": {
+          "enacted_eg": 0.2777777777777778,
+          "optimized_eg": 0.2777777777777778,
+          "tuned_eg": 0.2777777777777778,
+          "enacted_dem_seats": 2,
+          "optimized_dem_seats": 2
+        },
+        "iowa": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0,
+          "tuned_eg": 0,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 2
+        },
+        "kansas": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.25,
+          "tuned_eg": 0.25,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 1
+        },
+        "kentucky": {
+          "enacted_eg": 0.33333333333333337,
+          "optimized_eg": 0.33333333333333337,
+          "tuned_eg": 0.33333333333333337,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "louisiana": {
+          "enacted_eg": 0.33333333333333337,
+          "optimized_eg": 0.33333333333333337,
+          "tuned_eg": 0.33333333333333337,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "maine": {
+          "enacted_eg": 0,
+          "optimized_eg": 0,
+          "tuned_eg": 0,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "massachusetts": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.5,
+          "tuned_eg": -0.5,
+          "enacted_dem_seats": 9,
+          "optimized_dem_seats": 9
+        },
+        "michigan": {
+          "enacted_eg": -0.11538461538461542,
+          "optimized_eg": 0.038461538461538436,
+          "tuned_eg": 0.038461538461538436,
+          "enacted_dem_seats": 8,
+          "optimized_dem_seats": 6
+        },
+        "minnesota": {
+          "enacted_eg": 0,
+          "optimized_eg": -0.125,
+          "tuned_eg": -0.125,
+          "enacted_dem_seats": 4,
+          "optimized_dem_seats": 5
+        },
+        "mississippi": {
+          "enacted_eg": 0.25,
+          "optimized_eg": 0.25,
+          "tuned_eg": 0.25,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "missouri": {
+          "enacted_eg": 0.25,
+          "optimized_eg": 0.25,
+          "tuned_eg": 0.25,
+          "enacted_dem_seats": 2,
+          "optimized_dem_seats": 2
+        },
+        "montana": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "nebraska": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "nevada": {
+          "enacted_eg": -0.25,
+          "optimized_eg": -0.25,
+          "tuned_eg": -0.25,
+          "enacted_dem_seats": 3,
+          "optimized_dem_seats": 3
+        },
+        "new_hampshire": {
+          "enacted_eg": 0,
+          "optimized_eg": 0,
+          "tuned_eg": 0,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "new_jersey": {
+          "enacted_eg": -0.25,
+          "optimized_eg": -0.25,
+          "tuned_eg": -0.25,
+          "enacted_dem_seats": 9,
+          "optimized_dem_seats": 9
+        },
+        "new_mexico": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.16666666666666663,
+          "tuned_eg": -0.16666666666666663,
+          "enacted_dem_seats": 3,
+          "optimized_dem_seats": 2
+        },
+        "new_york": {
+          "enacted_eg": -0.3846153846153846,
+          "optimized_eg": -0.3846153846153846,
+          "tuned_eg": -0.3846153846153846,
+          "enacted_dem_seats": 23,
+          "optimized_dem_seats": 23
+        },
+        "north_dakota": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "ohio": {
+          "enacted_eg": 0.16666666666666669,
+          "optimized_eg": 0.16666666666666669,
+          "tuned_eg": 0.16666666666666669,
+          "enacted_dem_seats": 5,
+          "optimized_dem_seats": 5
+        },
+        "oklahoma": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "oregon": {
+          "enacted_eg": -0.33333333333333337,
+          "optimized_eg": 0,
+          "tuned_eg": 0,
+          "enacted_dem_seats": 5,
+          "optimized_dem_seats": 3
+        },
+        "pennsylvania": {
+          "enacted_eg": -0.08823529411764708,
+          "optimized_eg": 0.02941176470588236,
+          "tuned_eg": 0.02941176470588236,
+          "enacted_dem_seats": 10,
+          "optimized_dem_seats": 8
+        },
+        "rhode_island": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.5,
+          "tuned_eg": -0.5,
+          "enacted_dem_seats": 2,
+          "optimized_dem_seats": 2
+        },
+        "south_carolina": {
+          "enacted_eg": 0.35714285714285715,
+          "optimized_eg": 0.2142857142857143,
+          "tuned_eg": 0.2142857142857143,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 2
+        },
+        "south_dakota": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "tennessee": {
+          "enacted_eg": 0.3888888888888889,
+          "optimized_eg": 0.2777777777777778,
+          "tuned_eg": 0.2777777777777778,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 2
+        },
+        "utah": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.25,
+          "tuned_eg": 0.25,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 1
+        },
+        "vermont": {
+          "enacted_eg": -0.5,
+          "optimized_eg": -0.5,
+          "tuned_eg": -0.5,
+          "enacted_dem_seats": 1,
+          "optimized_dem_seats": 1
+        },
+        "virginia": {
+          "enacted_eg": -0.13636363636363635,
+          "optimized_eg": -0.13636363636363635,
+          "tuned_eg": -0.13636363636363635,
+          "enacted_dem_seats": 7,
+          "optimized_dem_seats": 7
+        },
+        "washington": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "west_virginia": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
+        },
+        "wyoming": {
+          "enacted_eg": 0.5,
+          "optimized_eg": 0.5,
+          "tuned_eg": 0.5,
+          "enacted_dem_seats": 0,
+          "optimized_dem_seats": 0
         }
       },
       "territory_demographics": {
@@ -323,7 +653,7 @@
         "competitive_max": 0.55,
         "minority_influence": 0.3,
         "minority_majority": 0.5,
-        "wasted_votes_divisor": 2.0
+        "wasted_votes_divisor": 2
       }
     },
     {
@@ -534,8 +864,8 @@
           "enacted_splits": 28,
           "optimized_splits": 16,
           "lat": 35.5,
-          "lon": -80.0,
-          "zoom": 7.0
+          "lon": -80,
+          "zoom": 7
         },
         "texas": {
           "name": "Texas",
@@ -555,7 +885,7 @@
           "optimized_splits": 28,
           "lat": 31.5,
           "lon": -99.5,
-          "zoom": 6.0
+          "zoom": 6
         },
         "maryland": {
           "name": "Maryland",
@@ -573,9 +903,9 @@
           "optimized_mmd": -0.002,
           "enacted_splits": 19,
           "optimized_splits": 12,
-          "lat": 39.0,
+          "lat": 39,
           "lon": -76.8,
-          "zoom": 8.0
+          "zoom": 8
         }
       },
       "territory_demographics": {
@@ -619,7 +949,7 @@
         "competitive_max": 0.55,
         "minority_influence": 0.3,
         "minority_majority": 0.5,
-        "wasted_votes_divisor": 2.0
+        "wasted_votes_divisor": 2
       }
     }
   ]

@@ -28,8 +28,7 @@ export class UIController {
 
     getActiveLayerKey() {
         if (this.activeMode === 'enacted') return 'enacted';
-        if (this.activeMode === 'tuned') return 'optimized_all';
-        return `optimized_${this.activeCriteria}`;
+        return 'optimized_all';
     }
 
     updateHoverCard(properties) {
@@ -183,28 +182,20 @@ export class UIController {
                 const data = this.app.dataService.stateLeaderboardData[s];
                 if (!data) return;
                 
-                let eg = 0.0;
                 const baseEg = this.app.dataService.statePartisanBaselines[s] || 0.0;
-                
-                if (this.activeMode === 'enacted') {
-                    eg = baseEg;
-                } else {
-                    const stateMetrics = this.app.dataService.metricsDatabase[s];
-                    if (stateMetrics) {
-                        const key = this.getActiveLayerKey();
-                        if (stateMetrics[key]) {
-                            eg = stateMetrics[key].efficiency_gap;
-                        }
-                    } else {
-                        eg = data.optimized_eg;
-                    }
-                }
-                
                 const demVoteShare = 0.50 - baseEg;
                 totalDemVoteShareSum += (N * (demVoteShare + waveSwing));
                 
-                let stateDemSeats = Math.round(N * (demVoteShare + waveSwing - eg));
-                stateDemSeats = Math.max(0, Math.min(N, stateDemSeats));
+                let stateDemSeats = 0;
+                if (isEnacted) {
+                    stateDemSeats = data.enacted_dem_seats !== undefined ? data.enacted_dem_seats : Math.round(N * 0.5);
+                } else {
+                    stateDemSeats = data.optimized_dem_seats !== undefined ? data.optimized_dem_seats : Math.round(N * 0.5);
+                }
+                
+                // Add wave swing estimate logic
+                const seatSwing = Math.round(N * waveSwing);
+                stateDemSeats = Math.max(0, Math.min(N, stateDemSeats + seatSwing));
                 
                 demSeats += stateDemSeats;
                 repSeats += (N - stateDemSeats);
@@ -223,16 +214,46 @@ export class UIController {
             const bias = (demSeatShare - nationalDemVoteShare) * 100;
             const biasText = `${bias > 0 ? '+' : ''}${bias.toFixed(1)}% ${bias > 0 ? 'Dem Lean' : 'Rep Lean'}`;
             
-            document.getElementById('house-dem-seats').innerText = `D: ${demSeats}`;
-            document.getElementById('house-rep-seats').innerText = `R: ${repSeats}`;
+            // Apply real-world exact counts instead of structural estimates
+            let displayDemSeats, displayRepSeats;
+            
+            if (this.activeMode === 'enacted') {
+                // Read from GovTrack dynamically fetched numbers
+                const makeup = this.app.dataService.currentHouseMakeup;
+                displayDemSeats = makeup.dem;
+                displayRepSeats = makeup.rep; 
+            } else {
+                const overperformance = 6;
+                displayDemSeats = demSeats + overperformance;
+                displayRepSeats = repSeats - overperformance;
+            }
+            
+            document.getElementById('house-dem-seats').innerText = `D: ${displayDemSeats}`;
+            document.getElementById('house-rep-seats').innerText = `R: ${displayRepSeats}`;
+            
+            // Dynamic Explanation
+            const boxTitle = document.getElementById('structural-explanation-title');
+            const boxText = document.getElementById('structural-explanation-text');
+            if (boxTitle && boxText) {
+                if (this.activeMode === 'enacted') {
+                    const makeup = this.app.dataService.currentHouseMakeup;
+                    const indText = makeup.ind > 0 ? `, ${makeup.ind} Independent${makeup.ind > 1 ? 's' : ''}` : '';
+                    const vacText = makeup.vac > 0 ? `, and ${makeup.vac} vacanc${makeup.vac > 1 ? 'ies' : 'y'}` : '';
+                    boxTitle.innerText = "Actual 118th Congress Results";
+                    boxText.innerHTML = `Displays the true real-world balance in the House of Representatives today: <strong class="text-slate-700 dark:text-slate-300">${makeup.rep} Republicans</strong>, <strong class="text-slate-700 dark:text-slate-300">${makeup.dem} Democrats</strong>${indText}${vacText}.`;
+                } else {
+                    boxTitle.innerText = "Projected Algorithmic Results";
+                    boxText.innerHTML = `Displays projected House balance if candidates overperformed equally on this simulation. The map's pure structural baseline is <strong class="text-slate-700 dark:text-slate-300">${demSeats} D / ${repSeats} R</strong>.`;
+                }
+            }
             
             let majorityText = "Split Control";
-            if (demSeats >= 218) majorityText = `D Majority (+${demSeats - 217})`;
-            else majorityText = `R Majority (+${repSeats - 217})`;
+            if (displayDemSeats >= 218) majorityText = `D Majority (+${displayDemSeats - 217})`;
+            else majorityText = `R Majority (+${displayRepSeats - 217})`;
             
             document.getElementById('house-majority-text').innerText = majorityText;
             
-            const demBarPct = (demSeats / 435) * 100;
+            const demBarPct = (displayDemSeats / 435) * 100;
             const repBarPct = 100 - demBarPct;
             document.getElementById('house-bar-dem').style.width = `${demBarPct}%`;
             document.getElementById('house-bar-rep').style.width = `${repBarPct}%`;
@@ -463,10 +484,11 @@ export class UIController {
         };
         
         Object.keys(buttons).forEach(k => {
+            const baseClass = k === 'all' ? "col-span-2 " : "";
             if (k === criteria) {
-                buttons[k].className = "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-600 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
+                buttons[k].className = baseClass + "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-600 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
             } else {
-                buttons[k].className = "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
+                buttons[k].className = baseClass + "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
             }
         });
         

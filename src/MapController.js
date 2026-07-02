@@ -79,7 +79,7 @@ export class MapController {
                     if (stateMetrics) {
                         let key;
                         if (this.app.uiController.activeMode === 'tuned') key = 'tuned';
-                        else key = `optimized_${this.app.uiController.activeCriteria}`;
+                        else key = 'optimized_all';
                         
                         if (stateMetrics[key]) {
                             eg = stateMetrics[key].efficiency_gap;
@@ -219,7 +219,7 @@ export class MapController {
                 let splits = isEnacted ? data.enacted_splits : data.optimized_splits;
                 
                 if (stateMetrics) {
-                    const k = isEnacted ? 'enacted' : `optimized_${this.app.uiController.activeCriteria}`;
+                    const k = isEnacted ? 'enacted' : 'optimized_all';
                     if (stateMetrics[k]) {
                         eg = stateMetrics[k].efficiency_gap;
                         compactness = stateMetrics[k].avg_compactness;
@@ -289,7 +289,7 @@ export class MapController {
         this.layerFeatures = {};
         
         const isPrecomputed = !!this.app.dataService.metricsDatabase[stateKey];
-        const configs = ['enacted', 'optimized_headcount', 'optimized_age', 'optimized_race', 'optimized_county', 'optimized_all'];
+        const configs = ['enacted', 'optimized_all'];
         
         if (isPrecomputed) {
             this.app.dataService.globalMetrics = this.app.dataService.metricsDatabase[stateKey];
@@ -300,7 +300,7 @@ export class MapController {
                     filename = `optimized_districts_${config.replace('optimized_', '')}`;
                 }
                 const fullFilename = `${stateKey}_${filename}`;
-                return fetch(`./data/${fullFilename}.geojson`).then(res => res.json());
+                return fetch(`./data/${fullFilename}.geojson?v=2`).then(res => res.json());
             });
             
             const datasets = await Promise.all(fetchPromises);
