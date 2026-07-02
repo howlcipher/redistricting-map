@@ -59,6 +59,7 @@ const testMapFeatures = async () => {
     } finally {
         if (browser) await browser.close();
         server.kill();
+        process.exit(0);
     }
 };
 
