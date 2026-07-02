@@ -35,22 +35,12 @@ export class DataService {
             
             // Dynamically fetch live congressional house balance
             try {
-                const govRes = await fetch('https://www.govtrack.us/api/v2/role?current=true&role_type=representative&limit=500');
-                const govData = await govRes.json();
-                let dem = 0, rep = 0, ind = 0, vac = 0;
-                govData.objects.forEach(obj => {
-                    const s = obj.state;
-                    if (s !== 'DC' && s !== 'PR' && s !== 'GU' && s !== 'VI' && s !== 'AS' && s !== 'MP') {
-                        if (obj.party === 'Democrat') dem++;
-                        else if (obj.party === 'Republican') rep++;
-                        else if (obj.party === 'Independent') ind++;
-                    }
-                });
-                vac = 435 - (dem + rep + ind);
-                this.currentHouseMakeup = { dem, rep, ind, vac };
-                console.log('Dynamically loaded real-world House composition:', this.currentHouseMakeup);
+                const makeupRes = await fetch('./house_makeup.json?v=2');
+                const makeup = await makeupRes.json();
+                this.currentHouseMakeup = makeup;
+                console.log('Dynamically loaded real-world House composition from static build cache:', this.currentHouseMakeup);
             } catch (e) {
-                console.warn('Failed to load GovTrack data, using fallback House composition', e);
+                console.warn('Failed to load static House makeup data, using hardcoded fallback composition', e);
             }
             
             const cacheKey = 'us-states-geojson';
@@ -136,8 +126,13 @@ export class DataService {
         return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     }
 
-    getOrGenerateStateData(stateKey, name) {
-        if (this.stateLeaderboardData[stateKey]) return this.stateLeaderboardData[stateKey];
+    getOrGenerateStateData(stateKey, stateName) {
+        if (this.stateLeaderboardData[stateKey]) {
+            if (!this.stateLeaderboardData[stateKey].name) {
+                this.stateLeaderboardData[stateKey].name = stateName;
+            }
+            return this.stateLeaderboardData[stateKey];
+        }
         
         const coords = {
             'district_of_columbia': { lat: 38.9072, lon: -77.0369, zoom: 11.0 },

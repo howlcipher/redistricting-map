@@ -5,3 +5,4 @@ __pycache__/
 data/us-states.json
 node_modules/
 dist/
+public/data/raw_shapefiles/

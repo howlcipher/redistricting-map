@@ -187,7 +187,7 @@ export class UIController {
                 totalDemVoteShareSum += (N * (demVoteShare + waveSwing));
                 
                 let stateDemSeats = 0;
-                if (isEnacted) {
+                if (this.activeMode === 'enacted') {
                     stateDemSeats = data.enacted_dem_seats !== undefined ? data.enacted_dem_seats : Math.round(N * 0.5);
                 } else {
                     stateDemSeats = data.optimized_dem_seats !== undefined ? data.optimized_dem_seats : Math.round(N * 0.5);
@@ -596,15 +596,16 @@ export class UIController {
         
         keys.forEach(key => {
             const data = this.app.dataService.stateLeaderboardData[key];
-            const egPct = Math.abs(data.enacted_eg * 100).toFixed(1);
-            const egLean = data.enacted_eg > 0 ? 'R' : 'D';
+            const hasEg = data.enacted_eg !== undefined;
+            const egPct = hasEg ? Math.abs(data.enacted_eg * 100).toFixed(1) : '0.0';
+            const egLean = hasEg && data.enacted_eg > 0 ? 'R' : 'D';
             
             const row = document.createElement('tr');
             row.className = "border-b border-slate-200 dark:border-slate-800/40 hover:bg-slate-100/50 dark:hover:bg-slate-800/25 transition-all pointer-events-auto cursor-pointer";
             row.innerHTML = `
-                <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-350">${data.name}</td>
-                <td class="py-2.5 text-center font-bold ${data.enacted_eg === 0 ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-600 dark:text-rose-450' : 'text-emerald-600 dark:text-emerald-450')}">${data.enacted_eg === 0 ? '0.0%' : egPct + '% ' + egLean}</td>
-                <td class="py-2.5 text-center text-slate-500 dark:text-slate-400">${data.enacted_compac.toFixed(3)}</td>
+                <td class="py-2.5 font-semibold text-slate-700 dark:text-slate-350">${data.name || key}</td>
+                <td class="py-2.5 text-center font-bold ${(!hasEg || data.enacted_eg === 0) ? 'text-slate-500' : (Math.abs(data.enacted_eg) > 0.08 ? 'text-rose-600 dark:text-rose-450' : 'text-emerald-600 dark:text-emerald-450')}">${(!hasEg || data.enacted_eg === 0) ? '0.0%' : egPct + '% ' + egLean}</td>
+                <td class="py-2.5 text-center text-slate-500 dark:text-slate-400">${data.enacted_compac !== undefined ? data.enacted_compac.toFixed(3) : '---'}</td>
                 <td class="py-2.5 text-center">
                     <button class="px-2 py-1 rounded bg-indigo-500/10 border border-indigo-500/30 text-indigo-600 dark:text-indigo-400 font-semibold hover:bg-indigo-600 hover:text-white transition-all text-[10px]">Analyze</button>
                 </td>
