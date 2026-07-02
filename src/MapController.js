@@ -81,6 +81,7 @@ export class MapController {
                 if (this.app.uiController.activeMode === 'enacted') {
                     eg = baseEg;
                 } else {
+                    const stateMetrics = this.app.dataService.metricsDatabase ? this.app.dataService.metricsDatabase[name] : null;
                     if (stateMetrics) {
                         const key = 'optimized_all';
                         

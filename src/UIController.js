@@ -479,13 +479,30 @@ export class UIController {
             await this.app.mapController.loadStateGeometries(stateKey);
             
             document.getElementById('btn-view-state').innerText = `${name.length > 15 ? name.slice(0, 12) + '...' : name} Detail`;
+            const wasNational = this.activeView === 'national';
             this.switchViewMode('state');
+            
+            if (!wasNational) {
+                // Manually add the new active layer since switchViewMode early returns
+                const key = this.getActiveLayerKey();
+                if (this.app.mapController.layers[key]) {
+                    this.app.mapController.layers[key].addTo(this.app.mapController.map);
+                    this.app.mapController.layers[key].setStyle((f) => this.app.mapController.getStyle(f));
+                }
+                this.updateSummaryDashboard();
+                document.getElementById('state-select-dropdown').value = this.activeState;
+            }
             
             setTimeout(() => {
                 this.app.mapController.map.invalidateSize();
                 const stateData = this.app.dataService.stateLeaderboardData[stateKey];
                 if (stateData && stateData.lat !== undefined && stateData.lon !== undefined && stateData.zoom !== undefined) {
-                    this.app.mapController.map.flyTo([stateData.lat, stateData.lon], stateData.zoom, { duration: 1.5, easeLinearity: 0.25 });
+                    if (wasNational) {
+                        // switchViewMode already triggered flyTo, but just in case we can let it be
+                    } else {
+                        // Already in state view, snap immediately to prevent long sliding pan across the country
+                        this.app.mapController.map.setView([stateData.lat, stateData.lon], stateData.zoom);
+                    }
                 }
             }, 100);
         }, 2000);

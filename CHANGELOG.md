@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased] - 2026-07-02
+## [2026-07-02]
 
 ### Added
 - **Dynamic House Data:** Added `fetch_house_makeup.mjs` to dynamically fetch the actual 118th Congress composition (Democrats, Republicans, Independents, Vacancies) from GovTrack at build time. The "Enacted Reality" map now explicitly displays real-world seat counts instead of simulated estimates.
@@ -17,3 +17,35 @@ All notable changes to this project will be documented in this file.
 - **Sandbox Mode Removed:** Completely stripped the "Sandbox Map Playground", its interactive sliders, and the "Tuned" rendering logic to clean up the interface and improve code maintainability.
 - **Swipe Compare Removed:** Removed the Leaflet side-by-side swipe comparator functionality, as well as its related dependencies, HTML, and CSS.
 - **Optimization Criteria Removed:** Removed the unused optimization criteria toggle buttons from the UI.
+
+## [2026-07-01]
+### Added
+- **Historical Analysis Mode:** Interpolated historical baselines for continuous date transitions and dynamically shifted state district colors based on historical variance.
+- **Configurable Analytics:** Externalized mathematical thresholds, constants, and simulation parameters into a master `config.json` file.
+- **Visual & UI Enhancements:** Added a modern redistricting map favicon. Improved mobile responsiveness by auto-minimizing the sidebar and adding a hamburger menu.
+- **Documentation:** Added a potential pitfalls section to the README, included devicon and shields.io badges, and documented the dynamic historical features.
+
+### Changed
+- **Seat Counts:** Excluded non-voting territories from House seat count calculations.
+
+## [2026-06-30]
+### Added
+- **Third Party Integrations:** Added support for third-party colors (Libertarian, Green, Constitution, Reform).
+- **Chart & Graphics:** Introduced `Chart.js` for data visualizations, cinematic `flyToBounds` animations, and ARIA labels (Phase 3).
+- **Precomputed Maps:** Unlocked precomputed maps for all 50 states and territories to enable physically distinct optimized geometries.
+- **CI/CD:** Configured a GitHub Actions workflow to deploy the Vite app automatically to GitHub Pages.
+
+### Changed
+- **Architectural Migration:** Migrated the app to Vite, Tailwind 4, and ES6 OOP modules. Moved heavy JSON processing to Web Workers and cached via IndexedDB (Phase 1 & Phase 2).
+- **Bug Fixes:** Resolved map rendering grey bugs, dark mode contrast bugs, missing state metrics on build, highly competitive district sticky layer bug, and inverted partisan bias colors.
+
+## [2026-06-29]
+### Added
+- **Core Functionality:** Implemented interactive range sliders for Partisan Lean, Compactness, and County Splits.
+- **House Seat Visualization:** Added dynamic Projected U.S. House Control seat share visualization in the sidebar.
+- **U.S. Territories:** Injected Puerto Rico, Guam, American Samoa, Virgin Islands, and Mariana Islands as clickable cartographic insets on the National Map.
+- **Responsive Layout:** Sidebar collapses into a corner dashboard restore icon on minimize.
+- **Map Enhancements:** Added progressive partisan color scale on the US National Map.
+
+### Changed
+- **Initial Release:** Initial commit of the RedrawUS Geospatial Redistricting Map Dashboard.
