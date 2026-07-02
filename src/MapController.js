@@ -3,8 +3,18 @@
 /**
  * MapController handles the rendering and state of the Leaflet map instance.
  * It manages the geo-spatial layers, switching between national and state views,
- * applying visual styles, and setting up the Side-by-Side swipe comparison tool.
+ * applying visual styles.
  */
+
+const interpolateHex = (hex1, hex2, factor) => {
+    const r1 = parseInt(hex1.slice(1, 3), 16), g1 = parseInt(hex1.slice(3, 5), 16), b1 = parseInt(hex1.slice(5, 7), 16);
+    const r2 = parseInt(hex2.slice(1, 3), 16), g2 = parseInt(hex2.slice(3, 5), 16), b2 = parseInt(hex2.slice(5, 7), 16);
+    const r = Math.round(r1 + factor * (r2 - r1));
+    const g = Math.round(g1 + factor * (g2 - g1));
+    const b = Math.round(b1 + factor * (b2 - b1));
+    return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+};
+
 export class MapController {
     constructor(app) {
         this.app = app; // Reference to the main App instance
@@ -12,6 +22,7 @@ export class MapController {
         this.layers = {};
         this.layerFeatures = {};
         this.nationalLayer = null;
+        this.isDark = document.body.classList.contains('dark');
     }
 
     initMap() {
@@ -30,17 +41,12 @@ export class MapController {
             maxBoundsViscosity: 1.0
         }).setView([39.8, -98.5], 4);
     }
+    
+    setDarkTheme(isDark) {
+        this.isDark = isDark;
+    }
 
     getPartisanFillColor(eg, isDark) {
-        const interpolateHex = (hex1, hex2, factor) => {
-            const r1 = parseInt(hex1.slice(1, 3), 16), g1 = parseInt(hex1.slice(3, 5), 16), b1 = parseInt(hex1.slice(5, 7), 16);
-            const r2 = parseInt(hex2.slice(1, 3), 16), g2 = parseInt(hex2.slice(3, 5), 16), b2 = parseInt(hex2.slice(5, 7), 16);
-            const r = Math.round(r1 + factor * (r2 - r1));
-            const g = Math.round(g1 + factor * (g2 - g1));
-            const b = Math.round(b1 + factor * (b2 - b1));
-            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
-        };
-
         const absEg = Math.abs(eg);
         const intensity = Math.min(1.0, absEg / 0.15); // Cap intensity at 15% EG
         
@@ -65,7 +71,7 @@ export class MapController {
             
             const name = feature.properties.name.toLowerCase().replace(/ /g, '_');
             const stateData = this.app.dataService.stateLeaderboardData[name];
-            const isDark = document.body.classList.contains('dark');
+            const isDark = this.isDark;
             
             let fill = isDark ? '#1e293b' : '#cbd5e1';
             const baseEg = this.app.dataService.statePartisanBaselines[name] !== undefined ? this.app.dataService.statePartisanBaselines[name] : 0.0;
@@ -117,15 +123,6 @@ export class MapController {
                 winner = party;
             }
         }
-
-        const interpolateHex = (hex1, hex2, factor) => {
-            const r1 = parseInt(hex1.slice(1, 3), 16), g1 = parseInt(hex1.slice(3, 5), 16), b1 = parseInt(hex1.slice(5, 7), 16);
-            const r2 = parseInt(hex2.slice(1, 3), 16), g2 = parseInt(hex2.slice(3, 5), 16), b2 = parseInt(hex2.slice(5, 7), 16);
-            const r = Math.round(r1 + factor * (r2 - r1));
-            const g = Math.round(g1 + factor * (g2 - g1));
-            const b = Math.round(b1 + factor * (b2 - b1));
-            return `#${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
-        };
 
         const factor = Math.min(1.0, Math.max(0.0, (maxPct - 0.5) / 0.15)); // 50% to 65% is the gradient
 
@@ -182,7 +179,7 @@ export class MapController {
             pcts.dem = Math.max(0.02, Math.min(0.98, pcts.dem - swing));
             pcts.rep = Math.max(0.02, Math.min(0.98, pcts.rep + swing));
         }
-        const isDark = document.body.classList.contains('dark');
+        const isDark = this.isDark;
         return {
             fillColor: this.getDistrictColor(pcts, isDark),
             weight: 1.5,
