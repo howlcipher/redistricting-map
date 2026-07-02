@@ -151,14 +151,6 @@ class App {
             document.getElementById('toggle-optimized').addEventListener('click', () => this.uiController.switchMode('optimized'));
             document.getElementById('toggle-tuned').addEventListener('click', () => this.uiController.switchMode('tuned'));
 
-            document.getElementById('btn-toggle-swipe').addEventListener('click', () => {
-                this.uiController.toggleSwipe();
-            });
-            document.getElementById('opt-headcount').addEventListener('click', () => this.uiController.switchCriteria('headcount'));
-            document.getElementById('opt-age').addEventListener('click', () => this.uiController.switchCriteria('age'));
-            document.getElementById('opt-race').addEventListener('click', () => this.uiController.switchCriteria('race'));
-            document.getElementById('opt-county').addEventListener('click', () => this.uiController.switchCriteria('county'));
-            document.getElementById('opt-all').addEventListener('click', () => this.uiController.switchCriteria('all'));
 
             const sliderEg = document.getElementById('slider-eg');
             const sliderCompac = document.getElementById('slider-compac');

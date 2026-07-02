@@ -365,33 +365,5 @@ export class MapController {
         document.getElementById('detail-state-name').innerText = data.name;
         this.app.uiController.updateSummaryDashboard();
     }
-    
-    toggleSwipeMode() {
-        if (!this.swipeControl) {
-            // Enable swipe compare
-            Object.values(this.layers).forEach(layer => this.map.removeLayer(layer));
-            
-            const leftLayer = this.layers['enacted'];
-            const rightLayer = this.layers['optimized_all'];
-            
-            leftLayer.addTo(this.map);
-            rightLayer.addTo(this.map);
-            
-            // @ts-ignore
-            this.swipeControl = L.control.sideBySide(leftLayer, rightLayer);
-            this.swipeControl.addTo(this.map);
-        } else {
-            // Disable swipe compare
-            this.map.removeControl(this.swipeControl);
-            this.swipeControl = null;
-            
-            this.map.removeLayer(this.layers['enacted']);
-            this.map.removeLayer(this.layers['optimized_all']);
-            
-            const activeKey = this.app.uiController.getActiveLayerKey();
-            if (this.layers[activeKey]) {
-                this.map.addLayer(this.layers[activeKey]);
-            }
-        }
-    }
+
 }

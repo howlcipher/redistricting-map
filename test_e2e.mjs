@@ -41,10 +41,17 @@ const testMapFeatures = async () => {
         await new Promise(r => setTimeout(r, 1000));
         await page.screenshot({ path: 'after_click_optimized.png' });
         
-        console.log('Clicking Combined (Optimal) button...');
-        await page.click('#opt-all');
-        await new Promise(r => setTimeout(r, 500));
-        await page.screenshot({ path: 'after_click_opt_all.png' });
+        console.log('Verifying no NaN values in the DOM...');
+        const hasNaN = await page.evaluate(() => {
+            return document.body.innerText.includes('NaN');
+        });
+        
+        if (hasNaN) {
+            console.error('Test Failed: Found "NaN" in the rendered page text!');
+            errors.push(new Error('NaN value found in DOM'));
+        } else {
+            console.log('Check passed: No "NaN" text found.');
+        }
         
         console.log('Checking for page errors...');
         if (errors.length > 0) {

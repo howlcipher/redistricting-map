@@ -29,12 +29,6 @@ export class UIController {
     getActiveLayerKey() {
         if (this.activeMode === 'enacted') return 'enacted';
         if (this.activeMode === 'tuned') return 'tuned';
-        if (this.activeView === 'national') return 'optimized_all';
-        
-        const db = this.app.dataService.metricsDatabase[this.activeState];
-        const target = 'optimized_' + this.activeCriteria;
-        if (db && db[target]) return target;
-        
         return 'optimized_all';
     }
 
@@ -309,18 +303,11 @@ export class UIController {
             statusPill.innerText = `${prefixLabel}Enacted Reality`;
             statusPill.className = "inline-flex items-center px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border border-red-200 dark:border-red-800/50 mt-1 sm:mt-0";
         } else {
-            const criteriaLabel = {
-                'headcount': 'Headcount Balanced',
-                'age': 'Voting Age Balanced',
-                'race': 'VRA Balanced',
-                'county': 'County Splits Minimizing',
-                'all': 'Multi-Objective Combined'
-            }[this.activeCriteria];
-            statusPill.innerText = `${prefixLabel}Optimized (${criteriaLabel})`;
+            statusPill.innerText = `${prefixLabel}Optimized Algorithm`;
             statusPill.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 mb-2';
         }
         
-        const eg = data.efficiency_gap;
+        const eg = data.efficiency_gap || 0.0;
         const egPct = Math.abs(eg * 100).toFixed(1);
         const egText = eg === 0 ? '0.0%' : `${egPct}% ${eg > 0 ? 'Rep Lean' : 'Dem Lean'}`;
         const egEl = document.getElementById('metric-eg');
@@ -343,14 +330,17 @@ export class UIController {
             bar.style.left = '50%';
         }
         
-        document.getElementById('metric-comp').innerText = data.competitive_seats;
-        document.getElementById('metric-compac').innerText = data.avg_compactness.toFixed(3);
+        const comp = data.competitive_seats || 0;
+        document.getElementById('metric-comp').innerText = comp;
+        const compac = data.avg_compactness || 0.0;
+        document.getElementById('metric-compac').innerText = compac.toFixed(3);
         
-        const mmd = data.mean_median_diff;
+        const mmd = data.mean_median_diff || 0.0;
         const mmdPct = (Math.abs(mmd) * 100).toFixed(1);
-        document.getElementById('metric-mmd').innerText = `${mmdPct}% ${mmd >= 0 ? 'D' : 'R'}`;
+        document.getElementById('metric-mmd').innerText = mmd === 0 ? '0.0%' : `${mmdPct}% ${mmd >= 0 ? 'D' : 'R'}`;
         
-        document.getElementById('metric-splits').innerText = data.county_splits;
+        const splits = data.county_splits || 0;
+        document.getElementById('metric-splits').innerText = splits;
         
         if (this.activeView === 'state') {
             document.getElementById('metric-min-influence').innerText = data.minority_influence_seats;
@@ -358,13 +348,13 @@ export class UIController {
         }
         
         const deltas = {
-            'metric-eg-diff': this.activeMode === 'optimized' ? (Math.abs(eg * 100) - Math.abs(enactedData.efficiency_gap * 100)).toFixed(1) + '%' : null,
-            'metric-comp-diff': this.activeMode === 'optimized' ? (data.competitive_seats - enactedData.competitive_seats) : null,
-            'metric-compac-diff': this.activeMode === 'optimized' ? (data.avg_compactness - enactedData.avg_compactness).toFixed(3) : null,
-            'metric-mmd-diff': this.activeMode === 'optimized' ? (Math.abs(mmd * 100) - Math.abs(enactedData.mean_median_diff * 100)).toFixed(1) + '%' : null,
-            'metric-splits-diff': this.activeMode === 'optimized' ? (data.county_splits - enactedData.county_splits) : null,
-            'metric-min-influence-diff': (this.activeMode === 'optimized' && this.activeView === 'state') ? (data.minority_influence_seats - enactedData.minority_influence_seats) : null,
-            'metric-min-majority-diff': (this.activeMode === 'optimized' && this.activeView === 'state') ? (data.minority_majority_seats - enactedData.minority_majority_seats) : null
+            'metric-eg-diff': this.activeMode === 'optimized' ? (Math.abs(eg * 100) - Math.abs((enactedData.efficiency_gap || 0.0) * 100)).toFixed(1) + '%' : null,
+            'metric-comp-diff': this.activeMode === 'optimized' ? (comp - (enactedData.competitive_seats || 0)) : null,
+            'metric-compac-diff': this.activeMode === 'optimized' ? (compac - (enactedData.avg_compactness || 0.0)).toFixed(3) : null,
+            'metric-mmd-diff': this.activeMode === 'optimized' ? (Math.abs(mmd * 100) - Math.abs((enactedData.mean_median_diff || 0.0) * 100)).toFixed(1) + '%' : null,
+            'metric-splits-diff': this.activeMode === 'optimized' ? (splits - (enactedData.county_splits || 0)) : null,
+            'metric-min-influence-diff': (this.activeMode === 'optimized' && this.activeView === 'state') ? ((data.minority_influence_seats || 0) - (enactedData.minority_influence_seats || 0)) : null,
+            'metric-min-majority-diff': (this.activeMode === 'optimized' && this.activeView === 'state') ? ((data.minority_majority_seats || 0) - (enactedData.minority_majority_seats || 0)) : null
         };
         
         Object.keys(deltas).forEach(id => {
@@ -429,23 +419,13 @@ export class UIController {
             if (tunedBtn) tunedBtn.className = "flex-1 md:flex-none px-2.5 py-1.5 sm:px-3 sm:py-2 text-[10px] sm:text-xs font-semibold rounded sm:rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
         }
         
-        if (this.app.mapController.swipeControl) {
-            this.app.mapController.toggleSwipeMode();
-            const swipeBtn = document.getElementById('btn-toggle-swipe');
-            if (swipeBtn) swipeBtn.className = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
-        }
-        
-        const criteriaPanel = document.getElementById('criteria-selector-container');
         const playgroundPanel = document.getElementById('playground-slider-container');
         
         if (mode === 'enacted') {
-            criteriaPanel.classList.add('hidden');
             playgroundPanel.classList.add('hidden');
         } else if (mode === 'optimized') {
-            criteriaPanel.classList.remove('hidden');
             playgroundPanel.classList.add('hidden');
         } else if (mode === 'tuned') {
-            criteriaPanel.classList.add('hidden');
             playgroundPanel.classList.remove('hidden');
             this.syncSlidersToActiveState();
         }
@@ -466,41 +446,7 @@ export class UIController {
         }
     }
 
-    switchCriteria(criteria) {
-        if (criteria === this.activeCriteria) return;
-        
-        const prevKey = this.getActiveLayerKey();
-        this.activeCriteria = criteria;
-        
-        if (this.activeView === 'national') {
-            this.app.mapController.nationalLayer.setStyle((f) => this.app.mapController.getNationalStyle(f));
-        } else {
-            if (this.app.mapController.layers[prevKey]) this.app.mapController.map.removeLayer(this.app.mapController.layers[prevKey]);
-            const newKey = this.getActiveLayerKey();
-            if (this.app.mapController.layers[newKey]) {
-                this.app.mapController.map.addLayer(this.app.mapController.layers[newKey]);
-            }
-        }
-        
-        const buttons = {
-            'headcount': document.getElementById('opt-headcount'),
-            'age': document.getElementById('opt-age'),
-            'race': document.getElementById('opt-race'),
-            'county': document.getElementById('opt-county'),
-            'all': document.getElementById('opt-all')
-        };
-        
-        Object.keys(buttons).forEach(k => {
-            const baseClass = k === 'all' ? "col-span-2 " : "";
-            if (k === criteria) {
-                buttons[k].className = baseClass + "px-2 py-1.5 rounded-lg border border-indigo-500 bg-indigo-500/15 text-indigo-600 dark:text-indigo-200 font-semibold hover:border-indigo-400 transition-all";
-            } else {
-                buttons[k].className = baseClass + "px-2 py-1.5 rounded-lg border border-slate-250 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 text-slate-600 dark:text-slate-400 font-semibold hover:border-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all";
-            }
-        });
-        
-        this.updateSummaryDashboard();
-    }
+
 
     switchViewMode(view) {
         if (this.activeView === view) return;
@@ -508,17 +454,10 @@ export class UIController {
         
         const nationalBtn = document.getElementById('btn-view-national');
         const stateBtn = document.getElementById('btn-view-state');
-        const swipeBtn = document.getElementById('btn-toggle-swipe');
         
         if (view === 'national') {
             nationalBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
-            
-            if (swipeBtn) swipeBtn.classList.add('hidden');
-            
-            if (this.app.mapController.swipeControl) {
-                this.app.mapController.toggleSwipeMode(); // Disable swipe before switching
-            }
             
             this.app.mapController.map.flyToBounds(this.app.mapController.US_BOUNDS, {
                 duration: 1.5,
@@ -531,8 +470,7 @@ export class UIController {
         } else {
             stateBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md";
             nationalBtn.className = "px-4 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
-            
-            if (swipeBtn) swipeBtn.classList.remove('hidden');
+
             
             this.app.mapController.map.removeLayer(this.app.mapController.nationalLayer);
             
@@ -655,35 +593,5 @@ export class UIController {
         }
     }
 
-    toggleSwipe() {
-        if (this.activeView !== 'state') return;
-        this.app.mapController.toggleSwipeMode();
-        
-        const swipeBtn = document.getElementById('btn-toggle-swipe');
-        const enactedBtn = document.getElementById('toggle-enacted');
-        const optimizedBtn = document.getElementById('toggle-optimized');
-        const tunedBtn = document.getElementById('toggle-tuned');
-        
-        const activeClass = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 bg-indigo-600 text-white shadow-md flex items-center gap-1";
-        const inactiveClass = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white flex items-center gap-1";
-        
-        const baseClass = "px-3 py-2 text-xs font-semibold rounded-lg transition-all duration-300";
-        const inactiveBase = `${baseClass} text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white`;
-        
-        if (this.app.mapController.swipeControl) {
-            swipeBtn.className = activeClass;
-            [enactedBtn, optimizedBtn, tunedBtn].forEach(btn => {
-                if (btn) btn.className = inactiveBase;
-            });
-            document.getElementById('criteria-selector-container').classList.add('hidden');
-            document.getElementById('playground-slider-container').classList.add('hidden');
-        } else {
-            swipeBtn.className = inactiveClass;
-            // Restore previous mode state
-            this.activeMode = null; // force refresh
-            const mode = document.getElementById('toggle-tuned').classList.contains('bg-indigo-600') ? 'tuned' : 
-                         document.getElementById('toggle-optimized').classList.contains('bg-indigo-600') ? 'optimized' : 'enacted';
-            this.switchMode(mode);
-        }
-    }
+
 }
