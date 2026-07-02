@@ -28,6 +28,13 @@ export class UIController {
 
     getActiveLayerKey() {
         if (this.activeMode === 'enacted') return 'enacted';
+        if (this.activeMode === 'tuned') return 'tuned';
+        if (this.activeView === 'national') return 'optimized_all';
+        
+        const db = this.app.dataService.metricsDatabase[this.activeState];
+        const target = 'optimized_' + this.activeCriteria;
+        if (db && db[target]) return target;
+        
         return 'optimized_all';
     }
 

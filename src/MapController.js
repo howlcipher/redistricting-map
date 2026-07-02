@@ -81,10 +81,11 @@ export class MapController {
                         if (this.app.uiController.activeMode === 'tuned') key = 'tuned';
                         else key = 'optimized_all';
                         
-                        if (stateMetrics[key]) {
+                        if (stateMetrics[key] && !stateMetrics[key].note) {
                             eg = stateMetrics[key].efficiency_gap;
-                        } else if (this.app.uiController.activeMode === 'tuned' && stateData) {
-                            eg = stateData.tuned_eg;
+                        } else if (stateData) {
+                            if (this.app.uiController.activeMode === 'tuned') eg = stateData.tuned_eg;
+                            else eg = stateData.optimized_eg;
                         }
                     } else if (stateData) {
                         if (this.app.uiController.activeMode === 'tuned') eg = stateData.tuned_eg;

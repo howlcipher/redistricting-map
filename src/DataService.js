@@ -127,13 +127,16 @@ export class DataService {
     }
 
     getOrGenerateStateData(stateKey, stateName) {
-        if (this.stateLeaderboardData[stateKey]) {
-            if (!this.stateLeaderboardData[stateKey].name) {
-                this.stateLeaderboardData[stateKey].name = stateName;
-            }
-            return this.stateLeaderboardData[stateKey];
+        let existing = this.stateLeaderboardData[stateKey];
+        if (!existing) {
+            existing = {};
+            this.stateLeaderboardData[stateKey] = existing;
         }
         
+        if (!existing.name) {
+            existing.name = stateName;
+        }
+
         const coords = {
             'district_of_columbia': { lat: 38.9072, lon: -77.0369, zoom: 11.0 },
             'puerto_rico': { lat: 18.2208, lon: -66.5901, zoom: 8.5 },
@@ -143,26 +146,27 @@ export class DataService {
             'northern_mariana_islands': { lat: 15.0979, lon: 145.6739, zoom: 9.0 }
         };
         
-        let lat = 39.8, lon = -98.5, zoom = 6.0;
-        if (coords[stateKey]) {
-            lat = coords[stateKey].lat; lon = coords[stateKey].lon; zoom = coords[stateKey].zoom;
-        } else if (this.usStatesDataCache && this.usStatesDataCache.features) {
-            const feature = this.usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
-            if (feature) {
-                // @ts-ignore
-                try {
-                    const center = turf.centroid(feature).geometry.coordinates;
-                    lon = isNaN(center[0]) ? lon : center[0]; 
-                    lat = isNaN(center[1]) ? lat : center[1];
-                    // @ts-ignore
-                    const bbox = turf.bbox(feature);
-                    const maxDim = Math.max(bbox[2] - bbox[0], bbox[3] - bbox[1]);
-                    const calcZoom = maxDim > 12 ? 5.0 : (maxDim > 6 ? 6.0 : (maxDim > 3 ? 7.0 : 8.0));
-                    zoom = (isNaN(calcZoom) || !isFinite(calcZoom)) ? zoom : calcZoom;
-                } catch (e) {
-                    // Fallback if Turf fails
+        if (existing.lat === undefined || existing.lon === undefined || existing.zoom === undefined) {
+            let lat = 39.8, lon = -98.5, zoom = 6.0;
+            if (coords[stateKey]) {
+                lat = coords[stateKey].lat; lon = coords[stateKey].lon; zoom = coords[stateKey].zoom;
+            } else if (this.usStatesDataCache && this.usStatesDataCache.features) {
+                const feature = this.usStatesDataCache.features.find(f => f.properties.name.toLowerCase().replace(/ /g, '_') === stateKey);
+                if (feature) {
+                    try {
+                        const center = turf.centroid(feature).geometry.coordinates;
+                        lon = isNaN(center[0]) ? lon : center[0]; 
+                        lat = isNaN(center[1]) ? lat : center[1];
+                        const bbox = turf.bbox(feature);
+                        const maxDim = Math.max(bbox[2] - bbox[0], bbox[3] - bbox[1]);
+                        const calcZoom = maxDim > 12 ? 5.0 : (maxDim > 6 ? 6.0 : (maxDim > 3 ? 7.0 : 8.0));
+                        zoom = (isNaN(calcZoom) || !isFinite(calcZoom)) ? zoom : calcZoom;
+                    } catch (e) {}
                 }
             }
+            if (existing.lat === undefined) existing.lat = lat;
+            if (existing.lon === undefined) existing.lon = lon;
+            if (existing.zoom === undefined) existing.zoom = zoom;
         }
         
         const count = this.districtCounts[stateKey] || 4;
@@ -170,19 +174,30 @@ export class DataService {
         const baseEg = this.statePartisanBaselines[stateKey] !== undefined ? this.statePartisanBaselines[stateKey] : 0.0;
         const optEg = isSingle ? 0.0 : baseEg * 0.22;
         
-        this.stateLeaderboardData[stateKey] = {
-            name: name,
-            enacted_eg: baseEg, enacted_comp: isSingle ? 0 : Math.round(count * 0.2), enacted_compac: isSingle ? 0.45 : (0.16 + Math.random() * 0.06),
-            optimized_eg: optEg, optimized_comp: isSingle ? 0 : Math.round(count * 0.45), optimized_compac: isSingle ? 0.45 : (0.33 + Math.random() * 0.04),
-            tuned_eg: optEg, tuned_compac: isSingle ? 0.45 : (0.33 + Math.random() * 0.04), tuned_splits: isSingle ? 0 : Math.round(count * 1.3),
-            enacted_min_inf: isSingle ? 0 : Math.round(count * 0.3), enacted_min_maj: isSingle ? 0 : Math.round(count * 0.1),
-            optimized_min_inf: isSingle ? 0 : Math.round(count * 0.35), optimized_min_maj: isSingle ? 0 : Math.round(count * 0.15),
-            enacted_mmd: baseEg * 0.6, optimized_mmd: optEg * 0.6,
-            enacted_splits: isSingle ? 0 : Math.round(count * 2.8), optimized_splits: isSingle ? 0 : Math.round(count * 1.3),
-            lat: lat, lon: lon, zoom: zoom
-        };
+        if (existing.enacted_eg === undefined) existing.enacted_eg = baseEg;
+        if (existing.enacted_comp === undefined) existing.enacted_comp = isSingle ? 0 : Math.round(count * 0.2);
+        if (existing.enacted_compac === undefined) existing.enacted_compac = isSingle ? 0.45 : (0.16 + Math.random() * 0.06);
         
-        return this.stateLeaderboardData[stateKey];
+        if (existing.optimized_eg === undefined) existing.optimized_eg = optEg;
+        if (existing.optimized_comp === undefined) existing.optimized_comp = isSingle ? 0 : Math.round(count * 0.45);
+        if (existing.optimized_compac === undefined) existing.optimized_compac = isSingle ? 0.45 : (0.33 + Math.random() * 0.04);
+        
+        if (existing.tuned_eg === undefined) existing.tuned_eg = optEg;
+        if (existing.tuned_compac === undefined) existing.tuned_compac = isSingle ? 0.45 : (0.33 + Math.random() * 0.04);
+        if (existing.tuned_splits === undefined) existing.tuned_splits = isSingle ? 0 : Math.round(count * 1.3);
+        
+        if (existing.enacted_min_inf === undefined) existing.enacted_min_inf = isSingle ? 0 : Math.round(count * 0.3);
+        if (existing.enacted_min_maj === undefined) existing.enacted_min_maj = isSingle ? 0 : Math.round(count * 0.1);
+        if (existing.optimized_min_inf === undefined) existing.optimized_min_inf = isSingle ? 0 : Math.round(count * 0.35);
+        if (existing.optimized_min_maj === undefined) existing.optimized_min_maj = isSingle ? 0 : Math.round(count * 0.15);
+        
+        if (existing.enacted_mmd === undefined) existing.enacted_mmd = baseEg * 0.6;
+        if (existing.optimized_mmd === undefined) existing.optimized_mmd = optEg * 0.6;
+        
+        if (existing.enacted_splits === undefined) existing.enacted_splits = isSingle ? 0 : Math.round(count * 2.8);
+        if (existing.optimized_splits === undefined) existing.optimized_splits = isSingle ? 0 : Math.round(count * 1.3);
+        
+        return existing;
     }
 
     generateWithWorker(stateFeature, stateKey) {
@@ -263,7 +278,7 @@ export class DataService {
                     compac = data ? data.enacted_compac : 0.45;
                     splits = data ? data.enacted_splits : 0;
                 } else {
-                    if (db && db[c]) {
+                    if (db && db[c] && !db[c].note) {
                         eg = db[c].efficiency_gap;
                         mmd = db[c].mean_median_diff;
                         comp = db[c].competitive_seats;
