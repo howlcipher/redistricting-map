@@ -39,19 +39,23 @@ npm run test:unit
 npx vitest run
 ```
 
-## 3. End-to-End Browser Journeys ![Playwright](https://img.shields.io/badge/-playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+## 3. End-to-End Browser Journeys ![Playwright](https://img.shields.io/badge/-playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white) ![Puppeteer](https://img.shields.io/badge/puppeteer-%2340B5A4.svg?style=for-the-badge&logo=puppeteer&logoColor=white)
 
-To guarantee the user experience does not break, Playwright spins up headless Chromium instances to execute real interactions. Tests are located in `tests/e2e/`.
+To guarantee the user experience does not break, both Playwright and Puppeteer spin up headless Chromium instances to execute real interactions. Tests are located in `tests/e2e/`.
 
 ### Key Coverage:
-- **Visual Regression Snapshots**: The `toHaveScreenshot` matcher creates baseline images of our complex geospatial Leaflet map (e.g. `national-map-baseline.png`). Future PRs that unintentionally shift CSS layouts or map tiles will fail the test and produce a visual diff image.
-- **Extreme Outlier Mocking**: We intercept network requests at the browser level (`page.route('**/data/metrics.json')`) to feed the UI extreme Republican/Democrat gerrymandered payloads, ensuring the DOM updates labels and colors correctly without crashing.
+- **Visual Regression Snapshots (Playwright)**: The `toHaveScreenshot` matcher creates baseline images of our complex geospatial Leaflet map (e.g. `national-map-baseline.png`). Future PRs that unintentionally shift CSS layouts or map tiles will fail the test and produce a visual diff image.
+- **Extreme Outlier Mocking (Playwright)**: We intercept network requests at the browser level (`page.route('**/data/metrics.json')`) to feed the UI extreme Republican/Democrat gerrymandered payloads, ensuring the DOM updates labels and colors correctly without crashing.
+- **Dynamic User Workflows (Puppeteer)**: Programmatically simulates user interactions (like clicking state insets, toggling optimized modes, and parsing leaflet map elements).
 
 ### How to Run:
 ```bash
-# Run E2E tests headless
+# Run visual regression tests (Playwright)
 npm run test:e2e
 
-# If a test fails, you can view the HTML report and visual diffs
+# Run functional interaction tests (Puppeteer)
+npm run test
+
+# If a Playwright test fails, you can view the HTML report and visual diffs
 npx playwright show-report
 ```

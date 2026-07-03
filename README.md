@@ -116,6 +116,7 @@ redistricting-map/
 ![Pytest](https://img.shields.io/badge/pytest-%23ffffff.svg?style=for-the-badge&logo=pytest&logoColor=2f9fe3)
 ![Vitest](https://img.shields.io/badge/-Vitest-252529?style=for-the-badge&logo=vitest&logoColor=FCC72B)
 ![Playwright](https://img.shields.io/badge/-playwright-%232EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+![Puppeteer](https://img.shields.io/badge/puppeteer-%2340B5A4.svg?style=for-the-badge&logo=puppeteer&logoColor=white)
 
 To ensure mathematical correctness, data integrity, and UI reliability across this complex pipeline, the project leverages a rigorous 3-tier testing architecture:
 
@@ -125,8 +126,8 @@ To ensure mathematical correctness, data integrity, and UI reliability across th
 2. **JavaScript Frontend (`vitest` + JSDOM)**
    - Emulates the browser to test `UIController` state transitions, DOM manipulation, and asynchronous animations (loaders/timeouts).
    - Mocks the fetch API to ensure `DataService` properly calculates standard formats (like Efficiency Gap Partisan Colors) even in extreme edge cases.
-3. **End-to-End Visual Regression (`playwright`)**
-   - Runs headless Chromium to verify full user journeys across the dashboard (National Dashboard, Detail Panels).
+3. **End-to-End Browser Journeys (`playwright` & `puppeteer`)**
+   - Runs headless Chromium to verify full user journeys across the dashboard (National Dashboard, Detail Panels, Map Layer Toggles).
    - Generates and compares pixel-perfect UI snapshots (Visual Regression).
    - Intercepts network routes to mock extreme gerrymandered data, proving the UI scales gracefully to statistical outliers.
 
