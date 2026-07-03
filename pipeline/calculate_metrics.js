@@ -5,9 +5,9 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const dataDir = path.join(__dirname, 'public', 'data');
+const dataDir = path.join(__dirname, '..', 'public', 'data');
 const metricsFile = path.join(dataDir, 'metrics.json');
-const configFile = path.join(__dirname, 'public', 'config.json');
+const configFile = path.join(__dirname, '..', 'public', 'config.json');
 
 // Read existing configs
 let config = JSON.parse(fs.readFileSync(configFile, 'utf8'));

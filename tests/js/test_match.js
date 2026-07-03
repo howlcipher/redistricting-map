@@ -1,5 +1,5 @@
 import fs from 'fs';
-const data = JSON.parse(fs.readFileSync('/var/home/howlcipher/redistricting-map/us-states.json', 'utf-8'));
+const data = JSON.parse(fs.readFileSync('/var/home/howlcipher/redistricting-map/tests/fixtures/us-states.json', 'utf-8'));
 const districtCounts = {
     'alabama': 7, 'alaska': 1, 'arizona': 9, 'arkansas': 4, 'california': 52,
     'colorado': 8, 'connecticut': 5, 'delaware': 1, 'florida': 28, 'georgia': 14,

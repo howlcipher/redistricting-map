@@ -7,7 +7,7 @@ import geopandas as gpd
 from shapely.geometry import Polygon
 
 # Ensure we can import from the root directory
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../pipeline')))
 
 try:
     from generate_maps import GeoDataProcessor, RedistrictingSimulator

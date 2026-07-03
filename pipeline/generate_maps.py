@@ -15,7 +15,7 @@ import networkx as nx
 from functools import partial
 
 # Load configuration from public/config.json
-config_path = os.path.join(os.path.dirname(__file__), 'public', 'config.json')
+config_path = os.path.join(os.path.dirname(__file__), '..', 'public', 'config.json')
 with open(config_path, 'r') as f:
     CONFIG = json.load(f)
 

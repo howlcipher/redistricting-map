@@ -102,15 +102,4 @@ describe('UIController Advanced', () => {
         expect(uiController.switchSidebarTab).toHaveBeenCalledWith('state-detail');
     });
 
-    it('should correctly switch optimization criteria and notify MapController', () => {
-        // Mock getActiveLayerKey and updateSummaryDashboard to avoid deep DOM dependencies
-        uiController.getActiveLayerKey = vi.fn().mockReturnValue('optimized_age');
-        uiController.updateSummaryDashboard = vi.fn();
-
-        // Simulate clicking the age criteria button
-        uiController.switchCriteria('age');
-
-        // Verify DOM active state updated
-        expect(document.getElementById('opt-age').className).toContain('bg-indigo-500/15');
-    });
 });

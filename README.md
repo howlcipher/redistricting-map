@@ -25,7 +25,7 @@ This tool evaluates the fairness of district maps using two primary metrics:
 2. **Efficiency Gap (EG):** A formula to measure partisan gerrymandering by calculating the difference in "wasted votes" between two parties: `EG = (Wasted Dem Votes - Wasted Rep Votes) / Total Votes`.
 
 > [!NOTE]
-> For a full deep-dive breakdown of the statistical formulas, multi-objective metrics (like Polsby-Popper compactness and Mean-Median difference), and Python GerryChain code snippets, please see the comprehensive **[METHODOLOGY.md](file:///var/home/howlcipher/redistricting-map/METHODOLOGY.md)**.
+> For a full deep-dive breakdown of the statistical formulas, multi-objective metrics (like Polsby-Popper compactness and Mean-Median difference), and Python GerryChain code snippets, please see the comprehensive **[METHODOLOGY.md](docs/METHODOLOGY.md)**.
 
 ---
 
@@ -61,10 +61,21 @@ This tool evaluates the fairness of district maps using two primary metrics:
 redistricting-map/
 ├── .github/workflows/                       # GitHub Actions CI/CD pipelines
 │   └── deploy.yml                           # Automated Vite build & Pages deployment
+├── docs/                                    # Documentation & Methodologies
+│   ├── METHODOLOGY.md                       # Algorithmic and mathematical deep dive
+│   ├── IMPROVEMENT_SUGGESTIONS.md           # Roadmap tracking and UX goals
+│   └── gemini.md                            # Internal developer notes
+├── pipeline/                                # Python Data Generation & Scripts
+│   ├── generate_maps.py                     # Main GeoJSON processing pipeline
+│   ├── download_mggg.py                     # Fetch census shapes
+│   ├── calculate_metrics.js                 # Helper script for map metrics
+│   └── ...                                  # Sh/Bat/R helper scripts
 ├── public/data/                             # Generated datasets (cached locally)
 │   ├── metrics.json                         # Aggregated metrics for all 50 states & territories
 │   ├── alabama_enacted_districts.geojson    # State enacted boundaries (A-Z)
 │   └── ...                                  # Includes all optimized permutations
+├── scripts/                                 # Build/Pre-build scripts
+│   └── fetch_house_makeup.mjs               # Dynamic GovTrack API integration
 ├── src/                                     # ES6 Module Architecture (Frontend)
 │   ├── main.js                              # Main application entry point (Vite)
 │   ├── index.css                            # Tailwind v4 CSS directives & custom styles
@@ -75,15 +86,14 @@ redistricting-map/
 ├── tests/                                   # 3-Tier Testing Architecture
 │   ├── e2e/                                 # Playwright browser snapshots
 │   ├── js/                                  # Vitest frontend unit tests
-│   └── python/                              # Pytest backend validation
-├── generate_maps.py                         # Python Object-Oriented pipeline script
+│   ├── python/                              # Pytest backend validation
+│   └── fixtures/                            # Dummy data and GeoJSON for tests
 ├── config.json                              # Global thresholds, constants, and parameters
 ├── index.html                               # Dashboard layout & structure
 ├── vite.config.js                           # Vite bundler configuration
 ├── package.json                             # Node.js dependencies & scripts
 ├── README.md                                # General documentation
-├── METHODOLOGY.md                           # Algorithmic and mathematical deep dive
-└── IMPROVEMENT_SUGGESTIONS.md               # Roadmap tracking and UX goals
+└── CHANGELOG.md                             # Version history
 ```
 
 ---
@@ -119,10 +129,10 @@ Activate the virtual environment and execute the pipeline to pull Census boundar
 
 ```bash
 # Generate all 56 states (default)
-python generate_maps.py --states=all
+python pipeline/generate_maps.py --states=all
 
 # Generate only specific states (e.g. for showcase testing)
-python generate_maps.py --states=colorado,wisconsin,texas,north_carolina,maryland
+python pipeline/generate_maps.py --states=colorado,wisconsin,texas,north_carolina,maryland
 ```
 
 #### Configuration & CLI Overrides
@@ -132,7 +142,7 @@ You can seamlessly adjust logic by editing the JSON, or you can dynamically over
 
 ```bash
 # Override partisan competition boundaries and grid size at runtime
-python generate_maps.py --states=colorado --comp-min=0.4 --comp-max=0.6 --grid-size=30
+python pipeline/generate_maps.py --states=colorado --comp-min=0.4 --comp-max=0.6 --grid-size=30
 ```
 
 ### 2. Third-Party Data Integration
@@ -180,7 +190,7 @@ To build trust and eliminate suspicion of "black box" algorithms, this project l
 * **Polsby-Popper:** Evaluates district compactness (area vs perimeter).
 * **Mean-Median & VRA:** Analyzes the concentration of voting power for partisan and minority groups.
 
-👉 **For a deep dive into the formulas, algorithms, and code snippets, see the full [Methodology & Mathematics Guide](METHODOLOGY.md).**
+👉 **For a deep dive into the formulas, algorithms, and code snippets, see the full [Methodology & Mathematics Guide](docs/METHODOLOGY.md).**
 
 ---
 

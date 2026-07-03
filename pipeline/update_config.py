@@ -1,6 +1,6 @@
 import json
 
-with open("public/config.json", "r") as f:
+with open("../public/config.json", "r") as f:
     config = json.load(f)
 
 # Hardcoded data from DataService.js
@@ -65,6 +65,6 @@ config["historical_data"] = [
 del config["district_counts"]
 del config["state_profiles"]
 
-with open("public/config.json", "w") as f:
+with open("../public/config.json", "w") as f:
     json.dump(config, f, indent=2)
 

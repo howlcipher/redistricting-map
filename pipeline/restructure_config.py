@@ -1,6 +1,6 @@
 import json
 
-with open('public/config.json', 'r') as f:
+with open('../public/config.json', 'r') as f:
     config = json.load(f)
 
 # Keys to move into historical_data
@@ -22,6 +22,6 @@ for block in config['historical_data']:
 for key in keys_to_move:
     del config[key]
 
-with open('public/config.json', 'w') as f:
+with open('../public/config.json', 'w') as f:
     json.dump(config, f, indent=2)
 
