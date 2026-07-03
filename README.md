@@ -24,9 +24,10 @@ An interactive geospatial tool to analyze, visualize, and compare actual enacted
 ---
 
 ## 🧮 Algorithm & Methodology (TL;DR)
-This tool evaluates the fairness of district maps using two primary metrics:
-1. **The ReCom Algorithm:** An advanced Markov Chain Monte Carlo (MCMC) algorithm that generates thousands of alternate "optimized" maps by cutting spanning trees of precincts to maintain equal populations.
-2. **Efficiency Gap (EG):** A formula to measure partisan gerrymandering by calculating the difference in "wasted votes" between two parties: `EG = (Wasted Dem Votes - Wasted Rep Votes) / Total Votes`.
+This tool evaluates the fairness of district maps using three primary mathematical concepts:
+1. **The ReCom Algorithm:** An advanced Markov Chain Monte Carlo (MCMC) algorithm from MGGG that generates thousands of alternate "optimized" maps by randomly cutting spanning trees of precincts to maintain equal populations and contiguous districts.
+2. **Sequential Monte Carlo (SMC):** Used via the ALARM Project to procedurally generate statistically representative samples of independent redistricting plans, heavily utilizing R for parallelized sampling to guarantee a truly unbiased mathematical baseline.
+3. **Efficiency Gap (EG):** A formula to measure partisan gerrymandering by calculating the difference in "wasted votes" between two parties: `EG = (Wasted Dem Votes - Wasted Rep Votes) / Total Votes`.
 
 > [!NOTE]
 > For a full deep-dive breakdown of the statistical formulas, multi-objective metrics (like Polsby-Popper compactness and Mean-Median difference), and Python GerryChain code snippets, please see the comprehensive **[METHODOLOGY.md](docs/METHODOLOGY.md)**.
@@ -188,10 +189,11 @@ All boundary files and election metrics are built using verified open-source gov
 
 ## 📐 Mathematical & Open-Source Legitimacy (TL;DR)
 
-To build trust and eliminate suspicion of "black box" algorithms, this project leverages **GerryChain**, developed by the **Metric Geometry and Gerrymandering Group (MGGG)** at Tufts University and MIT.
+To build trust and eliminate suspicion of "black box" algorithms, this project leverages **GerryChain**, developed by the **Metric Geometry and Gerrymandering Group (MGGG)** at Tufts University and MIT, as well as **ALARM Project's** 50-State simulations from Harvard University.
 
 **TL;DR on the Math:**
 * **ReCom (Recombination):** A Markov Chain Monte Carlo algorithm that merges adjacent districts, builds a spanning tree, and randomly cuts it to create a massive ensemble of valid, compact maps.
+* **SMC (Sequential Monte Carlo):** A completely independent mathematical sampling strategy that builds maps piece-by-piece to guarantee an unbiased baseline representation.
 * **Efficiency Gap (EG):** Measures partisan bias by calculating the difference in "wasted votes" between parties.
 * **Polsby-Popper:** Evaluates district compactness (area vs perimeter).
 * **Mean-Median & VRA:** Analyzes the concentration of voting power for partisan and minority groups.

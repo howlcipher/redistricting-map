@@ -46,7 +46,33 @@ chain = MarkovChain(
 
 ---
 
-## 2. Partisan Bias (Efficiency Gap)
+## 2. Sequential Monte Carlo (SMC) Simulations
+
+In addition to ReCom, this project integrates with the **ALARM Project** (Algorithm-Assisted Redistricting Methodology) by pulling 50-state SMC simulation ensembles via R. 
+
+SMC (Sequential Monte Carlo) is a sophisticated sampling methodology that builds district maps piece-by-piece rather than by modifying existing maps. It guarantees independent samples drawn from a rigorously defined target distribution, preventing the algorithm from getting stuck in local optima.
+
+### How it Works
+1. **Split**: Successively divide the state's geography into smaller partitions based on spanning trees.
+2. **Weight**: Assign probabilities based on strict population constraints and compactness requirements.
+3. **Resample**: Re-draw from intermediate partial maps to eliminate dead-ends (e.g., configurations that cannot be legally completed).
+4. **Finalize**: The result is a mathematically sound, unbiased ensemble of independent maps that serve as a gold-standard baseline for fairness evaluation.
+
+### R Implementation ![R](https://img.shields.io/badge/r-%23276DC3.svg?style=flat-square&logo=r&logoColor=white) (alarmdata & redist)
+```R
+library(alarmdata)
+library(redist)
+
+# Download pre-computed SMC simulation ensemble
+plans <- alarm_50state_plans("CO")
+
+# Analyze the unbiased mathematical baseline
+summary(plans)
+```
+
+---
+
+## 3. Partisan Bias (Efficiency Gap)
 
 The **Efficiency Gap (EG)** is a standard measure of partisan gerrymandering that calculates the difference in "wasted votes" between two parties. 
 - A vote is "wasted" if it is cast for a losing candidate, or if it is cast for a winning candidate *in excess* of the 50% needed to win.
@@ -80,7 +106,7 @@ calculateEfficiencyGapColor(egValue) {
 
 ---
 
-## 3. Compactness (Polsby-Popper Score)
+## 4. Compactness (Polsby-Popper Score)
 
 The **Polsby-Popper** score evaluates district compactness by comparing a district's area to the area of a circle with the same perimeter. 
 
