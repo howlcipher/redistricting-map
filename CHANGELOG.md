@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2026-07-03]
+
+### Added
+- **Methodology Documentation:** Explicitly documented the integration of Sequential Monte Carlo (SMC) simulations and credited the ALARM Project (Harvard University) alongside ReCom algorithms in the methodology and README.
+- **Community Acknowledgements:** Added a dedicated "Special Thanks & Acknowledgements" section highlighting community members (Sirius, PFletchJ) for their technical and political science contributions.
+- **Enhanced Test Documentation:** Clarified the dual-usage of E2E frameworks in the testing documentation to explicitly highlight Puppeteer's role in programmatic DOM interactions alongside Playwright's visual regression snapshots.
+
+### Changed
+- **Architectural Reorganization:** Executed a massive repository cleanup to improve maintainability. Python and R scripts were relocated to `pipeline/` and `scripts/`, documentation moved to `docs/`, dummy data to `tests/fixtures/`, and `config.json` was migrated to `public/`.
+- **README Aesthetics:** Added new framework shields (R, Leaflet, Chart.js, Puppeteer), stylized the Anthony Rizzo Family Foundation donation badge with official Chicago Cubs colors, and updated the project structure visualization to match the new architecture.
+
 ## [2026-07-02]
 
 ### Added
