@@ -65,7 +65,7 @@ This tool evaluates the fairness of district maps using three primary mathematic
 
 ---
 
-## ## Project Structure
+## Project Structure
 
 ```
 redistricting-map/
