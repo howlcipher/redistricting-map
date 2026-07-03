@@ -238,8 +238,8 @@ Algorithmic redistricting is a powerful tool, but it is not a silver bullet. Her
 
 A massive thank you to the following community members who provided invaluable input, opinions, and testing feedback to help shape this project:
 
-* ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=flat-square&logo=discord&logoColor=white) **Sirius** (`@sirius000`)
-* ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=flat-square&logo=discord&logoColor=white) **PFletchJ** (`@pfletchj`)
+* ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=flat-square&logo=discord&logoColor=white) **Sirius** (`@sirius000`) – *Development & Technical Architecture*
+* ![Discord](https://img.shields.io/badge/Discord-%235865F2.svg?style=flat-square&logo=discord&logoColor=white) **PFletchJ** (`@pfletchj`) – *Data & Political Science Consulting*
 
 ---
 
