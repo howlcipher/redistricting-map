@@ -42,12 +42,17 @@ This tool evaluates the fairness of district maps using three primary mathematic
 * **Gerrymander Tax Seat Count:** Displays how many seats are shifted/biased away from a perfectly proportional split (e.g. `R +8 Seat Bias`).
 * **Seat-to-Vote Bias Margin:** Computes the overall percentage deviation of congressional representation from the national popular vote.
 
+### 🔍 Dual Navigation Modes
+* **National Macro View:** A complete country-wide map displaying aggregate 435-seat projections.
+* **State Micro View:** Selecting any state from the map or dropdown transitions the dashboard into a detailed state-specific view, unlocking granular metrics, district-by-district partisan splits, and the ability to instantly toggle between the Enacted Reality and Algorithmic Optimization layers for that specific state.
+
 
 ### 🎨 Progressive Partisan Color Gradient Scale
 * **Continuous Linear Color Gradients:** Replaces flat categorizations with a mathematically continuous color interpolation gradient. Even a fractional fractional shift in the partisan baseline instantly produces a perceptible, continuous shift in the map's shading.
 * **Bi-directional Partisan Gradients:**
   * **Democratic Bias:** Light pastel blue (`#eff6ff`) for minor leans up to strong royal blue (`#2563eb`) for heavy leans.
   * **Republican Bias:** Light pastel red (`#fef2f2`) for minor leans up to strong crimson red (`#dc2626`) for heavy leans.
+  * **Third-Party Gradients:** Full continuous shading support for third-party strongholds (Libertarian Yellows, Green Party Greens, Conservative Fuchsias, Reform Violets).
   * **Neutral/Highly Competitive/Single District:** Soft slate grey (`#cbd5e1` in light mode, `#1e293b` in dark mode) reserved for single-representative states (e.g., Wyoming, Alaska, Vermont), non-partisan territories, or highly competitive districts where no party secures more than 50% of the vote.
 
 ### 🗺️ Clickable US Territory Insets
