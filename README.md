@@ -141,15 +141,18 @@ For detailed instructions on running these test suites, see the **[Testing READM
 Activate the virtual environment and execute the pipeline to pull Census boundaries, clip coordinate grids, and run ReCom chains for **all 50 states and territories**:
 
 ```bash
-# Generate all 56 states (default)
+# Generate all 56 states (default) using ReCom (Python)
 python pipeline/generate_maps.py --states=all
 
 # Generate only specific states (e.g. for showcase testing)
 python pipeline/generate_maps.py --states=colorado,wisconsin,texas,north_carolina,maryland
+
+# Alternatively, fetch 50-state SMC baseline ensembles via R
+Rscript pipeline/run_pipeline.R CO Colorado
 ```
 
 #### Configuration & CLI Overrides
-All analytical thresholds (e.g., competitive bounds, minority influence minimums), default grid resolutions, file paths, and external download URLs are decoupled from the code and managed inside **`config.json`**. 
+All analytical thresholds (e.g., competitive bounds, minority influence minimums), default grid resolutions, file paths, and external download URLs are decoupled from the code and managed inside **`public/config.json`**. 
 
 You can seamlessly adjust logic by editing the JSON, or you can dynamically override mathematical thresholds at runtime for rapid testing without altering the config:
 
@@ -190,6 +193,7 @@ All boundary files and election metrics are built using verified open-source gov
    * Partisan baseline margins (D/R vote shares) and efficiency gap ratios are calibrated using actual state election returns compiled from the **[OpenPrecincts Repository](https://openprecincts.org/)** and the **[MGGG Voting and Redistricting Data Portal](https://mggg.org/)**.
 3. **U.S. Overseas Territories Boundaries:** Geographic coordinate shapes for Puerto Rico, Guam, US Virgin Islands, American Samoa, and Northern Mariana Islands are custom-mapped using official geospatial boundaries from the **[U.S. Census Bureau TIGER/Line Shapefiles](https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html)**.
 4. **Markov Chain Monte Carlo (MCMC) Redistricting Models:** District geometry variants (optimized for headcount, race VRA compliance, compactness, and splits) are simulated and exported using the **[GerryChain Library](https://gerrychain.readthedocs.io/en/latest/)** in Python.
+5. **Sequential Monte Carlo (SMC) Baselines:** 50-state independent simulation ensembles are sourced from the **[ALARM Project](https://alarm-redist.org/)** (Harvard University) via the `alarmdata` R package.
 
 ---
 
