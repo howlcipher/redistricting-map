@@ -71,10 +71,12 @@ redistricting-map/
 │   ├── download_mggg.py                     # Fetch census shapes
 │   ├── calculate_metrics.js                 # Helper script for map metrics
 │   └── ...                                  # Sh/Bat/R helper scripts
-├── public/data/                             # Generated datasets (cached locally)
-│   ├── metrics.json                         # Aggregated metrics for all 50 states & territories
-│   ├── alabama_enacted_districts.geojson    # State enacted boundaries (A-Z)
-│   └── ...                                  # Includes all optimized permutations
+├── public/                                  # Static assets and datasets
+│   ├── config.json                          # Global thresholds, constants, and parameters
+│   └── data/                                # Generated datasets (cached locally)
+│       ├── metrics.json                     # Aggregated metrics for all 50 states & territories
+│       ├── alabama_enacted_districts.geojson# State enacted boundaries (A-Z)
+│       └── ...                              # Includes all optimized permutations
 ├── scripts/                                 # Build/Pre-build scripts
 │   └── fetch_house_makeup.mjs               # Dynamic GovTrack API integration
 ├── src/                                     # ES6 Module Architecture (Frontend)
@@ -89,7 +91,7 @@ redistricting-map/
 │   ├── js/                                  # Vitest frontend unit tests
 │   ├── python/                              # Pytest backend validation
 │   └── fixtures/                            # Dummy data and GeoJSON for tests
-├── config.json                              # Global thresholds, constants, and parameters
+├── requirements.txt                         # Python dependencies
 ├── index.html                               # Dashboard layout & structure
 ├── vite.config.js                           # Vite bundler configuration
 ├── package.json                             # Node.js dependencies & scripts
