@@ -14,8 +14,9 @@ An interactive geospatial tool to analyze, visualize, and compare actual enacted
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
 ![Leaflet](https://img.shields.io/badge/Leaflet-199900.svg?style=for-the-badge&logo=Leaflet&logoColor=white)
+![R](https://img.shields.io/badge/r-%23276DC3.svg?style=for-the-badge&logo=r&logoColor=white)
 
-1. **Python Data Pipeline:** Python 3, `GeoPandas`, `Shapely`, and `GerryChain` (MGGG Lab) using the **ReCom (Recombination)** Markov Chain Monte Carlo algorithm.
+1. **Data Pipeline:** Python 3 (`GeoPandas`, `Shapely`, `GerryChain`) and R (`alarmdata`, `sf`, `redist`) using the **ReCom (Recombination)** Markov Chain Monte Carlo algorithm.
 2. **Frontend Map Viewer:** HTML5, Vanilla JS, **Vite** bundler, **Tailwind CSS v4**, `Leaflet.js`, `Chart.js`, and `Turf.js` for on-the-fly geospatial calculations.
 3. **Performance Infrastructure:** **IndexedDB** (`localForage`) for persistent GeoJSON caching, and **Web Workers** for non-blocking geographic data parsing.
 4. **Testing Architecture:** **Playwright** and **Puppeteer** for visual E2E browser regression, **Vitest** for JS unit testing, and **Pytest** for backend validation.
