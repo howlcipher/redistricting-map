@@ -12,6 +12,8 @@ An interactive geospatial tool to analyze, visualize, and compare actual enacted
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
+![Leaflet](https://img.shields.io/badge/Leaflet-199900.svg?style=for-the-badge&logo=Leaflet&logoColor=white)
 
 1. **Python Data Pipeline:** Python 3, `GeoPandas`, `Shapely`, and `GerryChain` (MGGG Lab) using the **ReCom (Recombination)** Markov Chain Monte Carlo algorithm.
 2. **Frontend Map Viewer:** HTML5, Vanilla JS, **Vite** bundler, **Tailwind CSS v4**, `Leaflet.js`, `Chart.js`, and `Turf.js` for on-the-fly geospatial calculations.
@@ -174,7 +176,7 @@ Now open your web browser and navigate to the local server URL provided by Vite 
 All boundary files and election metrics are built using verified open-source government sources and standardized data pipelines. 
 **Disclaimer: For performance and demonstrative purposes in the browser, if pre-computed GeoJSON files do not exist for a state, demographic and partisan metrics are procedurally generated algorithmically over authentic geographical boundaries.**
 
-1. **U.S. State Outlines ([`us-states.json`](file:///var/home/howlcipher/redistricting-map/us-states.json)):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**. The raw source file can be viewed on GitHub: **[us-states.json on GitHub](https://github.com/PublicaMundi/MappingAPI/blob/master/data/geojson/us-states.json)**.
+1. **U.S. State Outlines ([`us-states.json`](tests/fixtures/us-states.json)):** Downloaded automatically by the pipeline from the public **[PublicaMundi MappingAPI Repository](https://github.com/PublicaMundi/MappingAPI)**. The raw source file can be viewed on GitHub: **[us-states.json on GitHub](https://github.com/PublicaMundi/MappingAPI/blob/master/data/geojson/us-states.json)**.
 2. **State-Level Precinct & Census Datasets:**
    * All 50 states use mathematical precinct grids clipped exactly to state boundaries.
    * Partisan baseline margins (D/R vote shares) and efficiency gap ratios are calibrated using actual state election returns compiled from the **[OpenPrecincts Repository](https://openprecincts.org/)** and the **[MGGG Voting and Redistricting Data Portal](https://mggg.org/)**.
@@ -215,7 +217,7 @@ Algorithmic redistricting is a powerful tool, but it is not a silver bullet. Her
 
 4. **Legal and Constitutional Realities**
    - **The Pitfall:** In some states, it is actively illegal to use partisan data to draw maps. An algorithm optimizing for a 0% Efficiency Gap would therefore produce an unconstitutional map in those jurisdictions. 
-   - **The Mitigation:** We clearly label algorithmic layers as "Optimized" or "Synthetic" rather than "Legal." The tool allows users to completely disable partisan optimization and only run compactness and population equality constraints.
+   - **The Mitigation:** We clearly label algorithmic layers as "Optimized" or "Synthetic" rather than "Legal." The backend Python pipeline allows users generating new maps to completely disable partisan optimization and only run compactness and population equality constraints if they desire.
 
 ---
 
@@ -223,4 +225,4 @@ Algorithmic redistricting is a powerful tool, but it is not a silver bullet. Her
 
 If you like this project, please don't buy me a coffee—make a donation instead! You can donate at the link below:
 
-**[https://arizzofoundation.org/donate](https://arizzofoundation.org/donate)**
+[![Donate to the Anthony Rizzo Family Foundation](https://img.shields.io/badge/Anthony_Rizzo_Family_Foundation-Donate_Here-%230E3386?style=for-the-badge&labelColor=%23CC3433&color=%230E3386)](https://arizzofoundation.org/donate)
